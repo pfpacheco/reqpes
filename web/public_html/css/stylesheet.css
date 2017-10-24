@@ -1,0 +1,286 @@
+body{
+  font-family: verdana; 
+  color: 000000; 
+  font-size: 12px
+}
+
+a.div:link    {color: #FFFFFF; text-decoration: none ;font-family: verdana; font-size: 11px}
+a.div:hover   {color: #FFFFFF; text-decoration: none ;font-family: verdana; font-size: 11px}
+a.div:visited {color: #FFFFFF; text-decoration: none ;font-family: verdana; font-size: 11px}
+a.div:active  {color: #FFFFFF; text-decoration: none ;font-family: verdana; font-size: 11px}
+
+
+select{
+  border-style : groove;
+  font-family: verdana; 
+  color: 000000; 
+  font-size: 10px;
+  border-width: 1px; 
+  border-color: 000000; 
+  padding-left: 2px; 
+  padding-right: 2px;	
+  padding-top: 2px; 
+  padding-bottom: 2px;
+}
+
+.selectPadrao{
+  border-style : groove;
+  font-family: verdana; 
+  color: 000000; 
+  font-size: 10px;  
+  border-width: 1px; 
+  border-color: 000000; 
+  padding-left: 2px; 
+  padding-right: 2px;	
+  padding-top: 2px; 
+  padding-bottom: 2px;
+  width: 465px;
+}
+
+textarea{
+  font-family: Verdana;
+  font-size: 10px;  
+}
+
+td{
+  font-family: verdana; 
+  color: 000000; 
+  font-size: 10px
+}
+a{
+  font-family: verdana; 
+  color: 000000; 
+  font-size: 10px; 
+  text-decoration: none;
+}
+a.form{
+  font-family: verdana; 
+  color: 000000; 
+  font-size: 9px; 
+  text-decoration: none;
+}
+a:hover{
+  font-family: verdana; 
+  color: 3285B9; 
+  font-size: 10px; 
+  text-decoration: none;
+}
+a.form:hover{
+  font-family: verdana; 
+  color: 3285B9; 
+  font-size: 9px; 
+  text-decoration: none;
+}
+.MenuLateral{
+  font-family: verdana; 
+  color: 000000;
+  font-size: 12px
+}
+.area{
+  font-family: verdana;
+  color: 000000; 
+  font-size: 22px
+}
+.border{
+  border: 1 solid A8CEE6;
+}
+.linha{
+  border: 1 solid fab145;
+}
+.tab{
+  border: groove; 
+  color: 000000; 
+  background: CCCCCC; 
+  font-family: Verdana; 
+  font-size: 12px;
+}
+.campo{
+  border-style : groove;
+  background : FFFFFF;
+  font-weight : bold; 
+  font-family : Verdana; 
+  font-size : 10; 
+  color : 000000; 
+}
+h5{ 
+  font-size : 10;	
+  color : 000000;
+}
+.botao{ 
+  border-style : groove;
+  font-weight : bold; 
+  font-family : verdana;	
+  font-size : 10;	
+  color : 000000;
+}
+.texto{ 
+  border-style : groove;
+  background : FFFFFF; 
+  font-family : Verdana; 
+  font-size : 9; 
+  color : 000000; 
+}
+.titulo{
+  font-family: verdana; 
+  color: 000000; 
+  font-size: 16px
+}
+.subtitulo{
+  font-family: verdana;
+  color: ffffff;
+  font-size: 14px;
+}
+.legenda{
+  font-family: verdana;
+  color: ffffff;
+  font-size: 10px
+}
+.tooltiptitle{
+  COLOR: #FFFFFF; 
+  TEXT-DECORATION: none; 
+  CURSOR: Default; 
+  font-family: arial; 
+  font-weight: bold; 
+  font-size: 8pt
+}
+.tooltipcontent{
+  COLOR: #000000; 
+  TEXT-DECORATION: none; 
+  CURSOR: Default; font-family: arial; 
+  font-size: 8pt
+}
+
+.divisao{
+  background : FFFFFF;
+  width:515px;
+  height:60px; 
+  z-index:2;  
+  overflow: auto
+}
+
+#ToolTip{position:absolute; width: 100px; top: 0px; left: 0px; z-index:4; visibility:hidden;}
+.sombra {filter:DropShadow(OffX=2, OffY=3, color:#000000)}
+
+.tdintranet{font-family: verdana; color: 000000; font-size: 10px;background-color:A8CEE6;  }
+.tdintranet2{font-family: verdana; color: 000000; font-size: 10px;background-color:#E7F3FF;}
+.tdintranet2FontePequena{font-family: verdana; color: 000000; font-size: 8px;background-color:#E7F3FF;}
+.borderintranet {font-family: verdana; color: 000000; font-size: 10px;background-color:#F9FCFF; }
+.table{background-color:#E7F3FF;}
+.input {border-style : groove ; background : FFFFFF;  font-family : Verdana; font-size : 10; color : 000000; }
+.inputMonetario {border-style : groove ; background : FFFFFF;  font-family : Verdana; font-size : 10; color : 000000; TEXT-ALIGN: right}
+.inputEdita {border-style : groove; background : A8CEE6;  font-family : Verdana; font-weight : bold;font-size : 10; color : 000000; }
+.inputEditaMonetario {border-style : groove; background : A8CEE6;  font-family : Verdana; font-weight : bold;font-size : 10; color : 000000; TEXT-ALIGN: right}
+
+.label {border-style :none ; background:none ;  font-family : Verdana; font-size : 10; color : 000000;}
+.labelMonetario {border-style :none ; background:none ;  font-family : Verdana; font-size : 10; color : 000000; TEXT-ALIGN: right}
+
+.labelNegrito {border-style :none ; background:none ;  font-family : Verdana;font-weight : bold; font-size : 10; color : 000000; }
+.labelNegritoMonetario {border-style :none ; background:none ;  font-family : Verdana;font-weight : bold; font-size : 10; color : 000000; TEXT-ALIGN: right}
+.tdCabecalho{font-family: verdana; color: FFFFFF; font-size: 10px ;font-weight : normal;}
+.titulo{
+  font-family: verdana; 
+  color: #FFFFFF; 
+  font-size: 10px
+}
+
+.caixa{
+     BORDER-RIGHT: #3486be 3px solid; 
+     PADDING-RIGHT: 10px; 
+     BORDER-TOP: #3486be 3px solid; 
+     PADDING-LEFT: 10px; 
+     VISIBILITY: hidden; 
+     PADDING-BOTTOM: 10px;
+     BORDER-LEFT: #3486be 3px solid;
+     WIDTH: 350px; PADDING-TOP: 10px; 
+     BORDER-BOTTOM: #3486be 3px solid; 
+     POSITION: absolute; 
+     HEIGHT: 60px; 
+     TEXT-ALIGN: right;
+     SCROLLBAR-FACE-COLOR: #006699;
+     FONT-SIZE: 9px; 
+     SCROLLBAR-SHADOW-COLOR: #3486be;
+     COLOR: #000000; 
+	   SCROLLBAR-ARROW-COLOR: #ffffff; 
+	   FONT-FAMILY: verdana; 
+	   SCROLLBAR-BASE-COLOR: #ffffff; 
+	   BACKGROUND-COLOR: #ffffff;  
+	   TEXT-DECORATION: none;
+     
+}
+
+.tdTemplateLista{background-color:#E7F3FF;font-family: verdana; color:#3C6F8F ; font-size: 10px ;font-weight : normal;}
+.tdNivel1{font-family: verdana; color: 000000; font-size: 10px;background-color:6699CC;  }
+.tdNivel2{font-family: verdana; color: 000000; font-size: 10px;background-color:A8CEE6;  }
+.tdNivel3{font-family: verdana; color: 000000; font-size: 10px;background-color:E7F3FF;  }
+.tdNivel4{font-family: verdana; color: 000000; font-size: 10px;background-color:6699CC;  }
+
+
+.botao3d	{
+		display: block;
+		border-color: #999 #000 #000 #999;
+
+		border: 1px solid;
+		width: 200px;
+		padding: 10px;
+
+		background: #9F9; 
+		color: #000;
+
+		font-family: Verdana;
+		font-size: 11px;
+		font-weight: bold;
+		text-align: center;
+		text-decoration: none;
+		}
+ 
+.botao3d:hover	{
+		position: relative;
+		top: 1px;
+		left: 1px;
+		border-color: #000 #999 #999 #000; 
+
+		background: #3F6;
+		}
+
+.botaoIntranet {
+    background-color:#FFFFFF;
+    border-color:#3C6F8F;
+    border-style:solid;
+    border-width:1px;
+    color:#3C6F8F;
+    font-family:Verdana;
+    font-size:9px;
+    font-weight:bold;
+    text-decoration:none;
+    text-align:center;
+    line-height: 6px;
+    cursor: pointer;    
+    height: 15px;
+}   
+
+
+a.dcontexto{
+    position:relative; 
+    color:#000000;
+    text-decoration:none;
+    cursor:help; 
+    z-index:20;
+}
+a.dcontexto:hover{
+    background:transparent;
+    z-index:21; 
+}
+a.dcontexto span{display: none}
+a.dcontexto:hover span{ 
+    display:block;
+    position:absolute;
+    width:350px; 
+    top:2em;
+    text-align:justify;
+    left:0;
+    font: 11px arial, verdana, helvetica, sans-serif;
+    padding:1px;
+    border:1px solid #000000;
+    background:#FFFFDD; 
+    color:#000;
+}

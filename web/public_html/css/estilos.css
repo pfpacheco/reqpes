@@ -1,0 +1,174 @@
+A:link {
+	COLOR: #fc7100; TEXT-DECORATION: none
+}
+A:hover {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A:visited {
+	COLOR: #fc7100; TEXT-DECORATION: none
+}
+A:active {
+	COLOR: #647136; TEXT-DECORATION: none
+}
+A.especialidades:active {
+	COLOR: #666666; TEXT-DECORATION: underline
+}
+A.especialidades:hover {
+	COLOR: #666666; TEXT-DECORATION: underline
+}
+A.especialidades:link {
+	COLOR: #666666; TEXT-DECORATION: none
+}
+A.especialidades:visited {
+	COLOR: #666666; TEXT-DECORATION: none
+}
+A.noticias:active {
+	
+}
+A.noticias:hover {
+	COLOR: #000000; TEXT-DECORATION: underline
+}
+A.noticias:link {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A.noticias:visited {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A.noticias_2:active {
+	
+}
+A.noticias_2:hover {
+	COLOR: #fc7100; TEXT-DECORATION: underline
+}
+A.noticias_2:link {
+	COLOR: #fc7100; TEXT-DECORATION: none
+}
+A.noticias_2:visited {
+	COLOR: #fc7100; TEXT-DECORATION: none
+}
+A.noticias_azul:active {
+	
+}
+A.noticias_azul:hover {
+	COLOR: #7f91a4; TEXT-DECORATION: underline
+}
+A.noticias_azul:link {
+	FONT-WEIGHT: bold; COLOR: #7f91a4; TEXT-DECORATION: none
+}
+A.noticias_azul:visited {
+	COLOR: #7f91a4; TEXT-DECORATION: none
+}
+.select_vermelho {
+	FONT-SIZE: 10px; BACKGROUND-COLOR: #add1ff
+}
+.select_colorido {
+	BORDER-RIGHT: #ffffff; BORDER-TOP: #ffffff; FONT-SIZE: 10px; BORDER-LEFT: #ffffff; BORDER-BOTTOM: #ffffff; BACKGROUND-COLOR: #add1ff
+}
+A.linkbranco:link {
+	COLOR: #ffffff; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.linkbranco:hover {
+	COLOR: #ffffff; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; TEXT-DECORATION: underline
+}
+A.linkbranco:active {
+	COLOR: #ffffff; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.linkbranco:visited {
+	COLOR: #ffffff; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; TEXT-DECORATION: none
+}
+A.biblioteca:link {
+	COLOR: #647136; TEXT-DECORATION: none
+}
+A.biblioteca:active {
+	COLOR: #647136; TEXT-DECORATION: underline
+}
+A.biblioteca:hover {
+	COLOR: #647136; TEXT-DECORATION: underline
+}
+A.biblioteca:visited {
+	COLOR: #647136; TEXT-DECORATION: none
+}
+A.biblioteca_preto:active {
+	COLOR: #000000; TEXT-DECORATION: underline
+}
+A.biblioteca_preto:hover {
+	COLOR: #000000; TEXT-DECORATION: underline
+}
+A.biblioteca_preto:link {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A.biblioteca_preto:visited {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A.busca_resultado:active {
+	
+}
+A.busca_resultado:hover {
+	COLOR: #000000; TEXT-DECORATION: underline
+}
+A.busca_resultado:link {
+	COLOR: #993300; TEXT-DECORATION: none
+}
+A.busca_resultado:visited {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A.biblioteca_green:active {
+	COLOR: #647136; TEXT-DECORATION: underline
+}
+A.biblioteca_green:hover {
+	COLOR: #000000; TEXT-DECORATION: underline
+}
+A.biblioteca_green:link {
+	COLOR: #647136; TEXT-DECORATION: none
+}
+A.biblioteca_green:visited {
+	COLOR: #647136; TEXT-DECORATION: none
+}
+A.mapa:active {
+	COLOR: #999999; TEXT-DECORATION: underline
+}
+A.mapa:hover {
+	COLOR: #669900; TEXT-DECORATION: underline
+}
+A.mapa:link {
+	COLOR: #999999; TEXT-DECORATION: none
+}
+A.mapa:visited {
+	COLOR: #999999; TEXT-DECORATION: none
+}
+A.mapa1:active {
+	COLOR: #666666; TEXT-DECORATION: none
+}
+A.mapa1:hover {
+	COLOR: #336600; TEXT-DECORATION: underline
+}
+A.mapa1:link {
+	COLOR: #666666; TEXT-DECORATION: none
+}
+A.mapa1:visited {
+	COLOR: #666666; TEXT-DECORATION: none
+}
+A.creditos:hover {
+	COLOR: #000000; TEXT-DECORATION: underline
+}
+A.creditos:link {
+	COLOR: #006600; TEXT-DECORATION: none
+}
+A.creditos:visited {
+	COLOR: #000000; TEXT-DECORATION: underline
+}
+A.creditos2:hover {
+	COLOR: #006600; TEXT-DECORATION: underline
+}
+A.creditos2:link {
+	COLOR: #000000; TEXT-DECORATION: none
+}
+A.creditos2:visited {
+	COLOR: #006600; TEXT-DECORATION: underline
+}
+.faculdadescombo {
+	FONT-SIZE: 9px; COLOR: #ffffff; FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif; BACKGROUND-COLOR: #483818
+}
+.superiorbox {
+	BORDER-RIGHT: #000000 1px outset; BORDER-TOP: #000000 1px outset; FONT-SIZE: 10px; BORDER-LEFT: #000000 1px outset; COLOR: #000000; BORDER-BOTTOM: #000000 1px outset; FONT-FAMILY: Arial, Helvetica, sans-serif
+}

@@ -1,0 +1,112 @@
+
+a:link {  color: #FC7100; text-decoration: none}
+a:hover {  color: #000000; text-decoration: none}
+a:visited {  color: #FC7100; text-decoration: none}
+a:active {  color: #647136; text-decoration: none} 
+
+a.div:link {  color: #FFFFFF; text-decoration: none}
+a.div:hover {  color: #FFFFFF; text-decoration: none}
+a.div:visited {  color: #FFFFFF; text-decoration: none}
+a.div:active {  color: #FFFFFF; text-decoration: none}
+
+a.especialidades:active {  text-decoration: underline; color: #666666}
+a.especialidades:hover {  color: #666666; text-decoration: underline}
+a.especialidades:link {  color: #666666; text-decoration: none}
+a.especialidades:visited {  color: #666666; text-decoration: none}
+a.noticias:active {  }
+a.noticias:hover {  color: #000000; text-decoration: underline}
+a.noticias:link {  color: #000000; text-decoration: none}
+a.noticias:visited {  color: #000000; text-decoration: none}
+a.noticias_2:active {  }
+a.noticias_2:hover {  color: #FC7100; text-decoration: underline}
+a.noticias_2:link {  color: #FC7100; text-decoration: none}
+a.noticias_2:visited {  color: #FC7100; text-decoration: none}
+a.noticias_azul:active {  }
+a.noticias_azul:hover {  color: #7F91A4; text-decoration: underline}
+a.noticias_azul:link {  color: #7F91A4; text-decoration: none; font-weight: bold}
+a.noticias_azul:visited {  color: #7F91A4; text-decoration: none}
+.select_vermelho {  font-size: 10px; background-color: #add1ff}
+.select_colorido { font-size: 10px; background-color: #add1ff ; border: #FFFFFF}
+a.linkbranco:link { color: #FFFFFF; text-decoration: none ; font-family: Verdana, Arial, Helvetica, sans-serif}
+a.linkbranco:hover { color: #FFFFFF; text-decoration: underline ; font-family: Verdana, Arial, Helvetica, sans-serif}
+a.linkbranco:active {  font-family: Verdana, Arial, Helvetica, sans-serif; color: #FFFFFF; text-decoration: none}
+a.linkbranco:visited { color: #FFFFFF; text-decoration: none; font-family: Verdana, Arial, Helvetica, sans-serif}
+a.biblioteca:link { color: #647136; text-decoration: none }
+a.biblioteca:active { text-decoration: underline; color: #647136}
+a.biblioteca:hover { color: #647136; text-decoration: underline }
+a.biblioteca:visited { color: #647136; text-decoration: none}
+a.biblioteca_preto:active { text-decoration: underline; color: #000000}
+a.biblioteca_preto:hover { color: #000000; text-decoration: underline }
+a.biblioteca_preto:link { color: #000000; text-decoration: none }
+a.biblioteca_preto:visited { color: #000000; text-decoration: none }
+a.busca_resultado:active {  }
+a.busca_resultado:hover {  color: #000000; text-decoration: underline}
+a.busca_resultado:link {  color: #993300; text-decoration: none}
+a.busca_resultado:visited {  color: #000000; text-decoration: none}
+a.biblioteca_green:active { text-decoration: underline; color: #647136}
+a.biblioteca_green:hover { color: #000000; text-decoration: underline }
+a.biblioteca_green:link { color: #647136; text-decoration: none }
+a.biblioteca_green:visited { color: #647136; text-decoration: none }a.mapa:active { text-decoration: underline; color: #999999}
+a.mapa:hover { color: #669900; text-decoration: underline }
+a.mapa:link { color: #999999; text-decoration: none }
+a.mapa:visited { color: #999999; text-decoration: none }
+a.mapa1:active { text-decoration: none; color: #666666}
+a.mapa1:hover { color: #336600; text-decoration: underline }
+a.mapa1:link { color: #666666; text-decoration: none }
+a.mapa1:visited { color: #666666; text-decoration: none }
+a.creditos:hover {  color: #000000; text-decoration: underline}
+a.creditos:link {  color: #006600; text-decoration: none}
+a.creditos:visited {  color: #000000; text-decoration: underline}
+a.creditos2:hover {  color: #006600; text-decoration: underline}
+a.creditos2:link {  color: #000000; text-decoration: none}
+a.creditos2:visited {  color: #006600; text-decoration: underline}
+.faculdadescombo {  font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 9px; color: #FFFFFF; background-color: #483818 }
+.superiorbox {  font-family: Arial, Helvetica, sans-serif; font-size: 10px; color: #000000; border: 1px #000000 outset}
+select{
+  border-style : groove;
+  font-family: verdana; 
+  color: 000000; 
+  font-size: 10px;  
+  border-width: 1px; 
+  border-color: 000000; 
+  padding-left: 2px; 
+  padding-right: 2px;	
+  padding-top: 2px; 
+  padding-bottom: 2px;
+}
+
+TextArea {border-style : groove ; background : FFFFFF;  font-family : Verdana; font-size : 10; color : 000000; }
+
+td{
+  font-family: verdana; 
+  color: #000000; 
+  font-size: 10px
+}
+.input {border-style : groove ; background : FFFFFF;  font-family : Verdana; font-size : 10; color : 000000; }
+.label {border-style :none ; background:none ;  font-family : Verdana; font-size : 10; color : 000000;}
+
+.titulo{
+  font-family: verdana; 
+  color: #FFFFFF; 
+  font-size: 10px
+}
+
+.table{background-color:#F9EDD3;}
+.tdTemplateLista{background-color:#F9EDD3;font-family: verdana; color:#000000 ; font-size: 10px ;font-weight : normal;}
+.tdintranet{font-family: verdana; color: 000000; font-size: 10px;background-color:#FDDF9E;  }
+.tdintranet2{font-family: verdana; color: 000000; font-size: 10px;background-color:#F9EDD3;  }
+.borderintranet {font-family: verdana; color: 000000; font-size: 10px;background-color:#FFFFFF; }
+.tdCabecalho{font-family: verdana; color: FFFFFF; font-size: 10px ;font-weight : normal;}
+.selectPadrao{
+  border-style : groove;
+  font-family: verdana; 
+  color: 000000; 
+  font-size: 10px;  
+  border-width: 1px; 
+  border-color: 000000; 
+  padding-left: 2px; 
+  padding-right: 2px;	
+  padding-top: 2px; 
+  padding-bottom: 2px;
+  width: 430px;
+}
