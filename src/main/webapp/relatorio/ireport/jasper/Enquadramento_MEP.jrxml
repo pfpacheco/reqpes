@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="Enquadramento_MEP"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="483"
+		 columnSpacing="0"
+		 leftMargin="56"
+		 rightMargin="56"
+		 topMargin="20"
+		 bottomMargin="20"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="TIPO" isForPrompting="true" class="java.lang.Integer"/>
+	<queryString><![CDATA[SELECT *
+FROM   (SELECT F.ID
+              ,F.NOME
+              ,UO.DESCRICAO   UNIDADE
+              ,F.ID_CARGO     ID_CARGO_ATUAL
+              ,CD.DESCRICAO   CARGO_ATUAL
+              ,TSS.DESCRICAO  STEP_ATUAL
+              ,FS.VALOR       SALARIO_ATUAL
+              ,FC2.ID_CARGO   ID_CARGO_ANT
+              ,CD2.DESCRICAO  CARGO_ANT
+              ,TSS2.DESCRICAO STEP_ANT
+              ,FS2.VALOR      SALARIO_ANT
+        FROM   FUNCIONARIOS              F
+              ,CARGOS                    C
+              ,CARGO_DESCRICOES          CD
+              ,UNIDADES_ORGANIZACIONAIS  UO
+              ,FUNCIONARIO_TAB_SALARIAIS TS
+              ,FUNCIONARIO_SALARIOS      FS
+              ,TIPO_STEPS_SALARIAIS      TSS
+              ,FUNCIONARIO_CARGO         FC2
+              ,CARGO_DESCRICOES          CD2
+              ,FUNCIONARIO_TAB_SALARIAIS TS2
+              ,TIPO_STEPS_SALARIAIS      TSS2
+              ,FUNCIONARIO_SALARIOS      FS2
+        WHERE  F.ID_CARGO = C.ID
+        AND    CD.ID = F.ID_DESCRICAO
+        AND    F.ID = FS.ID_FUNCIONARIO
+        AND    F.ID = FS2.ID_FUNCIONARIO
+        AND    F.ID = FC2.ID_FUNCIONARIO
+        AND    FC2.ID_CARGO = CD2.ID
+        AND    TS.STEP = TSS.CODIGO
+        AND    TS2.STEP = TSS2.CODIGO
+        AND    TS.ID_FUNCIONARIO = F.ID
+        AND    TS2.ID_FUNCIONARIO = F.ID
+        AND    UO_CODIGO_NIVEL(F.COD_UNIORG, 2) = UO.CODIGO
+        AND    FC2.DATA_CARGO =
+               (SELECT MAX(FC3.DATA_CARGO)
+                 FROM   FUNCIONARIO_CARGO FC3
+                 WHERE  FC3.ID_FUNCIONARIO = FC2.ID_FUNCIONARIO
+                 AND    FC3.DATA_CARGO < '01-04-2011')
+        AND    FS.DATA_SALARIO =
+               (SELECT MAX(FS1.DATA_SALARIO)
+                 FROM   FUNCIONARIO_SALARIOS FS1
+                 WHERE  FS1.ID_FUNCIONARIO = FS.ID_FUNCIONARIO)
+        AND    FS2.DATA_SALARIO =
+               (SELECT MAX(FS3.DATA_SALARIO)
+                 FROM   FUNCIONARIO_SALARIOS FS3
+                 WHERE  FS3.ID_FUNCIONARIO = FS2.ID_FUNCIONARIO
+                 AND    FS3.DATA_SALARIO < '01-04-2011')
+        AND    TS.DATA_PROCESSO =
+               (SELECT MAX(TS1.DATA_PROCESSO)
+                 FROM   FUNCIONARIO_TAB_SALARIAIS TS1
+                 WHERE  TS1.ID_FUNCIONARIO = TS.ID_FUNCIONARIO)
+        AND    TS2.DATA_PROCESSO =
+               (SELECT MAX(TS3.DATA_PROCESSO)
+                 FROM   FUNCIONARIO_TAB_SALARIAIS TS3
+                 WHERE  TS3.ID_FUNCIONARIO = TS2.ID_FUNCIONARIO
+                 AND    TS3.DATA_PROCESSO < '01-04-2011')
+        AND    CD.DESCRICAO LIKE 'MONITOR%'
+        AND    F.ATIVO = 'A'
+        AND    C.ID >= 8620
+        AND    F.DATA_ADMISSAO < '01-04-2011'
+        AND    C.DT_FIM_VIGENCIA IS NULL
+        ORDER  BY 3
+                 ,2) A
+WHERE  (($P{TIPO} = 1 AND A.ID_CARGO_ATUAL <> A.ID_CARGO_ANT AND
+       A.STEP_ATUAL <> A.STEP_ANT AND A.SALARIO_ATUAL <> A.SALARIO_ANT) OR
+       ($P{TIPO} = 2 AND A.ID_CARGO_ATUAL <> A.ID_CARGO_ANT AND
+       A.STEP_ATUAL <> A.STEP_ANT AND A.SALARIO_ATUAL = A.SALARIO_ANT) OR
+       ($P{TIPO} = 3 AND A.ID_CARGO_ATUAL <> A.ID_CARGO_ANT AND
+       A.STEP_ATUAL = A.STEP_ANT AND A.SALARIO_ATUAL <> A.SALARIO_ANT) OR
+       ($P{TIPO} = 4 AND A.ID_CARGO_ATUAL <> A.ID_CARGO_ANT AND
+       A.STEP_ATUAL = A.STEP_ANT AND A.SALARIO_ATUAL = A.SALARIO_ANT)
+       )]]></queryString>
+
+	<field name="ID" class="java.math.BigDecimal"/>
+	<field name="NOME" class="java.lang.String"/>
+	<field name="UNIDADE" class="java.lang.String"/>
+	<field name="ID_CARGO_ATUAL" class="java.math.BigDecimal"/>
+	<field name="CARGO_ATUAL" class="java.lang.String"/>
+	<field name="STEP_ATUAL" class="java.lang.String"/>
+	<field name="SALARIO_ATUAL" class="java.math.BigDecimal"/>
+	<field name="ID_CARGO_ANT" class="java.math.BigDecimal"/>
+	<field name="CARGO_ANT" class="java.lang.String"/>
+	<field name="STEP_ANT" class="java.lang.String"/>
+	<field name="SALARIO_ANT" class="java.math.BigDecimal"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="802"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="168"
+						width="425"
+						height="16"
+						key="textField-1"/>
+					<box></box>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{NOME}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="185"
+						width="425"
+						height="19"
+						key="textField-2"/>
+					<box></box>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{UNIDADE}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="367"
+						width="454"
+						height="22"
+						key="textField-3"/>
+					<box></box>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["De: " + $F{CARGO_ANT} + "   " + $F{STEP_ANT} + "   " + new DecimalFormat("R$ #,##0.00").format($F{SALARIO_ANT})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="401"
+						width="454"
+						height="22"
+						key="textField-4"/>
+					<box></box>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Para: " + $F{CARGO_ATUAL} + "   " + $F{STEP_ATUAL} + "   " + new DecimalFormat("R$ #,##0.00").format($F{SALARIO_ATUAL})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="29"
+						y="117"
+						width="425"
+						height="18"
+						key="staticText-2"/>
+					<box></box>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+				<text><![CDATA[Ao (Ã€)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="236"
+						width="425"
+						height="100"
+						key="staticText-3"/>
+					<box></box>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+				<text><![CDATA[Prezado(a) Senhor(a):
+
+
+
+De acordo com o comunicado TABELA DE CARGO E SALÃRIOS informamos que, a partir de 1Âº/04/2011, a situação funcional de V.Sa. passa ser a seguinte:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="29"
+						y="503"
+						width="425"
+						height="97"
+						key="staticText-4"/>
+					<box></box>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+				<text><![CDATA[Ciente
+
+............./............./............
+
+........................................
+]]></text>
+				</staticText>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>
