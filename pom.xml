@@ -21,6 +21,7 @@
 			<properties>
 				<ambiente>desenvolvimento</ambiente>
 				<admti_path>http://hom-jav01:8280/admTI</admti_path>
+				<smtp>10.2.0.36</smtp>
 			</properties>
 		</profile>
 		<profile>
@@ -34,6 +35,7 @@
 			<properties>
 				<ambiente>homologacao</ambiente>
 				<admti_path>http://hom-jav01:8280/admTI</admti_path>
+				<smtp>10.2.0.217</smtp>
 			</properties>
 		</profile>
 		<profile>
@@ -47,6 +49,7 @@
 			<properties>
 				<ambiente>producao</ambiente>
 				<admti_path>http://www4.intranet.sp.senac.br/infoGES</admti_path>
+				<smtp>10.2.0.217</smtp>
 			</properties>
 		</profile>
 	</profiles>
