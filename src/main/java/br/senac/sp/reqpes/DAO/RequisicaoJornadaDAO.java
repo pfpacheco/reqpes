@@ -112,7 +112,7 @@ public class RequisicaoJornadaDAO implements InterfaceDataBase{
      String tipoTransacao = "";
      CallableStatement stmt = null;
 
-     // Gerando log com par√¢metros recebidos
+     // Gerando log com par‚metros recebidos
      StringBuffer parametros = new StringBuffer();     
      parametros.append("\n1,"+tipoDML);
      parametros.append("\n2,"+requisicaoJornada.getCodRequisicao());
@@ -149,7 +149,7 @@ public class RequisicaoJornadaDAO implements InterfaceDataBase{
         	}
         }else{
         	parametros.append("\n6, <Escala Timekeeper>");
-        	while(idx <= 61 /*N¬∞ de par√¢metros da procedure*/){
+        	while(idx <= 61 /*N∞ de par‚metros da procedure*/){
 	        	stmt.setNull(idx++, OracleTypes.VARCHAR);
         	}
         }
@@ -380,11 +380,11 @@ public class RequisicaoJornadaDAO implements InterfaceDataBase{
       String[][] retorno = null;
       
       sql.append(" SELECT DECODE(DIA,'SEG','SEGUNDA-FEIRA' ");
-      sql.append("                  ,'TER','TER√áA-FEIRA' ");
+      sql.append("                  ,'TER','TER«A-FEIRA' ");
       sql.append("                  ,'QUA','QUARTA-FEIRA' ");
       sql.append("                  ,'QUI','QUINTA-FEIRA' ");
       sql.append("                  ,'SEX','SEXTA-FEIRA' ");
-      sql.append("                  ,'SAB','S√ÅBADO' ");
+      sql.append("                  ,'SAB','S¡BADO' ");
       sql.append("                  ,'DOM','DOMINGO') AS DIA ");
       sql.append("       ,DECODE(CODIGO_HORARIO,'COMP','COMPENSADO' ");
       sql.append("                             ,'DSRM','DESCANSO' ");

@@ -186,7 +186,7 @@ public class RequisicaoDAO implements InterfaceDataBase{
         stmt.setString(51,requisicao.getVersaoSistema());
         stmt.setLong(52,requisicao.getIdCodeCombination());
         
-        // Gerando log com parÃ¢metros recebidos
+        // Gerando log com parâmetros recebidos
         parametros.append("\n1,"+tipoDML);
         parametros.append("\n2,"+requisicao.getCodRequisicao());
         parametros.append("\n3,"+requisicao.getCodUnidade());
@@ -730,7 +730,7 @@ public class RequisicaoDAO implements InterfaceDataBase{
     StringBuffer sql = new StringBuffer();
     String[][] retorno = null;
         
-    //-- Query que retorna informações da unidade de acordo com o parÃ¢metro recebido
+    //-- Query que retorna informações da unidade de acordo com o parâmetro recebido
     sql.append(" SELECT ");
     
     if(tipo == null){
@@ -799,7 +799,7 @@ public class RequisicaoDAO implements InterfaceDataBase{
    * @param codRequisicao
    * @return String[][]
    * @throws RequisicaoPessoalException
-   * @Utilização MÃ©todo utilizado para carga no relatário por RP
+   * @Utilização Método utilizado para carga no relatário por RP
    */
   public String[][] getPesquisaRequisicaoAntiga(int codRequisicao) throws RequisicaoPessoalException{
     StringBuffer sql = new StringBuffer();
@@ -927,7 +927,7 @@ public class RequisicaoDAO implements InterfaceDataBase{
    * @param codRequisicao
    * @return String[][]
    * @throws RequisicaoPessoalException
-   * @Utilização MÃ©todo utilizado para carga no relatário por RP
+   * @Utilização Método utilizado para carga no relatário por RP
    */
   public String[][] getPesquisaRequisicao(int codRequisicao) throws RequisicaoPessoalException{
     StringBuffer sql = new StringBuffer();
@@ -1098,7 +1098,7 @@ public class RequisicaoDAO implements InterfaceDataBase{
     sql.append(" WHERE  UO.CODIGO                = R.COD_UNIDADE ");
     sql.append(" AND    CD.ID                    = R.CARGO_SQ ");
     sql.append(" AND    RS.COD_STATUS            = R.COD_STATUS ");
-    sql.append(" AND    R.COD_STATUS BETWEEN 1 AND 5 "); //-- ABERTA, EM HOMOLOGAÃ‡ÃƒO, EM REVISÃƒO, APROVADA, REPROVADA
+    sql.append(" AND    R.COD_STATUS BETWEEN 1 AND 5 "); //-- ABERTA, EM HOMOLOGAÇÃO, EM REVISÃO, APROVADA, REPROVADA
     sql.append(condicao);
     sql.append(" ORDER BY R.DT_REQUISICAO, UO.DESCRICAO, CD.DESCRICAO ");
 
@@ -1205,7 +1205,7 @@ public class RequisicaoDAO implements InterfaceDataBase{
   
   /**
    * @param horaEntrada e horaSaida
-   * @return nÃºmero de horas no período informado
+   * @return número de horas no período informado
    * @throws RequisicaoPessoalException
    */
   public BigDecimal validaHorarioTrabalho(String horaEntrada, String horaSaida) throws RequisicaoPessoalException{

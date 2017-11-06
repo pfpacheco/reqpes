@@ -118,7 +118,7 @@ public class GrupoNecUnidadeDAO implements InterfaceDataBase{
     sql.append(" AND    R.UNOR_COD_PAI = '"+ codSuperintendencia +"' ");
     sql.append(" AND    R.TEOR_COD     = 'RHEV' ");
     sql.append(" AND    T.DATA_ENCERRAMENTO IS NULL ");
-    //-- 02/03/2011: Thiago - Adicionando a unidade 002C na superintendÃªncia administrativa, para que o NEC possa realizar a revisão das RP's
+    //-- 02/03/2011: Thiago - Adicionando a unidade 002C na superintendência administrativa, para que o NEC possa realizar a revisão das RP's
     if(codSuperintendencia.equals("SA")){      
       sql.append(" UNION ");
       sql.append(" SELECT F_GET_SEL_GRUPO_NEC_UNIDADE("+ codGrupo +", T.CODIGO) AS IND ");

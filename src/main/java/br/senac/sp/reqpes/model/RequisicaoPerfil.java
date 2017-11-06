@@ -10,8 +10,8 @@ public class RequisicaoPerfil{
 
    private String tipoExperiencia;
    private String sexo;
-   private String outrasCarateristica; //CompetÃªncia e conhecimentos específicos
-   private String descricaoFormacao;   //Escolaridade e experiÃªncia profissional desejável
+   private String outrasCarateristica; //Competência e conhecimentos específicos
+   private String descricaoFormacao;   //Escolaridade e experiência profissional desejável
    private String complementoEscolaridade; 
    private String comentarios;
    private int sqNivel;

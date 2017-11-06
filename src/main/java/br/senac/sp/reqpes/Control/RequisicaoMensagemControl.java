@@ -68,8 +68,8 @@ public class RequisicaoMensagemControl{
     List listEmail = new ArrayList();
     String[] homologGep = null;
   
-    String assunto  = "Retorno da Requisição nÂ° "+requisicao.getCodRequisicao()+" para o Solicitante (Homologada)";
-    String mensagem = "<br>A Requisição de Pessoal NÂ° <b>"+requisicao.getCodRequisicao()+"</b> foi homologada pelo responsável da unidade e encaminhada para análise pela GerÃªncia de Pessoal.<br><br>";
+    String assunto  = "Retorno da Requisição n° "+requisicao.getCodRequisicao()+" para o Solicitante (Homologada)";
+    String mensagem = "<br>A Requisição de Pessoal N° <b>"+requisicao.getCodRequisicao()+"</b> foi homologada pelo responsável da unidade e encaminhada para análise pela Gerência de Pessoal.<br><br>";
         
     // Adicionando o email do criador na lista de envio (CRIADOR DA RP)
     if(requisicao.getEmailCriadorRP() != null){
@@ -105,10 +105,10 @@ public class RequisicaoMensagemControl{
       String[][] listaEmails = null;
       String email = null;
       
-      String assunto  = "Retorno da Requisição nÂ° "+requisicao.getCodRequisicao()+" para o Solicitante (Homologação)";
-      String mensagem = "<br>A Requisição de Pessoal NÂ° <b>"+requisicao.getCodRequisicao()+"</b> foi homologada pela GerÃªncia de Pessoal (AP&B) e encaminhada para análise de aprovação.<br><br>";
+      String assunto  = "Retorno da Requisição n° "+requisicao.getCodRequisicao()+" para o Solicitante (Homologação)";
+      String mensagem = "<br>A Requisição de Pessoal N° <b>"+requisicao.getCodRequisicao()+"</b> foi homologada pela Gerência de Pessoal (AP&B) e encaminhada para análise de aprovação.<br><br>";
   
-      // Adicionando lista de e-mail recebida como parÃ¢metro
+      // Adicionando lista de e-mail recebida como parâmetro
       for(int i=0; i<emailPara.length; i++){
         listEmail.add(emailPara[i]);        
       }
@@ -153,10 +153,10 @@ public class RequisicaoMensagemControl{
       String[] listaEmails = null;
       String email = null;
       
-      String assunto  = "Retorno da Requisição nÂ° "+requisicao.getCodRequisicao()+" para o Solicitante (Homologação)";
-      String mensagem = "<br>A Requisição de Pessoal NÂ° <b>"+requisicao.getCodRequisicao()+"</b> foi homologada pela GerÃªncia de Pessoal (NEC) e encaminhada para análise de aprovação.<br><br>";
+      String assunto  = "Retorno da Requisição n° "+requisicao.getCodRequisicao()+" para o Solicitante (Homologação)";
+      String mensagem = "<br>A Requisição de Pessoal N° <b>"+requisicao.getCodRequisicao()+"</b> foi homologada pela Gerência de Pessoal (NEC) e encaminhada para análise de aprovação.<br><br>";
 
-      // Adicionando lista de e-mail recebida como parÃ¢metro
+      // Adicionando lista de e-mail recebida como parâmetro
       for(int i=0; i<emailPara.length; i++){
         listEmail.add(emailPara[i]);        
       }
@@ -200,8 +200,8 @@ public class RequisicaoMensagemControl{
     List listEmail = new ArrayList();      
     String email = null;
     
-    String assunto  = "Retorno da Requisição nÂ° "+requisicao.getCodRequisicao()+" para o Solicitante (Homologada)";
-    String mensagem = "<br>A Requisição de Pessoal NÂ° <b>"+requisicao.getCodRequisicao()+"</b> foi homologada pela GerÃªncia de Pessoal e encaminhada para análise de aprovação.<br><br>";
+    String assunto  = "Retorno da Requisição n° "+requisicao.getCodRequisicao()+" para o Solicitante (Homologada)";
+    String mensagem = "<br>A Requisição de Pessoal N° <b>"+requisicao.getCodRequisicao()+"</b> foi homologada pela Gerência de Pessoal e encaminhada para análise de aprovação.<br><br>";
         
     // Adicionando o email do homologador da unidade da RP (GERENTE DE UNIDADE)
     email = requisicaoAprovacaoControl.getEmailResponsavelUO(requisicao.getCodUnidade());
@@ -228,8 +228,8 @@ public class RequisicaoMensagemControl{
    * @throws RequisicaoPessoalException, AdmTIException
    */  
   public static void enviaMensagemAprovacao(Usuario usuario, Requisicao requisicao, String[] emailPara) throws RequisicaoPessoalException, AdmTIException{
-    String assunto  = "Retorno da Requisição nÂ° "+requisicao.getCodRequisicao()+" para o Solicitante (Aprovada)";
-    String mensagem = "A Requisição de Pessoal NÂ° <b>"+requisicao.getCodRequisicao()+"</b> foi analisada e aprovada pela GerÃªncia de Pessoal.";
+    String assunto  = "Retorno da Requisição n° "+requisicao.getCodRequisicao()+" para o Solicitante (Aprovada)";
+    String mensagem = "A Requisição de Pessoal N° <b>"+requisicao.getCodRequisicao()+"</b> foi analisada e aprovada pela Gerência de Pessoal.";
     enviaMensagem(usuario, requisicao, mensagem, emailPara, assunto);
   }       
 
@@ -238,8 +238,8 @@ public class RequisicaoMensagemControl{
    * @throws RequisicaoPessoalException, AdmTIException
    */
   public static void enviaMensagemReprovacao(Usuario usuario, Requisicao requisicao, String[] emailPara, String dscMotivo) throws RequisicaoPessoalException, AdmTIException{
-    String assunto  = "Retorno da Requisição nÂ° "+requisicao.getCodRequisicao()+" para o Solicitante (Reprovada)";
-    String mensagem = "<br>A Requisição de Pessoal NÂ° <b>"+requisicao.getCodRequisicao()+"</b> foi analisada e reprovada, pelo(s) seguinte(s) motivos:<br><br>"+dscMotivo+"<br><br>";
+    String assunto  = "Retorno da Requisição n° "+requisicao.getCodRequisicao()+" para o Solicitante (Reprovada)";
+    String mensagem = "<br>A Requisição de Pessoal N° <b>"+requisicao.getCodRequisicao()+"</b> foi analisada e reprovada, pelo(s) seguinte(s) motivos:<br><br>"+dscMotivo+"<br><br>";
     enviaMensagem(usuario, requisicao, mensagem, emailPara, assunto);
   }         
 
@@ -248,8 +248,8 @@ public class RequisicaoMensagemControl{
    * @throws RequisicaoPessoalException, AdmTIException
    */
   public static void enviaMensagemEstorno(Usuario usuario, Requisicao requisicao, String[] emailPara) throws RequisicaoPessoalException, AdmTIException{
-    String assunto  = "Retorno da Requisição nÂ° "+requisicao.getCodRequisicao()+" para o Solicitante (Estorno)";
-    String mensagem = "A Requisição de Pessoal NÂ° <b>"+requisicao.getCodRequisicao()+"</b> foi estornada.";
+    String assunto  = "Retorno da Requisição n° "+requisicao.getCodRequisicao()+" para o Solicitante (Estorno)";
+    String mensagem = "A Requisição de Pessoal N° <b>"+requisicao.getCodRequisicao()+"</b> foi estornada.";
     enviaMensagem(usuario, requisicao, mensagem, emailPara, assunto);
   }       
   
@@ -258,8 +258,8 @@ public class RequisicaoMensagemControl{
    * @throws RequisicaoPessoalException, AdmTIException
    */  
   public static void enviaMensagemSolicitarRevisao(Usuario usuario, Requisicao requisicao, String dscMotivo) throws RequisicaoPessoalException, AdmTIException{
-    String assunto  = "Retorno da Requisição nÂ° "+requisicao.getCodRequisicao()+" para o Solicitante (Revisar)";
-    String mensagem = "<br>Solicitação de revisão da Requisição de Pessoal NÂ° <b>"+requisicao.getCodRequisicao()+"</b> pelo(s) seguinte(s) motivos:<br><br>"+dscMotivo+"<br><br>";
+    String assunto  = "Retorno da Requisição n° "+requisicao.getCodRequisicao()+" para o Solicitante (Revisar)";
+    String mensagem = "<br>Solicitação de revisão da Requisição de Pessoal N° <b>"+requisicao.getCodRequisicao()+"</b> pelo(s) seguinte(s) motivos:<br><br>"+dscMotivo+"<br><br>";
     String[] emailPara = {requisicao.getEmailCriadorRP(), new RequisicaoAprovacaoControl().getEmailResponsavelUO(requisicao.getCodUnidade())};
     enviaMensagem(usuario, requisicao, mensagem, emailPara, assunto);
   }  
@@ -269,8 +269,8 @@ public class RequisicaoMensagemControl{
    * @throws RequisicaoPessoalException, AdmTIException
    */  
   public static void enviaMensagemRevisaoEfetuada(Usuario usuario, Requisicao requisicao, String emailGerente) throws RequisicaoPessoalException, AdmTIException{
-    String assunto  = "Retorno da Requisição nÂ° "+requisicao.getCodRequisicao()+" para o Solicitante (Revisada)";
-    String mensagem = "<br>A Requisição de Pessoal NÂ° <b>"+requisicao.getCodRequisicao()+"</b> foi revisada e encaminhada para análise.<br><br>";
+    String assunto  = "Retorno da Requisição n° "+requisicao.getCodRequisicao()+" para o Solicitante (Revisada)";
+    String mensagem = "<br>A Requisição de Pessoal N° <b>"+requisicao.getCodRequisicao()+"</b> foi revisada e encaminhada para análise.<br><br>";
     String[] emailPara = {emailGerente};
     enviaMensagem(usuario, requisicao, mensagem, emailPara, assunto);
   }   
@@ -280,8 +280,8 @@ public class RequisicaoMensagemControl{
    * @throws RequisicaoPessoalException, AdmTIException
    */   
   public static void enviaMensagemCancelamento(Usuario usuario, Requisicao requisicao, String[] emailPara, String dscMotivo) throws RequisicaoPessoalException, AdmTIException{
-    String assunto  = "Cancelamento da Requisição nÂ° "+requisicao.getCodRequisicao();
-    String mensagem = "<br>A Requisição de Pessoal NÂ° <b>"+requisicao.getCodRequisicao()+"</b> foi cancelada pelo(s) seguinte(s) motivos:<br><br>"+dscMotivo+"<br><br>";
+    String assunto  = "Cancelamento da Requisição n° "+requisicao.getCodRequisicao();
+    String mensagem = "<br>A Requisição de Pessoal N° <b>"+requisicao.getCodRequisicao()+"</b> foi cancelada pelo(s) seguinte(s) motivos:<br><br>"+dscMotivo+"<br><br>";
     enviaMensagem(usuario, requisicao, mensagem, emailPara, assunto);
   }         
 

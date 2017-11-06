@@ -36,7 +36,7 @@ public class TemplateCorpoEmail{
     corpo.append("     <table border='0' width='610' cellpadding='0' cellspacing='0'> ");
     corpo.append("           <tr> ");
     corpo.append("             <td colspan='2' height='18' class='tdCabecalho'> ");
-    corpo.append("              <STRONG>&nbsp;&nbsp;REQUISIÃ‡ÃƒO DE PESSOAL</STRONG> ");
+    corpo.append("              <STRONG>&nbsp;&nbsp;REQUISIÇÃO DE PESSOAL</STRONG> ");
     corpo.append("             </td> ");
     corpo.append("           </tr> ");
     corpo.append("           <tr> ");
@@ -52,10 +52,10 @@ public class TemplateCorpoEmail{
     corpo.append("              &nbsp;");
     corpo.append("             </td> ");    
     corpo.append("              <td height='25' width='95%' align='left' class='tdintranet2'> ");
-    //-- LINK DE PRODUÃ‡ÃƒO
+    //-- LINK DE PRODUÇÃO
     //corpo.append(                "Para mais detalhes <a href='http://www.intranet.sp.senac.br/jsp/private/sistemaIntra.jsp?url=login/leRP.cfm?sncReqPes="+requisicao.getCodRequisicao()+"'>clique aqui</a> para visualizar os dados completos desta requisição.<br><br>");
     corpo.append(                  "Para mais detalhes <a href='http://www.intranet.sp.senac.br/intranet-frontend/sistemas-integrados/detalhes/7'>clique aqui</a> para visualizar os dados completos desta requisição.<br><br>");      
-    //-- LINK DE HOMOLOGAÃ‡ÃƒO
+    //-- LINK DE HOMOLOGAÇÃO
     //corpo.append(                  "Para mais detalhes <a href='http://www.intranet.sp.senac.br/jsp/private/sistemaIntra.jsp?url=login/leRPHOM.cfm?sncReqPes="+requisicao.getCodRequisicao()+"'>clique aqui</a> para visualizar os dados completos desta requisição.<br><br>");
     corpo.append("              </td> ");
     corpo.append("           </tr>    ");  
@@ -66,7 +66,7 @@ public class TemplateCorpoEmail{
     corpo.append("     <table border='0' width='610' cellpadding='0' cellspacing='0'> ");
     corpo.append("           <tr> ");
     corpo.append("             <td colspan='3'  height='18' class='tdCabecalho'> ");
-    corpo.append("              <STRONG>&nbsp;&nbsp;DADOS DA REQUISIÃ‡ÃƒO</STRONG> ");
+    corpo.append("              <STRONG>&nbsp;&nbsp;DADOS DA REQUISIÇÃO</STRONG> ");
     corpo.append("             </td> ");
     corpo.append("           </tr> ");
     corpo.append("               <tr> ");
@@ -74,7 +74,7 @@ public class TemplateCorpoEmail{
     corpo.append("               </tr>      ");     
     corpo.append("               <tr> ");
     corpo.append("                 <td height='25' width='23%' align='right' class='tdintranet2'> ");
-    corpo.append("                   <STRONG>NÃºmero da RP:&nbsp;</STRONG> ");
+    corpo.append("                   <STRONG>Número da RP:&nbsp;</STRONG> ");
     corpo.append("                 </td> ");
     corpo.append("                 <td class='tdintranet2' width='77%'> ");
     corpo.append("                   "+requisicao.getCodRequisicao());
@@ -120,7 +120,7 @@ public class TemplateCorpoEmail{
     corpo.append("               </tr>    ");     
     corpo.append("               <tr> ");
     corpo.append("                 <td colspan='2' align='center' class='tdNormal'");
-    corpo.append("                    <br><br>Esta Ã© uma mensagem automática, por favor não responda este e-mail.");
+    corpo.append("                    <br><br>Esta é uma mensagem automática, por favor não responda este e-mail.");
     corpo.append("                 </td>");
     corpo.append("               </tr>    ");         
     corpo.append("         </table>     ");

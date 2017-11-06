@@ -3,15 +3,25 @@
 <%@ page import="br.senac.sp.reqpes.Control.*" %>
 <%@ page import="br.senac.sp.reqpes.Interface.*" %>
 <%@ page import="br.senac.sp.componente.util.ConverteDate" %>
+<%@ page import="br.senac.sp.componente.model.Usuario" %>
 <%@ page import="br.senac.sp.componente.control.SistemaParametroControl" %>
 <%@ page errorPage="../error/error.jsp" %>
-
 <%
   //-- Objetos Control
   RequisicaoControl requisicaoControl = new RequisicaoControl();  
+  SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
+  Usuario usuario = (Usuario) session.getAttribute("usuario");
+  //teste
+  boolean nec = false;
   
   //-- Parametros de página
   int codRequisicao = Integer.parseInt(request.getParameter("codRequisicao"));
+  int idPerfilNEC = Integer.parseInt((sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,"ID_PERFIL_HOM_NEC").getVlrSistemaParametro()));
+  
+  if(usuario.getSistemaPerfil().getCodSistemaPerfil() == idPerfilNEC)
+	  nec = true;
+	  	  
+  
   Boolean isEmail = (request.getParameter("isEmail")==null)? Boolean.FALSE : Boolean.valueOf(request.getParameter("isEmail").trim());
 
   //-- Objetos  
@@ -45,8 +55,36 @@
 
 <link href="<%=request.getContextPath()%>/css/stylesheet.css" rel="STYLESHEET" type="text/css"/>
 <body onload="focus();">
+<script language="JavaScript" src="../js/formulario.js" charset="utf-8" type="text/javascript"></script>
+<script language="JavaScript" src="../js/ajaxItens.js" charset="utf-8" type="text/javascript"></script>
+<script language="javaScript" charset="utf-8">   
 
-<script language="javaScript">   
+  function atualizaTextos(){
+	  var objetoAjax  = createXMLHTTP();          
+      var parametros  = "codRequisicao=" + document.getElementById('codRequisicao').value;
+      	  parametros += "&dscAtividadesCargo=" + document.getElementById('dscAtividadesCargo').value;
+          parametros += "&descricaoFormacao=" + document.getElementById('descricaoFormacao').value;
+          parametros += "&dscExperiencia=" + document.getElementById('dscExperiencia').value;
+          parametros += "&dscConhecimentos=" + document.getElementById('dscConhecimentos').value;
+          parametros += "&outrasCarateristica=" + document.getElementById('outrasCarateristica').value;
+          parametros += "&comentarios=" + document.getElementById('comentarios').value;
+
+          objetoAjax.open("post", "ajax/atualizaTextos.jsp", true);            	  
+          objetoAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=utf-8');   
+          objetoAjax.onreadystatechange = function(){  
+          	if(objetoAjax.readyState == 4){
+            	var retorno = objetoAjax.responseText;
+                if(Number(retorno.trim()) > 0){
+                	alert('Atualizado com sucesso!');
+                	window.close();
+                } else {
+                	alert('Não foi possível atualizar o perfil da reguisição.' + retorno);
+                }              
+            }
+          };
+     	  objetoAjax.send(parametros);
+  }	
+
   function imprimir(){    
     divBotoes.style.visibility = "hidden";
     divBotoes.style.display = "none";
@@ -87,6 +125,7 @@
               </tr>           
               <tr>
                 <td height="23" align="left" class="tdIntranet2" width="33%">
+                 <input type="hidden" id="codRequisicao" value="<%=requisicao[0][0]%>">
                  &nbsp;<STRONG>Número RP</STRONG><br>&nbsp;<%=requisicao[0][0]%>
                 </td>
                 <td height="23" align="left" class="tdIntranet2" width="40%">
@@ -423,37 +462,87 @@
 	                  </tr>
 	              <%}%>
                   <tr>
-                    <td colspan="4" height="28" class="tdIntranet2">
-                      <div align="justify" style="padding-left:5px; padding-right:5px;">
-                        <STRONG>Principais atividades do cargo</STRONG><br><%=(requisicao[0][74]==null)?"":requisicao[0][74]%>
+                    <td colspan="4" height="28" align="left" class="tdIntranet2">
+                      <div style="padding-left:5px; padding-right:5px;">
+                      	<STRONG>Principais atividades do cargo</STRONG><br>
+                      	<% if(nec && requisicao[0][54].equals("2")){%>	                      	
+	                      	<textarea cols="73" rows="5" id="dscAtividadesCargo"
+	                      		onKeyDown="limitarCaracteres(this,document.getElementById('qtdDscAtividadesCargo'),4000);" 
+		                    	onKeyUP  ="limitarCaracteres(this,document.getElementById('qtdDscAtividadesCargo'),4000);"><%=(requisicao[0][74]==null)?"":requisicao[0][74]%></textarea>
+	                      	<br>
+	                      	<input id="qtdDscAtividadesCargo" type="text" name="qtdDscAtividadesCargo" class="label" readonly="readonly" value="<%=((requisicao[0][74]==null)?0:requisicao[0][74].length())%>" size="4" align="middle">
+	                      	<br>
+                      	<%} else {%>
+                        	<%=(requisicao[0][74]==null)?"":requisicao[0][74]%>
+                        <% } %>
                       </div>
                     </td>               
                   </tr>                    
                   <tr>
                     <td colspan="4" height="28" align="left" class="tdIntranet2">
                       <div align="justify" style="padding-left:5px; padding-right:5px;">
-                        <STRONG>Escolaridade mínima</STRONG><br><%=(requisicao[0][59]==null)?((requisicao[0][58]==null)?"":requisicao[0][58]):requisicao[0][59]%>
+                      	<STRONG>Escolaridade mínima</STRONG><br>
+                      	<% if(nec && requisicao[0][54].equals("2")) {%>
+	                      	<textarea cols="73" rows="5" id="descricaoFormacao" 
+	                      		onKeyDown="limitarCaracteres(this,document.getElementById('qtdFormacao'),4000);" 
+		                    	onKeyUP  ="limitarCaracteres(this,document.getElementById('qtdFormacao'),4000);"><%=(requisicao[0][59]==null)?((requisicao[0][58]==null)?"":requisicao[0][58]):requisicao[0][59]%></textarea>
+	                      	<br>
+	                      	<input id="qtdFormacao" type="text" name="qtdFormacao" class="label" readonly="readonly" value="<%=(requisicao[0][59]==null)?((requisicao[0][58]==null)?0:requisicao[0][58].length()):requisicao[0][59].length()%>" size="4" align="middle">
+	                      	<br>
+                      	<%} else {%>
+                        	<%=(requisicao[0][59]==null)?((requisicao[0][58]==null)?"":requisicao[0][58]):requisicao[0][59]%>
+                        <% } %>
                       </div>
                     </td>               
                   </tr>
                   <tr>
                     <td colspan="4" height="28" class="tdIntranet2">
                       <div align="justify" style="padding-left:5px; padding-right:5px;">
-                        <STRONG>Experiência profissional</STRONG><br><%=(requisicao[0][78]==null)?"":requisicao[0][78]%>
+                      	<STRONG>Experiência profissional</STRONG><br>
+                      	<% if(nec && requisicao[0][54].equals("2")) {%>                      		
+                      		<textarea cols="73" rows="5" id="dscExperiencia" 
+	                    		onKeyDown="limitarCaracteres(this,document.getElementById('qtdExperiencia'),4000);" 
+	                      		onKeyUP  ="limitarCaracteres(this,document.getElementById('qtdExperiencia'),4000);"><%=(requisicao[0][78]==null)?"":requisicao[0][78]%></textarea>
+				          	<br>
+				         	<input id="qtdExperiencia" type="text" name="qtdExperiencia" class="label" readonly="readonly" value="<%=(requisicao[0][78]==null)?0:requisicao[0][78].length()%>" size="4" align="middle">
+				         	<br>
+                      	<%} else { %>
+                        	<%=(requisicao[0][78]==null)?"":requisicao[0][78]%>
+                        <% } %>
                       </div>
                     </td>               
                   </tr>
                   <tr>
                     <td colspan="4" height="28" class="tdIntranet2">
                       <div align="justify" style="padding-left:5px; padding-right:5px;">
-                        <STRONG>Conhecimentos específicos</STRONG><br><%=(requisicao[0][81]==null)?"":requisicao[0][81]%>
+                      	<STRONG>Conhecimentos específicos</STRONG><br>
+                      	<% if(nec && requisicao[0][54].equals("2")) {%>                      		
+                      	  	<textarea cols="73" rows="5" id="dscConhecimentos" 
+	                      		onKeyDown="limitarCaracteres(this,document.getElementById('qtdConhecimentos'),4000);" 
+	                      		onKeyUP  ="limitarCaracteres(this,document.getElementById('qtdConhecimentos'),4000);" ><%=(requisicao[0][81]==null)?"":requisicao[0][81]%></textarea>
+	                      	<br>
+	              			<input id="qtdConhecimentos" type="text" name="qtdConhecimentos" class="label" readonly="readonly" value="<%=(requisicao[0][81]==null)?0:requisicao[0][81].length()%>" size="4" align="middle">
+	              			<br>
+                      	<%} else {%>
+                        	<%=(requisicao[0][81]==null)?"":requisicao[0][81]%>
+                        <% } %>
                       </div>
                     </td>               
                   </tr>
                   <tr>
                     <td colspan="4" height="28" class="tdIntranet2">
                       <div align="justify" style="padding-left:5px; padding-right:5px;">
-                        <STRONG>Competências</STRONG><br><%=(requisicao[0][62]==null)?"":requisicao[0][62]%>
+                      	<STRONG>Competências</STRONG><br>
+                      	<% if(nec && requisicao[0][54].equals("2")) {%>
+                      		<textarea cols="73" rows="5" id="outrasCarateristica" title="Relate os comportamentos, habilidades e atitudes desejadas para o desempenho da função."
+	                      		onKeyDown="limitarCaracteres(this,document.getElementById('qtdOutrasCaracteristicas'),4000);" 
+	                      		onKeyUP  ="limitarCaracteres(this,document.getElementById('qtdOutrasCaracteristicas'),4000);" ><%=(requisicao[0][62]==null)?"":requisicao[0][62]%></textarea>
+	              			<br>
+	              			<input id="qtdOutrasCaracteristicas" type="text" name="qtdOutrasCaracteristicas" class="label" readonly="readonly" value="<%=(requisicao[0][62]==null)?0:requisicao[0][62].length()%>" size="4" align="middle">
+	              			<br>
+	              		<%} else {%>
+                        	<%=(requisicao[0][62]==null)?"":requisicao[0][62]%>
+                        <% } %>
                       </div>
                     </td>               
                   </tr>    
@@ -461,7 +550,17 @@
               <tr>
                 <td height="28" class="tdIntranet2" colspan="4">
                   <div align="justify" style="padding-left:5px; padding-right:5px;">
-                    <STRONG>Observações</STRONG><br><%=(requisicao[0][65]==null)?"":requisicao[0][65]%>
+                  	<STRONG>Observações</STRONG><br>
+                  	<% if(nec && requisicao[0][54].equals("2")) {%>
+	                  	<textarea cols="73" rows="5" id="comentarios"
+		                	onKeyDown="limitarCaracteres(this,document.getElementById('qtdComentarios'),2000);" 
+		                    onKeyUP  ="limitarCaracteres(this,document.getElementById('qtdComentarios'),2000);" ><%=(requisicao[0][65]==null)?"":requisicao[0][65]%></textarea>
+		              	<br>
+		              	<input id="qtdComentarios" type="text" name="qtdComentarios" class="label" readonly="readonly" value="<%=(requisicao[0][65]==null)?0:requisicao[0][65].length()%>" size="4" align="middle">
+		              	<br>
+		            <%} else {%>
+                    	<%=(requisicao[0][65]==null)?"":requisicao[0][65]%>
+                    <% } %>
                   </div>
                 </td>               
               </tr>
@@ -495,6 +594,10 @@
               <input type="button" class="botaoIntranet" value="Imprimir" onclick="imprimir();">
               &nbsp;&nbsp;
               <input type="button" class="botaoIntranet" value="  Fechar " onclick="window.close();">
+              <% if(nec) {%>
+              	&nbsp;&nbsp;
+              	<input type="button" name="btnAtualizaTexto" class="botaoIntranet" value="Atualizar" onclick="atualizaTextos();">&nbsp;
+              <% }%>
             </div>            
         </td>
       </tr>

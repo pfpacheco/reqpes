@@ -209,7 +209,7 @@ WHERE  (($P{TIPO} = 1 AND A.ID_CARGO_ATUAL <> A.ID_CARGO_ANT AND
 
 
 
-De acordo com o comunicado TABELA DE CARGO E SALÁRIOS informamos que, a partir de 1º/04/2011, a situa��o funcional de V.Sa. passa ser a seguinte:]]></text>
+De acordo com o comunicado TABELA DE CARGO E SALÁRIOS informamos que, a partir de 1º/04/2011, a situação funcional de V.Sa. passa ser a seguinte:]]></text>
 				</staticText>
 				<staticText>
 					<reportElement

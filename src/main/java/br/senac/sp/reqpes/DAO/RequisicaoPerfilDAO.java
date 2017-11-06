@@ -65,7 +65,7 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase{
                                                   ,P_IN_LIST_FUNCAO              IN VARCHAR2) IS
    */
    
-   private int dmlRequisicaoPerfil(int tipoDML, RequisicaoPerfil requisicaoPerfil)throws RequisicaoPessoalException{
+   private int dmlRequisicaoPerfil(int tipoDML, RequisicaoPerfil requisicaoPerfil, int... gravaHistoricoChapa)throws RequisicaoPessoalException{
     
     int sucesso = 1;
     Transacao transacao = new Transacao(DATA_BASE_NAME);
@@ -79,7 +79,7 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase{
     };
     
     try{
-        stmt = transacao.getCallableStatement("{call reqpes.SP_DML_REQUISICAO_PERFIL(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+        stmt = transacao.getCallableStatement("{call reqpes.SP_DML_REQUISICAO_PERFIL(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
         stmt.setInt(1,tipoDML); // 0 INSERT, 1 UPDATE
         stmt.setInt(2,requisicaoPerfil.getCodRequisicao());
         stmt.setInt(3,requisicaoPerfil.getSqNivel());        
@@ -106,7 +106,13 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase{
         	stmt.setString(20, requisicaoPerfil.getListFuncao());
         }
         
-        // Gerando log com parÃ¢metros recebidos
+        if(gravaHistoricoChapa.length > 0){
+        	stmt.setInt(21, gravaHistoricoChapa[0]);
+        } else {
+        	stmt.setInt(21, 0);
+        }
+        
+        // Gerando log com parâmetros recebidos
         parametros.append("\n1,"+tipoDML);
         parametros.append("\n2,"+requisicaoPerfil.getCodRequisicao());
         parametros.append("\n3,"+requisicaoPerfil.getSqNivel());
@@ -172,6 +178,16 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase{
   */
   public int alteraRequisicaoPerfil(RequisicaoPerfil requisicaoPerfil)throws RequisicaoPessoalException{
     return this.dmlRequisicaoPerfil(1, requisicaoPerfil);
+  }
+  
+  /**
+   * @param requisicao, historico
+   * @return int
+   * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+   * @procedure: SP_DML_REQUISICAO_JORNADA
+  */
+  public int alteraRequisicaoPerfil(RequisicaoPerfil requisicaoPerfil, int gravaHistoricoChapa)throws RequisicaoPessoalException{
+    return this.dmlRequisicaoPerfil(1, requisicaoPerfil, gravaHistoricoChapa);
   }
 
 
@@ -296,7 +312,7 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase{
   }  
   
   /**
-  * Carrega os valores dos combos de domínios do sistema de RECRUTAMENTO E SELEÃ‡ÃƒO
+  * Carrega os valores dos combos de domínios do sistema de RECRUTAMENTO E SELEÇÃO
   * @return String[][]
   * @throws RequisicaoPessoalException
   */
@@ -320,7 +336,7 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase{
   }  
   
   /**
-  * Carrega os valores do combo de FUNÃ‡Ã•ES do sistema de RECRUTAMENTO E SELEÃ‡ÃƒO
+  * Carrega os valores do combo de FUNÇÕES do sistema de RECRUTAMENTO E SELEÇÃO
   * @return String[][]
   * @throws RequisicaoPessoalException
   */

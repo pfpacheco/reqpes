@@ -241,15 +241,15 @@ public class ResponsavelEstruturaDAO implements InterfaceDataBase{
           responsavelEstrutura.setUnidades(listaUnidades);          
         }
       }else{        
-          //-- verifica se Ã© homologador da GEP - AP&B
+          //-- verifica se é homologador da GEP - AP&B
           if(this.isUsuarioHomologadorGEP(chapa)){
              responsavelEstrutura.setCodPerfilUsuario(Integer.parseInt(idPerfilGEP.getVlrSistemaParametro()));
           }else
-             //-- verifica se Ã© homologador da GEP - NEC
+             //-- verifica se é homologador da GEP - NEC
              if(this.isUsuarioHomologadorNEC(chapa)){
                responsavelEstrutura.setCodPerfilUsuario(Integer.parseInt(idPerfilNEC.getVlrSistemaParametro()));                       
              }else{
-               // retorna o mesmo perfil, no caso de CRIAÃ‡ÃƒO ou ADMINISTRADOR
+               // retorna o mesmo perfil, no caso de CRIAÇÃO ou ADMINISTRADOR
                responsavelEstrutura.setCodPerfilUsuario(codPerfil);
              }        
       }
@@ -386,7 +386,7 @@ public class ResponsavelEstruturaDAO implements InterfaceDataBase{
   }
   
   /**
-   * Retorna o código da unidade em formato numÃ©rico
+   * Retorna o código da unidade em formato numérico
    * @return int getCodUnidade
    * @throws RequisicaoPessoalException
    */

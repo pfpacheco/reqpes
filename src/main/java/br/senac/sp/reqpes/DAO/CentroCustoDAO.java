@@ -86,7 +86,7 @@ public class CentroCustoDAO implements InterfaceDataBase{
 	  if (tipoSegmento == 2){
 		  sql.append(" AND T.COD_SEGMENTO = '012' ");
 	  }else if (tipoSegmento == 3) {
-		      //-- Segmento trÃªs associado com as unidades existentes no RHEvolution
+		      //-- Segmento três associado com as unidades existentes no RHEvolution
 			  sql.append(" AND EXISTS (SELECT 1 ");
 			  sql.append(" 		       FROM   rhev.UNIDADES_ORGANIZACIONAIS U ");
 			  sql.append("        	   WHERE  SUBSTR(U.CODIGO, 1, 3) = T.COD_SEGMENTO ");

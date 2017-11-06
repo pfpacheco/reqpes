@@ -146,7 +146,7 @@ public class RequisicaoBaixaDAO implements InterfaceDataBase{
     sql.append(" WHERE  HR.REQUISICAO_SQ          = R.REQUISICAO_SQ ");
     sql.append(" AND    LPAD(U.COD_UNIDADE,3,'0') = SUBSTR(R.COD_UNIDADE,1,3) ");
     sql.append(" AND    CD.ID                 (+) = R.CARGO_SQ ");
-    sql.append(" AND    R.COD_STATUS              IN (1, 2, 3, 4) "); //-- STATUS: ABERTA, HOMOLOGAÃ‡ÃƒO, REVISÃƒO, APROVADA
+    sql.append(" AND    R.COD_STATUS              IN (1, 2, 3, 4) "); //-- STATUS: ABERTA, HOMOLOGAÇÃO, REVISÃO, APROVADA
     sql.append(" AND    SYSDATE > HR.DT_ENVIO + " + contratacaoValidade + " - " + expiracaoAviso);
     sql.append(condicao);
     sql.append(" ORDER  BY HR.DT_ENVIO + " + contratacaoValidade + " - " + expiracaoAviso + " , R.REQUISICAO_SQ ");

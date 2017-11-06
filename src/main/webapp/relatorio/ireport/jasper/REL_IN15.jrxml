@@ -81,7 +81,7 @@ AND    COD_UO LIKE DECODE($P{P_COD_UNIDADE}, '0', COD_UO, '%'|| $P{P_COD_UNIDADE
 					<textElement textAlignment="Center">
 						<font fontName="Verdana" size="11"/>
 					</textElement>
-				<text><![CDATA[Requisição de Pessoal - Instrução 15]]></text>
+				<text><![CDATA[RequisiÃ§Ã£o de Pessoal - InstruÃ§Ã£o 15]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" pattern="dd/MM/yyyy" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -257,7 +257,7 @@ AND    COD_UO LIKE DECODE($P{P_COD_UNIDADE}, '0', COD_UO, '%'|| $P{P_COD_UNIDADE
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font fontName="Verdana" pdfFontName="Helvetica-Bold" isBold="true"/>
 					</textElement>
-				<text><![CDATA[ Código do cargo:]]></text>
+				<text><![CDATA[ CÃ³digo do cargo:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -447,7 +447,7 @@ AND    COD_UO LIKE DECODE($P{P_COD_UNIDADE}, '0', COD_UO, '%'|| $P{P_COD_UNIDADE
 					<textElement textAlignment="Right">
 						<font fontName="Verdana" size="8"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA["Página " + $V{PAGE_NUMBER}+ " de "]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA["PÃ¡gina " + $V{PAGE_NUMBER}+ " de "]]></textFieldExpression>
 				</textField>
 				<line direction="TopDown">
 					<reportElement

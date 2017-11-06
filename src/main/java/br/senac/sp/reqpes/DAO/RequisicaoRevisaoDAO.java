@@ -140,7 +140,7 @@ public class RequisicaoRevisaoDAO implements InterfaceDataBase{
     sql.append("       ,V.SGL_UNIDADE ");
     sql.append("       ,V.NOM_UNIDADE ");    
     sql.append(" FROM   reqpes.VW_REQUISICOES_PARA_APROVACAO V ");
-    sql.append(" WHERE  V.COD_STATUS = 3 "); //-- STATUS: EM REVIS√ÉO
+    sql.append(" WHERE  V.COD_STATUS = 3 "); //-- STATUS: EM REVIS√O
     sql.append(condicao);
     sql.append(" ORDER  BY V.DT_REQUISICAO, V.REQUISICAO_SQ, V.COD_UNIDADE, V.CARGO ");
 
