@@ -11,16 +11,13 @@
   RequisicaoControl requisicaoControl = new RequisicaoControl();  
   SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
   Usuario usuario = (Usuario) session.getAttribute("usuario");
-  //teste
+  GrupoNecUsuarioControl grupoNecUsuarioControl = new GrupoNecUsuarioControl();
+  String[][] usuariosNec = null;
   boolean nec = false;
   
   //-- Parametros de página
   int codRequisicao = Integer.parseInt(request.getParameter("codRequisicao"));
   int idPerfilNEC = Integer.parseInt((sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,"ID_PERFIL_HOM_NEC").getVlrSistemaParametro()));
-  
-  if(usuario.getSistemaPerfil().getCodSistemaPerfil() == idPerfilNEC)
-	  nec = true;
-	  	  
   
   Boolean isEmail = (request.getParameter("isEmail")==null)? Boolean.FALSE : Boolean.valueOf(request.getParameter("isEmail").trim());
 
@@ -51,6 +48,18 @@
   
   //-- Resgatando os dados  
   requisicao = requisicaoControl.getPesquisaRequisicao(codRequisicao);
+  
+  //verifica se tem perfil nec
+  if(usuario.getSistemaPerfil().getCodSistemaPerfil() == idPerfilNEC){
+	//confirma se, apesar de ter perfil nec, tem permissão a unidade
+	usuariosNec = grupoNecUsuarioControl.getUsuariosByUnidade(requisicao[0][1]);
+		if(usuariosNec != null){
+	 		for(String[] u:usuariosNec){
+				if(u[0].equals(String.valueOf(usuario.getChapa())))
+					nec = true;
+	 		}	  
+		}
+  	}
 %>
 
 <link href="<%=request.getContextPath()%>/css/stylesheet.css" rel="STYLESHEET" type="text/css"/>
@@ -74,7 +83,7 @@
           objetoAjax.onreadystatechange = function(){  
           	if(objetoAjax.readyState == 4){
             	var retorno = objetoAjax.responseText;
-                if(Number(retorno.trim()) > 0){
+                if(Number(retorno) > 0){
                 	alert('Atualizado com sucesso!');
                 	window.close();
                 } else {

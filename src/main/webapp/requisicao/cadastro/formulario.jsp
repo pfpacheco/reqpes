@@ -214,7 +214,7 @@
 </script>
 
 <center>
-<form name="frmRequisicao" action="<%=acaoForm%>" method="POST" >
+<form name="frmRequisicao" action="<%=acaoForm%>" method="POST" accept-charset="utf-8" >
   <input type="HIDDEN" name="codRequisicao"     value="<%=requisicao.getCodRequisicao()%>">
   <input type="HIDDEN" name="indStatus"         value="<%=requisicao.getIndStatus()%>">
   <input type="HIDDEN" name="nivelWorkflow"     value="<%=requisicao.getNivelWorkflow()%>">
