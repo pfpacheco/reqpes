@@ -70,13 +70,13 @@
 
   function atualizaTextos(){
 	  var objetoAjax  = createXMLHTTP();          
-      var parametros  = "codRequisicao=" + document.getElementById('codRequisicao').value;
-      	  parametros += "&dscAtividadesCargo=" + document.getElementById('dscAtividadesCargo').value;
-          parametros += "&descricaoFormacao=" + document.getElementById('descricaoFormacao').value;
-          parametros += "&dscExperiencia=" + document.getElementById('dscExperiencia').value;
-          parametros += "&dscConhecimentos=" + document.getElementById('dscConhecimentos').value;
-          parametros += "&outrasCarateristica=" + document.getElementById('outrasCarateristica').value;
-          parametros += "&comentarios=" + document.getElementById('comentarios').value;
+      var parametros  = "codRequisicao=" + encodeURIComponent(document.getElementById('codRequisicao').value);
+      	  parametros += "&dscAtividadesCargo=" + encodeURIComponent(document.getElementById('dscAtividadesCargo').value);
+          parametros += "&descricaoFormacao=" + encodeURIComponent(document.getElementById('descricaoFormacao').value);
+          parametros += "&dscExperiencia=" + encodeURIComponent(document.getElementById('dscExperiencia').value);
+          parametros += "&dscConhecimentos=" + encodeURIComponent(document.getElementById('dscConhecimentos').value);
+          parametros += "&outrasCarateristica=" + encodeURIComponent(document.getElementById('outrasCarateristica').value);
+          parametros += "&comentarios=" + encodeURIComponent(document.getElementById('comentarios').value);
 
           objetoAjax.open("post", "ajax/atualizaTextos.jsp", true);            	  
           objetoAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=utf-8');   
