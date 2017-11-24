@@ -1,13 +1,16 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>reqpes</groupId>
-  <artifactId>reqpes</artifactId>
-  <version>1.0</version>
-  <packaging>war</packaging>
-  <name>reqpes</name>
-  <properties>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>reqpes</groupId>
+	<artifactId>reqpes</artifactId>
+	<version>1.0</version>
+	<packaging>war</packaging>
+	<name>reqpes</name>
+	<properties>
 		<web.path>src/main/webapp/WEB-INF</web.path>
 		<lib.path>${web.path}/lib</lib.path>
+		<project.build.sourceEncoding>cp1252</project.build.sourceEncoding>
 	</properties>
 	<profiles>
 		<profile>
@@ -23,6 +26,31 @@
 				<admti_path>http://hom-jav01:8280/admTI</admti_path>
 				<smtp>10.2.0.36</smtp>
 			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jboss.as.plugins</groupId>
+						<artifactId>jboss-as-maven-plugin</artifactId>
+						<version>7.1.1.Final</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<force>true</force>
+							<username>${jboss.username}</username>
+							<hostname>${jboss.hostname}</hostname>
+							<password>${jboss.password}</password>
+							<port>${jboss.port}</port>
+							<name>${project.artifactId}.war</name>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 		<profile>
 			<id>hom</id>
@@ -37,6 +65,31 @@
 				<admti_path>http://hom-jav01:8280/admTI</admti_path>
 				<smtp>10.2.0.217</smtp>
 			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jboss.as.plugins</groupId>
+						<artifactId>jboss-as-maven-plugin</artifactId>
+						<version>7.1.1.Final</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<force>true</force>
+							<username>${jboss.username}</username>
+							<hostname>${jboss.hostname}</hostname>
+							<password>${jboss.password}</password>
+							<port>${jboss.port}</port>
+							<name>${project.artifactId}.war</name>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 		<profile>
 			<id>prod</id>
@@ -51,6 +104,36 @@
 				<admti_path>http://www4.intranet.sp.senac.br/infoGES</admti_path>
 				<smtp>10.2.0.217</smtp>
 			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.jboss.as.plugins</groupId>
+						<artifactId>jboss-as-maven-plugin</artifactId>
+						<version>7.1.1.Final</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<force>true</force>
+							<username>${jboss.username}</username>
+							<hostname>${jboss.hostname}</hostname>
+							<password>${jboss.password}</password>
+							<port>${jboss.port}</port>
+							<name>${project.artifactId}.war</name>
+							<domain>
+								<server-groups>
+									<server-group>other-server-group</server-group>
+								</server-groups>
+							</domain>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 	<build>
@@ -88,7 +171,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>				
+				<version>2.4</version>
 				<configuration>
 					<webXml>${web.path}/web.xml</webXml>
 					<webappDirectory>${project.build.directory}/${project.artifactId}/</webappDirectory>
@@ -112,27 +195,6 @@
 						<manifestEntries />
 						<manifestFile />
 					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.jboss.as.plugins</groupId>
-				<artifactId>jboss-as-maven-plugin</artifactId>
-				<version>7.1.1.Final</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>deploy</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<force>true</force>
-					<username>${jboss.username}</username>
-					<hostname>${jboss.hostname}</hostname>
-					<password>${jboss.password}</password>
-					<port>${jboss.port}</port>
-					<name>${project.artifactId}.war</name>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -202,26 +264,26 @@
 			<groupId>javax.servlet.jsp.jstl</groupId>
 			<artifactId>javax.servlet.jsp.jstl-api</artifactId>
 			<version>1.2.1</version>
-		</dependency>		
+		</dependency>
 		<dependency>
-		   <groupId>net.sf.jasperreports</groupId>
-		   <artifactId>jasperreports</artifactId>
-		   <version>6.3.1</version>
-		</dependency>		
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.3.1</version>
+		</dependency>
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
 		</dependency>
-		
-		<!-- dependencias locais -->	
+
+		<!-- dependencias locais -->
 		<dependency>
 			<groupId>Componentes</groupId>
 			<artifactId>senacComponentes</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/${lib.path}/Componentes.jar</systemPath>
-		</dependency>	
+		</dependency>
 		<dependency>
 			<groupId>rcd-menu</groupId>
 			<artifactId>rcd-menu</artifactId>
@@ -242,6 +304,6 @@
 			<version>10.2.0.4.0</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/${lib.path}/ojdbc14.jar</systemPath>
-		</dependency> 
+		</dependency>
 	</dependencies>
 </project>
