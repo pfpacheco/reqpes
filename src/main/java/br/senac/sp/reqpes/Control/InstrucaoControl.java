@@ -63,7 +63,7 @@ public class InstrucaoControl {
 			condicao = " AND COD_TAB_SALARIAL NOT IN (2,3,4)";
 			break;
 
-		case 3: // -- TABELA 01 - RESPOSÁVEL PELA ÁREA ADMINISTRATIVA
+		case 3: // -- TABELA 01 - RESPOSÃ�VEL PELA Ã�REA ADMINISTRATIVA
 			condicao = " AND COD_TAB_SALARIAL = " + codTabSalarial;
 			break;
 
@@ -99,7 +99,7 @@ public class InstrucaoControl {
 			condicao = " AND COD_TAB_SALARIAL NOT IN (2,3,4)";
 			break;
 
-		case 3: // -- TABELA 01 - RESPONSÃ�VEL PELA ÁREA ADMINISTRATIVA
+		case 3: // -- TABELA 01 - RESPONSÁVEL PELA ÁREA ADMINISTRATIVA
 			condicao = " AND COD_TAB_SALARIAL = 3";
 			break;
 
