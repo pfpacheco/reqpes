@@ -27,11 +27,13 @@
   SistemaParametro[] idPerfilGEP = null;
   SistemaParametro unidadeAPR = null; 
   String[][] historico = null;
+  String[][] historicoCampos = null;
   String[][] dadosHistoricoAtual = null;
   String[] gerenteAtual = null;    
   String dataSource = null;
   String classCSS = "borderintranet";
   String perfil = null;
+  String conteudo = "";
   
   //-- Verificando em qual owner realizar a pesquisa, RP atuais ou antigas  
   if(isRPAntiga.booleanValue()){
@@ -42,6 +44,10 @@
   
   //-- Resgatando os dados de histórico
   historico = requisicaoControl.getHistoricoRequisicao(codRequisicao, dataSource);
+  
+  //-- Resgatando os dados de histórico campos alterados
+  historicoCampos = requisicaoControl.getHistoricoPerfilCampos(codRequisicao, dataSource);  
+  
   
   //-- Resgatando os dados do usuário que está com a RP
   if(historico != null && historico.length > 0 && historico[historico.length-1][9] != null){
@@ -75,6 +81,49 @@
      }                
   }
 %>
+
+<!DOCTYPE html>
+<html>
+<style>
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    width: 300px;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -250px;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+</style>
 
 <head>
   <link href="<%=request.getContextPath()%>/css/stylesheet.css" rel="STYLESHEET" type="text/css"/>
@@ -121,7 +170,7 @@
           <br>
           <table width="100%" border="0" cellpadding="0" cellspacing="1">
             <tr>
-              <td colspan="5" height="18" align="center" class="tdCabecalho" background='<%= request.getContextPath()%>/imagens/tit_item.gif'>
+              <td colspan="6" height="18" align="center" class="tdCabecalho" background='<%= request.getContextPath()%>/imagens/tit_item.gif'>
                <STRONG>HISTÓRICO</STRONG>
               </td>
             </tr>           
@@ -138,26 +187,45 @@
               <td height="23" align="center" class="tdIntranet" width="17%">
                <STRONG>Ação</STRONG>
               </td>                  
-              <td height="23" align="center" class="tdIntranet" width="10%">
+              <td height="23" align="center" class="tdIntranet" width="9%">
                <STRONG>Para a<br>Unidade</STRONG>
               </td>  
+
+
             </tr> 
             
             <% // Varrendo o array de histórico da requisição informada 
                for(int i=0; i<historico.length; i++){
                  classCSS = ((i%2)==1)?"tdintranet2":"borderintranet";
+                 conteudo="";
+               
+               for(int j=0; j<historicoCampos.length; j++ ){
+            	 if (historico[i][10].equals( historicoCampos[j][1])) {
+                	 if (historico[i][5].equals( historicoCampos[j][2])) {
+            			 conteudo= conteudo + "<p>" + historicoCampos[j][3] +" - foi alterado de "  + historicoCampos[j][4] + " para " + historicoCampos[j][5]+"</p>";  
+                	 }
+                }
+               }
             %>
                   <tr>
                     <td height="23" align="left"   class="<%=classCSS%>" width="45%">&nbsp;<%=(historico[i][4]==null)?"":historico[i][4]%></td>
                     <td height="23" align="center" class="<%=classCSS%>" width="8%"><%=(historico[i][3]==null)?"-":historico[i][3]%></td>                
-                    <td height="23" align="left"   class="<%=classCSS%>" width="22%">&nbsp;<%=(historico[i][5]==null)?"":historico[i][5]%></td>        
-                    <td height="23" align="left"   class="<%=classCSS%>" width="17%">&nbsp;<%=(historico[i][6]==null)?"":(historico[i][6].equals("solicitou revis?o"))?"solicitou revisão":historico[i][6]%></td>
+                    <td height="23" align="left"   class="<%=classCSS%>" width="22%">&nbsp;<%=(historico[i][5]==null)?"":historico[i][5]%></td> 
+                
+                
+               <% if(conteudo!="") { %> 
+                    <td height="23" align="left" class="<%=classCSS%>" width="17%">&nbsp;<div class="tooltip"><%=(historico[i][6]==null)?"":(historico[i][6].equals("solicitou revis?o"))?"solicitou revisão":historico[i][6]%>
+                    <span class="tooltiptext"><%=conteudo %></span></div></td>
+               <% } else { %>
+                    <td height="23" align="left" class="<%=classCSS%>" width="17%">&nbsp;<%=(historico[i][6]==null)?"":(historico[i][6].equals("solicitou revis?o"))?"solicitou revisão":historico[i][6]%><%=conteudo %></td>
+               <% } %> 
+                
                     <td height="23" align="center" class="<%=classCSS%>" width="10%"><%=(historico[i][7]==null)?"":historico[i][7]%></td>  
                   </tr>             
              <%}%>
             
             <tr>
-              <td height="3" colspan="5" class="tdCabecalho" background='<%= request.getContextPath()%>/imagens/fio_azul_end.gif' ></td>
+              <td height="3" colspan="6" class="tdCabecalho" background='<%= request.getContextPath()%>/imagens/fio_azul_end.gif' ></td>
             </tr>              
           </table>
           <br>

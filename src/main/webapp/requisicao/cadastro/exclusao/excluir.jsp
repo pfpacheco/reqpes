@@ -28,6 +28,7 @@
   //------------------------ ENVIO DE E-MAILS --------------------------------
   if(codRequisicao > 0){
     SistemaParametro indEnviarEmails = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,"IND_ENVIAR_EMAILS");
+    System.out.println(indEnviarEmails.getVlrSistemaParametro().equals("S"));
     if(indEnviarEmails.getVlrSistemaParametro().equals("S")){    
       //-- resgatando os dados da requisição que acaba de ser cancelada
       Requisicao requisicaoDados = requisicaoControl.getRequisicao(requisicao.getCodRequisicao());

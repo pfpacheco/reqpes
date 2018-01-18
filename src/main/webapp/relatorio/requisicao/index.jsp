@@ -262,11 +262,11 @@
  }    
   //--
   function requisicaoDados(parametro){
-    popUP('<%=request.getContextPath()%>/relatorio/index.jsp?'+parametro,'link','toolbar=no,width=660,height=600,scrollbars=yes');
+    popUP('<%=request.getContextPath()%>/relatorio/index.jsp?'+parametro,'link','toolbar=no,width=760,height=600,scrollbars=yes');
   }
   //--
   function requisicaoHistorico(parametro){
-    popUP('<%=request.getContextPath()%>/relatorio/historico.jsp?'+parametro,'link','toolbar=no,width=660,height=600,scrollbars=yes');
+    popUP('<%=request.getContextPath()%>/relatorio/historico.jsp?'+parametro,'link','toolbar=no,width=760,height=600,scrollbars=yes');
   }    
   //--
   function buscarRequisicaoByUnidade(div, codUnidade){

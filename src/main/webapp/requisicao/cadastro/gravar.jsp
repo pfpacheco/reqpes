@@ -122,6 +122,9 @@
 
   //---------------------------------------------------------------------------------------------------------------           
     //-- gravando os dados da requisição    
+    
+    // SANCHES - AQUI GRAVA
+    
     codRequisicao = requisicaoControl.gravaRequisicao(requisicao, usuario);
         
     //-- gravando os dados adicionais da requisição

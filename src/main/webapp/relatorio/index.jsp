@@ -11,6 +11,8 @@
   RequisicaoControl requisicaoControl = new RequisicaoControl();  
   SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
   Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+ 
   GrupoNecUsuarioControl grupoNecUsuarioControl = new GrupoNecUsuarioControl();
   String[][] usuariosNec = null;
   boolean nec = false;
@@ -49,6 +51,9 @@
   //-- Resgatando os dados  
   requisicao = requisicaoControl.getPesquisaRequisicao(codRequisicao);
   
+  
+  System.out.println(idPerfilNEC);
+  
   //verifica se tem perfil nec
   if(usuario.getSistemaPerfil().getCodSistemaPerfil() == idPerfilNEC){
 	//confirma se, apesar de ter perfil nec, tem permissão a unidade
@@ -60,6 +65,11 @@
 	 		}	  
 		}
   	}
+  
+  // retirar essa linda
+ // nec = true;
+  
+  
 %>
 
 <link href="<%=request.getContextPath()%>/css/stylesheet.css" rel="STYLESHEET" type="text/css"/>
@@ -87,7 +97,7 @@
                 	alert('Atualizado com sucesso!');
                 	window.close();
                 } else {
-                	alert('Não foi possível atualizar o perfil da reguisição.' + retorno);
+                	alert('Não foi possível atualizar o perfil da requisição.' + retorno);
                 }              
             }
           };
@@ -607,6 +617,10 @@
               	&nbsp;&nbsp;
               	<input type="button" name="btnAtualizaTexto" class="botaoIntranet" value="Atualizar" onclick="atualizaTextos();">&nbsp;
               <% }%>
+              
+              
+                        
+              
             </div>            
         </td>
       </tr>
