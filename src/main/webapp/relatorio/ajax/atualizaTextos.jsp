@@ -10,6 +10,7 @@
 <%@ page import="br.senac.sp.componente.model.SistemaParametro" %>
 <%@ page import="br.senac.sp.componente.control.SistemaParametroControl" %>
 
+
 <jsp:useBean id="requisicaoPerfil" class="br.senac.sp.reqpes.model.RequisicaoPerfil" />
 <jsp:setProperty name="requisicaoPerfil" property="*" />
 

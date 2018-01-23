@@ -156,12 +156,10 @@
 		  }
 	      
 		  new RequisicaoJornadaControl().alteraRequisicaoJornada(requisicaoJornada);
-		  // sanches aqui o erro , nao esta enviando o usuario 
-		  
-		  new RequisicaoPerfilControl().alteraRequisicaoPerfil(requisicaoPerfil, usuario.getChapa());		 
+		  new RequisicaoPerfilControl().alteraRequisicaoPerfil(requisicaoPerfil);		 
 		  
 		  //-- alterando o status na revisão
-		  retorno = new RequisicaoRevisaoControl().alteraRequisicaoRevisao(requisicaoRevisao, usuario, isPerfilHOM); //sanches -- voltar essa linha      
+		  retorno = new RequisicaoRevisaoControl().alteraRequisicaoRevisao(requisicaoRevisao, usuario, isPerfilHOM);       
 			  
 		  //------------------------ ENVIO DE E-MAILS --------------------------------      
 			if(indEnviarEmails != null && indEnviarEmails.equals("S")){

@@ -121,8 +121,7 @@
     }
 
   //---------------------------------------------------------------------------------------------------------------           
-  //-- gravando os dados da requisição    
-    
+    //-- gravando os dados da requisição    
     codRequisicao = requisicaoControl.gravaRequisicao(requisicao, usuario);
         
     //-- gravando os dados adicionais da requisição
@@ -161,6 +160,8 @@
 		  requisicaoPerfil.setListFuncao(null);			  
 	  }
       
+      
+      // erro aqui
       new RequisicaoJornadaControl().gravaRequisicaoJornada(requisicaoJornada);
       new RequisicaoPerfilControl().gravaRequisicaoPerfil(requisicaoPerfil);
       
