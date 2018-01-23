@@ -201,10 +201,10 @@
                
                for(int j=0; j<historicoCampos.length; j++ ){
             	 if (historico[i][10].equals( historicoCampos[j][1])) {
-                	 if (historico[i][5].equals( historicoCampos[j][2])) {
+            		 if (historico[i][5].equals( historicoCampos[j][2])) {
             			 conteudo= conteudo + "<p>" + historicoCampos[j][3] +" - foi alterado de "  + historicoCampos[j][4] + " para " + historicoCampos[j][5]+"</p>";  
                 	 }
-                }
+               }
                }
             %>
                   <tr>

@@ -23,8 +23,10 @@
        
     try{
        retorno = requisicaoPerfilControl.alteraRequisicaoPerfil(requisicaoPerfil, usuario.getChapa());
+       out.print(retorno);
     } catch (Exception e) {
        erro = e.getMessage();
        out.print(erro);
     }
+   
 %>
