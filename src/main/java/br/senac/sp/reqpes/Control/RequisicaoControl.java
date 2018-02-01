@@ -28,6 +28,10 @@ public class RequisicaoControl {
 		return requisicaoDAO.alteraRequisicao(requisicao, usuario);
 	}
 
+	public int alteraRequisicaoCompleta(Requisicao requisicao, Usuario usuario) throws RequisicaoPessoalException {
+		return requisicaoDAO.alteraRequisicaoCompleta(requisicao, usuario);
+	}
+
 	public int deletaRequisicao(Requisicao requisicao, Usuario usuario) throws RequisicaoPessoalException {
 		return requisicaoDAO.deletaRequisicao(requisicao, usuario);
 	}

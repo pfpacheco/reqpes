@@ -9,6 +9,7 @@
 <%        
    //-- Parametros de página
    int codRequisicao = (request.getParameter("codRequisicao") == null)?0:Integer.parseInt(request.getParameter("codRequisicao"));
+   String completo=request.getParameter("completo");
 %>
 
 <BR/>

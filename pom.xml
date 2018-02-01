@@ -23,7 +23,7 @@
 			</activation>
 			<properties>
 				<ambiente>desenvolvimento</ambiente>
-				<admti_path>http://hom-jav01:8280/admTI</admti_path>
+				<admti_path>http://10.9.0.39:8880/infoGES</admti_path>
 				<smtp>10.2.0.36</smtp>
 			</properties>
 			<build>
@@ -62,7 +62,7 @@
 			</activation>
 			<properties>
 				<ambiente>homologacao</ambiente>
-				<admti_path>http://hom-jav01:8280/admTI</admti_path>
+				<admti_path>http://10.9.0.39:8880/infoGES</admti_path>
 				<smtp>10.2.0.217</smtp>
 			</properties>
 			<build>

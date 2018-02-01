@@ -99,7 +99,7 @@ public class RequisicaoDAO implements InterfaceDataBase {
 
 		try {
 			stmt = transacao.getCallableStatement(
-					"{call reqpes.SP_DML_REQUISICAO(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+					"{call reqpes.SP_DML_REQUISICAO(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
 			stmt.setInt(1, tipoDML); // 0 INSERT, 1 UPDATE, -1 DELETE
 			stmt.setInt(2, requisicao.getCodRequisicao());
 			stmt.setString(3, requisicao.getCodUnidade());
@@ -170,6 +170,7 @@ public class RequisicaoDAO implements InterfaceDataBase {
 			stmt.setString(50, requisicao.getIndCaraterExcecao());
 			stmt.setString(51, requisicao.getVersaoSistema());
 			stmt.setLong(52, requisicao.getIdCodeCombination());
+			stmt.setInt(53, requisicao.getTipoedicao());
 
 			// Gerando log com parâmetros recebidos
 			parametros.append("\n1," + tipoDML);
@@ -224,6 +225,7 @@ public class RequisicaoDAO implements InterfaceDataBase {
 			parametros.append("\n50," + requisicao.getIndCaraterExcecao());
 			parametros.append("\n51," + requisicao.getVersaoSistema());
 			parametros.append("\n52," + requisicao.getIdCodeCombination());
+			parametros.append("\n53," + requisicao.getTipoedicao());
 
 			// registrando parametro de saida
 			stmt.registerOutParameter(2, Types.INTEGER);
@@ -271,6 +273,10 @@ public class RequisicaoDAO implements InterfaceDataBase {
 	 * @procedure: SP_DML_REQUISICAO
 	 */
 	public int alteraRequisicao(Requisicao requisicao, Usuario usuario) throws RequisicaoPessoalException {
+		return this.dmlRequisicao(1, requisicao, usuario);
+	}
+
+	public int alteraRequisicaoCompleta(Requisicao requisicao, Usuario usuario) throws RequisicaoPessoalException {
 		return this.dmlRequisicao(1, requisicao, usuario);
 	}
 
@@ -437,6 +443,7 @@ public class RequisicaoDAO implements InterfaceDataBase {
 				requisicao.setIndCaraterExcecao(rs.getString("IND_CARATER_EXCECAO"));
 				requisicao.setVersaoSistema(rs.getString("VERSAO_SISTEMA"));
 				requisicao.setIndCargoRegime(rs.getString("REGIME"));
+				requisicao.setTipoedicao(0);
 
 				// Adicionando na lista
 				listaRequisicao.add(requisicao);

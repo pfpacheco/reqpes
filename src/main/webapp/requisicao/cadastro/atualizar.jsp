@@ -27,7 +27,7 @@
     //-- Objetos de controle
     RequisicaoControl          requisicaoControl          = new RequisicaoControl();
     RequisicaoAprovacaoControl requisicaoAprovacaoControl = new RequisicaoAprovacaoControl();
-    SistemaParametroControl    sistemaParametroControl    = new SistemaParametroControl();  
+    SistemaParametroControl    sistemaParametroControl    = new SistemaParametroControl(); 
     
     //-- Parâmetros de página
     int codRequisicao = (request.getParameter("codRequisicao")==null)?0:Integer.parseInt(request.getParameter("codRequisicao"));
@@ -36,7 +36,8 @@
     
   //---------------------------------------------------------------------------------------------------------------
     //-- Setando o Bean "Requisicao"
-    Requisicao requisicao = new Requisicao();   
+    Requisicao requisicao = new Requisicao(); 
+    requisicao.setTipoedicao(request.getParameter("tipoedicao") == null ? 0 : Integer.parseInt(request.getParameter("tipoedicao")));
     requisicao.setCodRequisicao(Integer.parseInt(request.getParameter("codRequisicao")));
     requisicao.setCodUnidade(request.getParameter("codUnidade"));
     requisicao.setCodCargo(Integer.parseInt(request.getParameter("codCargo")));
@@ -74,7 +75,11 @@
     requisicao.setIndCaraterExcecao(request.getParameter("indCaraterExcecao"));    
     requisicao.setVersaoSistema(request.getParameter("versaoSistema"));
     requisicao.setIdCodeCombination(Long.parseLong(request.getParameter("idCodeCombination")));
-
+    
+    if(requisicao.getTipoedicao()==1 || requisicao.getTipoedicao()==2){
+    	requisicao.setIndStatus(3);
+    }
+  
     //-- Objetos da página
     String[] listaEmails = null;
     boolean isPerfilHOM = false;
@@ -124,7 +129,13 @@
 	  //-- verificando o status da requisição, apenas altera se estiver EM REVISÃO
 	  if(requisicao.getIndStatus() == 3){
 		  //-- alterando os dados da requisição
-		  requisicaoControl.alteraRequisicao(requisicao, usuario);
+		  
+		  if(requisicao.getTipoedicao()==1 || requisicao.getTipoedicao()==2){
+			  requisicaoControl.alteraRequisicaoCompleta(requisicao, usuario);
+		  }else{
+			  requisicaoControl.alteraRequisicao(requisicao, usuario);
+		  }
+		  
 	      // setando os valores da grid de horários dos professores
 	      if(requisicaoJornada.getIndTipoHorario().equals("P")){
 		  	  Horarios[] h = new Horarios[7];
@@ -159,21 +170,27 @@
 		  new RequisicaoPerfilControl().alteraRequisicaoPerfil(requisicaoPerfil);		 
 		  
 		  //-- alterando o status na revisão
-		  retorno = new RequisicaoRevisaoControl().alteraRequisicaoRevisao(requisicaoRevisao, usuario, isPerfilHOM);       
+		  if(requisicao.getTipoedicao()==0){
+		  retorno = new RequisicaoRevisaoControl().alteraRequisicaoRevisao(requisicaoRevisao, usuario, isPerfilHOM);
+		  }
 			  
 		  //------------------------ ENVIO DE E-MAILS --------------------------------      
 			if(indEnviarEmails != null && indEnviarEmails.equals("S")){
 			  //-- resgatando os dados da requisição que acaba de ser criada
 			  requisicao = requisicaoControl.getRequisicao(codRequisicao);  
+			  //-- Enviando e-mail para envolvidos no workflow
+			  listaEmails = requisicaoAprovacaoControl.getEmailsEnvolvidosWorkFlow(requisicao);
+			  
+			  //-- envia email de alteração 
+			    if(requisicao.getTipoedicao()==1 || requisicao.getTipoedicao()==2){
+			    	RequisicaoMensagemControl.enviaMensagemAlteracao(usuario, requisicao, listaEmails);			    	
+			    }
 			  
 			  if(isPerfilGEP || isPerfilNEC){
 				//-- Realiza a notificação apenas quando a RP foi encaminhada para o aprovador final
 				if(requisicaoAprovacaoControl.getNivelAprovacaoAtual(requisicao.getCodRequisicao()) == 4){              
 				  RequisicaoMensagemControl.enviaMensagemHomologacaoGEP(usuario, requisicao);
 				}else{
-				  //-- Enviando e-mail para envolvidos no workflow
-				  listaEmails = requisicaoAprovacaoControl.getEmailsEnvolvidosWorkFlow(requisicao);            
-				
 				  //-- Aprovaçao intermediária (AP&B e NEC)
 				  if(isPerfilGEP){
 					//-- Aprovaçao AP&B => notifica o NEC
@@ -211,5 +228,15 @@
 		case -2: alert('Não foi possível alterar os dados da RP <%=codRequisicao%>!\nEsta RP não está em revisão. A tentativa de violação dos dados foi notificada aos administradores do sistema.'); break;
 	}
   }
+
+  <%
+  if(requisicao.getTipoedicao()==0){
+  %>
   window.location = "<%=request.getContextPath()%>/requisicao/aprovar/index.jsp";
+  <% }else{ %>
+  window.close();
+  <% } %>
 </script>
+
+
+

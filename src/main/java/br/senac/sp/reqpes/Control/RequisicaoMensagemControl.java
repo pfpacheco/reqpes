@@ -166,15 +166,14 @@ public class RequisicaoMensagemControl {
 	}
 
 	/**
-	 * Envia mensagem para os homologadores da GEP (AP&B) e participantes no
-	 * Workflow de aprovação
+	 * Envia mensagem de alterção para os participantes no Workflow de aprovação
 	 *
 	 * @param usuario,
 	 *            requisicao, emailPara[]
 	 * @throws RequisicaoPessoalException,
 	 *             AdmTIException
 	 */
-	public static void enviaMensagemAlteracao(Usuario usuario, Requisicao requisicao, String[] emailPara)
+	public static void enviaMensagemAlteracao(Usuario usuario, Requisicao requisicao, String corpo_email)
 			throws RequisicaoPessoalException {
 
 		try {
@@ -186,41 +185,15 @@ public class RequisicaoMensagemControl {
 			String[] listaEmails = null;
 			String email = null;
 
-			// String assunto = "Retorno da Requisição n° " +
-			// requisicao.getCodRequisicao()
-			// + " para o Solicitante (Homologação)";
-			// String mensagem = "<br>A Requisição de Pessoal N° <b>" +
-			// requisicao.getCodRequisicao()
-			// + "</b> foi homologada pela Gerência de Pessoal (NEC) e
-			// encaminhada para análise de aprovação.<br><br>";
+			listaEmails = requisicaoAprovacaoControl.getEmailsEnvolvidosWorkFlow(requisicao);
 
-			String assunto = "Alteração da Requisição n° <b>" + "333111" + "</b>";
+			String assunto = "A Requisição Pessoal n° " + requisicao.getCodRequisicao()
+					+ " foi analisada e alterada pela Gerência de Pessoal.";
 
-			String mensagem = "";
-			mensagem = mensagem + "<br><br>";
-			mensagem = mensagem + "<br><br><b>Numero da RP:</b> xxx " + "333111";
-			mensagem = mensagem + "<br><br><b>Unidade solicitante:</b> xxx";
-			mensagem = mensagem + "<br><br><b>Cargo :</b> xxx";
-			mensagem = mensagem + "<br><br><b>data da solicitação:</b> xxx";
-			mensagem = mensagem + "<br><br><b>Centro de custo:</b> xxx";
-			mensagem = mensagem + "<br><br><b>Detalhes da alteração:</b> xxx";
-			mensagem = mensagem + "<br><br><b>Responsável pela alteração:</b> xxx";
+			String mensagem = corpo_email;
 
 			// Adicionando lista de e-mail recebida como parâmetro
-			for (int i = 0; i < emailPara.length; i++) {
-				listEmail.add(emailPara[i]);
-			}
-
-			// Adicionando o email do homologador da unidade da RP (GERENTE DE
-			// UNIDADE)
-			email = requisicaoAprovacaoControl.getEmailResponsavelUO(requisicao.getCodUnidade());
-			if (email != null) {
-				listEmail.add(email);
-			}
-
-			// Adicionando os emails dos homologadores GEP - AP&B
-			listaEmails = requisicaoAprovacaoControl.getEmailsHomologadoresGEP();
-			for (int i = 0; listaEmails != null && i < listaEmails.length; i++) {
+			for (int i = 0; i < listaEmails.length; i++) {
 				listEmail.add(listaEmails[i]);
 			}
 
@@ -228,7 +201,7 @@ public class RequisicaoMensagemControl {
 			String[] destinatarios = new String[listEmail.size()];
 			listEmail.toArray(destinatarios);
 
-			enviaMensagem(usuario, requisicao, mensagem, destinatarios, assunto);
+			enviaMensagem2(usuario, requisicao, mensagem, destinatarios, assunto);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -467,12 +440,6 @@ public class RequisicaoMensagemControl {
 		}
 	}
 
-	/**
-	 * Envia e-mail com o usuário que realizou a ação como remetente
-	 *
-	 * @throws RequisicaoPessoalException,
-	 *             AdmTIException
-	 */
 	public static void enviaMensagem(Usuario usuario, Requisicao requisicao, String mensagem, String[] emailPara,
 			String assunto) throws RequisicaoPessoalException, AdmTIException {
 
@@ -484,7 +451,8 @@ public class RequisicaoMensagemControl {
 		// voltar essas linhas
 		// String[] para = emailPara;
 		String emailRemetente = usuario.getEmail();
-
+		// String[] para = { "sanches_i7system@hotmail.com",
+		// "davidson.gsouza@sp.senac.br","daniela.ccano@sp.senac.br" };
 		String[] para = { "sanches_i7system@hotmail.com" };
 		// String emailRemetente = "sanches_i7system@hotmail.com";
 
@@ -499,6 +467,45 @@ public class RequisicaoMensagemControl {
 		email.setAssunto(assunto);
 		email.setRemetente(emailRemetente);
 		email.setCorpoEmail(TemplateCorpoEmail.getCorpoEmail(requisicao, mensagem).toString());
+		email.setParaVarios(para);
+
+		try {
+			email.enviarEmailRemetentesSimples();
+		} catch (Exception e) {
+			LOG.error(e.getMessage());
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public static void enviaMensagem2(Usuario usuario, Requisicao requisicao, String mensagem, String[] emailPara,
+			String assunto) throws RequisicaoPessoalException, AdmTIException {
+
+		SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
+		Email email = new Email();
+
+		SistemaParametro smtp = null;
+
+		// voltar essas linhas
+		// String[] para = emailPara;
+		String emailRemetente = usuario.getEmail();
+		// String[] para = { "sanches_i7system@hotmail.com",
+		// "davidson.gsouza@sp.senac.br","daniela.ccano@sp.senac.br" };
+		String[] para = { "sanches_i7system@hotmail.com" };
+		// String emailRemetente = "sanches_i7system@hotmail.com";
+
+		try {
+			smtp = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA, "SMTP");
+		} catch (Exception e) {
+			throw new AdmTIException("Requisição de Pessoal: Erro ao enviar e-mail:", e.getMessage());
+		}
+
+		email.setSTMPServer(smtp.getVlrSistemaParametro());
+		email.setTipoTexto("text/html");
+		email.setAssunto(assunto);
+		email.setRemetente(emailRemetente);
+
+		email.setCorpoEmail(mensagem);
+
 		email.setParaVarios(para);
 
 		try {

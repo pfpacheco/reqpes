@@ -5,6 +5,7 @@ import java.util.Properties;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -100,7 +101,7 @@ public class Email {
 		message.setSubject(getAssunto());
 		message.setContent(corpoEmail, this.tipoTexto);
 
-		// Transport.send (message); -- sanches -- descomentar essa linha
+		Transport.send(message);
 	}
 
 	private void enviarEmailRemetentes(String tipo) throws AddressException, MessagingException {
@@ -154,7 +155,7 @@ public class Email {
 		message.setSubject(getAssunto());
 		message.setContent(corpoEmail, this.tipoTexto);
 
-		// Transport.send (message); sanches -- desconetar essa linda
+		Transport.send(message);
 	}
 
 	public void setSTMPServer(String STMPServer) {

@@ -1,4 +1,3 @@
-<%  session.setAttribute("root","../../"); %>
 <%@ page errorPage="../../error/error.jsp" %>
 <%@ page import="br.senac.sp.reqpes.Control.*" %>
 <%@ page import="br.senac.sp.reqpes.model.*" %>
@@ -143,6 +142,16 @@
   function requisicaoDados(parametro){
     popUP('<%=request.getContextPath()%>/relatorio/index.jsp?'+parametro,'link','toolbar=no,width=660,height=600,scrollbars=yes');
   }
+
+  function requisicaoDadosCompleta(parametro){
+	popUP('<%=request.getContextPath()%>/requisicao/cadastro/formulario.jsp?'+parametro+'&tipoedicao=1','link','toolbar=no,width=800,height=600,scrollbars=yes');
+  }  
+
+  function requisicaoDadosSuperior(parametro){
+		popUP('<%=request.getContextPath()%>/requisicao/cadastro/formulario.jsp?'+parametro+'&tipoedicao=2','link','toolbar=no,width=800,height=600,scrollbars=yes');
+	  }  
+  
+  
   //--
   function requisicaoHistorico(parametro){
     popUP('<%=request.getContextPath()%>/relatorio/historico.jsp?'+parametro,'link','toolbar=no,width=660,height=600,scrollbars=yes');
@@ -322,11 +331,28 @@
               classCSS = ((i%2)==1)?"tdintranet2":"borderintranet";
           %>
               <tr >
+              
+              <% if(isPerfilAPR) {  %>
+                <td align="center" height="25" class="<%= classCSS %>" width="8%">
+                  <a href="javaScript:requisicaoDadosCompleta('codRequisicao=<%=requisicao[i][0]%>');" title="Visualizar RP">
+                    <%=requisicao[i][0]%>
+                  </a>
+                </td>
+              <%}else if(isPerfilGEP){%>   
+               <td align="center" height="25" class="<%= classCSS %>" width="8%">
+                  <a href="javaScript:requisicaoDadosSuperior('codRequisicao=<%=requisicao[i][0]%>');" title="Visualizar RP">
+                    <%=requisicao[i][0]%>
+                  </a>
+                </td>
+             <% }else{ %>   
                 <td align="center" height="25" class="<%= classCSS %>" width="8%">
                   <a href="javaScript:requisicaoDados('codRequisicao=<%=requisicao[i][0]%>');" title="Visualizar RP">
                     <%=requisicao[i][0]%>
                   </a>
                 </td>
+             <% } %>  
+
+                
                 <td align="center" height="25" class="<%= classCSS %>" width="10%">
                   <a href="javaScript:requisicaoHistorico('codRequisicao=<%=requisicao[i][0]%>');" title="Visualizar histórico da RP">
                     <%=requisicao[i][1]%>
