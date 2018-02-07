@@ -59,13 +59,13 @@
                break;
                
       //-- Homologador Unidade Aprovadora
-      case 2:  perfil = "HOMOLOGADOR GEP - AP&B";
+      case 3:  perfil = "HOMOLOGADOR GEP - AP&B";
                idPerfilGEP = sistemaParametroControl.getSistemaParametros(" WHERE SP.COD_SISTEMA = "+Config.ID_SISTEMA+" AND SP.NOM_PARAMETRO = 'HOMOLOGADOR_GEP'");
                dadosHistoricoAtual = requisicaoControl.getDadosUsuarioAtualHistorico(Integer.parseInt(idPerfilGEP[0].getVlrSistemaParametro()));
                break;                              
                
       //-- Homologador Unidade Aprovadora
-      case 3:  perfil = "HOMOLOGADOR GEP - NEC";
+      case 2:  perfil = "HOMOLOGADOR GEP - NEC";
                dadosHistoricoAtual = requisicaoControl.getDadosUsuarioAtualHistorico(historico[0][8]);
                break;                    
 
