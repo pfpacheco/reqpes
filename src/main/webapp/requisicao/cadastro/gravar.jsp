@@ -160,8 +160,6 @@
 		  requisicaoPerfil.setListFuncao(null);			  
 	  }
       
-      
-      // erro aqui
       new RequisicaoJornadaControl().gravaRequisicaoJornada(requisicaoJornada);
       new RequisicaoPerfilControl().gravaRequisicaoPerfil(requisicaoPerfil);
       

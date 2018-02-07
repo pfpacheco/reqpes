@@ -47,7 +47,7 @@
    <input type="HIDDEN" name="indCargoRegime" id="indCargoRegime" value="<%=dadosJornada[0][2]%>">
 <%}else{
     //-- Enviando e-mail de crítica
-    RequisicaoMensagemControl.enviaMensagemCritica("getHorasJornadaTrabalho.jsp", "Nenhuma carga horária associada ao cargo selecionado! <br><b>Unidade:</b> "+codUnidade+"<br><b>Cargo:</b> "+codCargo, (Usuario) session.getAttribute("usuario"));
+   // RequisicaoMensagemControl.enviaMensagemCritica("getHorasJornadaTrabalho.jsp", "Nenhuma carga horária associada ao cargo selecionado! <br><b>Unidade:</b> "+codUnidade+"<br><b>Cargo:</b> "+codCargo, (Usuario) session.getAttribute("usuario"));
     %>
   <font color="Red">Nenhuma carga horária <br>associada ao cargo selecionado!</font>
 <%}%>

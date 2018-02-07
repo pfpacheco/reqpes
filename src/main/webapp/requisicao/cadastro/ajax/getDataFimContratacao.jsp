@@ -20,7 +20,7 @@
   &nbsp;<input class="input" size="7" maxlength="7" readonly name="datFimContratacao" value="<%=prazo.substring(3,10)%>" />
 <%}else{
     //-- Enviando e-mail de crítica
-    RequisicaoMensagemControl.enviaMensagemCritica("getDataFimContratacao.jsp", "Erro ao gerar o prazo final de contratação!! <br><b>Início contratação:</b> "+ inicioContratacao +"<br><b>Prazo contratação:</b> "+ prazoContratacao, (Usuario) session.getAttribute("usuario"));
+    // RequisicaoMensagemControl.enviaMensagemCritica("getDataFimContratacao.jsp", "Erro ao gerar o prazo final de contratação!! <br><b>Início contratação:</b> "+ inicioContratacao +"<br><b>Prazo contratação:</b> "+ prazoContratacao, (Usuario) session.getAttribute("usuario"));
     %>
   <font color="Red">&nbsp;Erro ao gerar o prazo final de contratação!</font>
 <%}%>

@@ -37,7 +37,7 @@
       <input class="input" size="81" name="nomUnidadeOrigem" value="<%=funcionario[0][3]%>" readonly/>
     <%}%>
 <%}else{
-    RequisicaoMensagemControl.enviaMensagemCritica("getDadosFuncionarioSubstituido.jsp", "Não foi encontrado nenhum colaborador com a chapa informada! <br><b>Chapa:</b> " + chapa, (Usuario) session.getAttribute("usuario"));
+    //RequisicaoMensagemControl.enviaMensagemCritica("getDadosFuncionarioSubstituido.jsp", "Não foi encontrado nenhum colaborador com a chapa informada! <br><b>Chapa:</b> " + chapa, (Usuario) session.getAttribute("usuario"));
   %>
   <font color="Red">Dados não encontrados!</font>
   <input type="HIDDEN" name="nomIndicado" value="0"/>

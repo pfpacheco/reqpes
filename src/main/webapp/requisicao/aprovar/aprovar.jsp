@@ -7,10 +7,11 @@
 <%@ page import="br.senac.sp.componente.model.SistemaParametro" %>
 <%@ page import="br.senac.sp.componente.control.SistemaParametroControl" %>
 <%@ page import="java.util.*"%>
+<%@ page import="br.senac.sp.reqpes.DAO.*" %>
+<%@ page import="br.senac.sp.reqpes.Control.*" %>
 
 <jsp:useBean id="requisicaoAprovacao" class="br.senac.sp.reqpes.model.RequisicaoAprovacao" />
 <jsp:setProperty name="requisicaoAprovacao" property="*" />
-
 <%      
     //-- Objetos de controle
     RequisicaoAprovacaoControl requisicaoAprovacaoControl = new RequisicaoAprovacaoControl();
@@ -55,8 +56,10 @@
               listEmail.add(listaEmails[i]);
             }          
   
-          //-- Resgatando e-mails dos usuarios cadastrados da GEP
-            listaEmails = usuarioAvisoEmailControl.getEmailsUsuariosAviso(requisicaoDados.getCodCargo());
+          //-- Resgatando e-mails dos usuarios cadastrados da AP&B
+          //  listaEmails = usuarioAvisoEmailControl.getEmailsUsuariosAviso(requisicaoDados.getCodCargo());
+            listaEmails = new RequisicaoAprovacaoControl().getEmailsHomologadoresGEP();
+            
             for(int i=0; i < listaEmails.length; i++){
               listEmail.add(listaEmails[i]);
             }            
@@ -80,22 +83,22 @@
             if(requisicaoAprovacaoControl.getNivelAprovacaoAtual(requisicaoDados.getCodRequisicao()) == 4){              
               RequisicaoMensagemControl.enviaMensagemHomologacaoGEP(usuario, requisicaoDados);
             }else{
-              //-- Enviando e-mail para envolvidos no workflow
-              listaEmails = requisicaoAprovacaoControl.getEmailsEnvolvidosWorkFlow(requisicaoDados);
-              
+            	
               //-- Aprovaçao intermediária (AP&B e NEC)
               if(usuario.getSistemaPerfil().getCodSistemaPerfil() == idPerfilGEP){
                 //-- Aprovaçao pela AP&B => notifica o NEC
-                RequisicaoMensagemControl.enviaMensagemHomologacaoAPeB(usuario, requisicaoDados, listaEmails);
+              listaEmails = requisicaoAprovacaoControl.getEmailsEnvolvidosWorkFlowNEC(requisicaoDados);  
+       		  RequisicaoMensagemControl.enviaMensagemHomologacaoNEC(usuario, requisicaoDados, listaEmails);
               }else{
                 //-- Aprovaçao pelo NEC => notifica a AP&B
-                RequisicaoMensagemControl.enviaMensagemHomologacaoNEC(usuario, requisicaoDados, listaEmails);
+              listaEmails = requisicaoAprovacaoControl.getEmailsEnvolvidosWorkFlowAPB(requisicaoDados); // ap&b
+              RequisicaoMensagemControl.enviaMensagemHomologacaoAPeB(usuario, requisicaoDados, listaEmails);
               }
             }
             
           }else{
             //-- Se foi o gerente de unidade que aprovou, notifica os homologadores da GEP
-            RequisicaoMensagemControl.enviaMensagemHomologacaoUO(usuario, requisicaoDados);
+            RequisicaoMensagemControl.enviaMensagemHomologacaoUO(usuario, requisicaoDados);            
           }            
         }
     }

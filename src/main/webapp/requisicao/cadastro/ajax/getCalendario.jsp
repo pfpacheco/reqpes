@@ -37,6 +37,6 @@
   <%}else{
       out.print("<font color=\"Red\">Nenhum calendário associado com o horário informado!</font>");
       out.print("<input type=\"hidden\" name=\"codCalendario\" id=\"codCalendario\" value=\"-1\">");    
-      RequisicaoMensagemControl.enviaMensagemCritica("getCalendario.jsp", "Nenhum calendário associado com o horário informado! <br><b>Escala:</b> " + codEscala + "<br><b>Unidade:</b> " + codUnidade, (Usuario) session.getAttribute("usuario"));
+    //  RequisicaoMensagemControl.enviaMensagemCritica("getCalendario.jsp", "Nenhum calendário associado com o horário informado! <br><b>Escala:</b> " + codEscala + "<br><b>Unidade:</b> " + codUnidade, (Usuario) session.getAttribute("usuario"));
     }
 %>

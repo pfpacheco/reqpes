@@ -193,7 +193,7 @@ public class RequisicaoAprovacaoDAO implements InterfaceDataBase {
 	/**
 	 * Retorna as requisições para aprovação pelo homologador da unidade (ou
 	 * unidades que o mesmo acessa)
-	 * 
+	 *
 	 * @return String[][]
 	 * @throws RequisicaoPessoalException
 	 */
@@ -213,7 +213,7 @@ public class RequisicaoAprovacaoDAO implements InterfaceDataBase {
 
 	/**
 	 * Retorna as requisições para aprovação pelo homologador da GEP (AP&B)
-	 * 
+	 *
 	 * @return String[][]
 	 * @throws RequisicaoPessoalException
 	 */
@@ -228,7 +228,7 @@ public class RequisicaoAprovacaoDAO implements InterfaceDataBase {
 
 	/**
 	 * Retorna as requisições para aprovação pelo homologador da GEP (NEC)
-	 * 
+	 *
 	 * @return String[][]
 	 * @throws RequisicaoPessoalException
 	 */
@@ -245,7 +245,7 @@ public class RequisicaoAprovacaoDAO implements InterfaceDataBase {
 
 	/**
 	 * Retorna as requisições para aprovação pelo aprovador geral
-	 * 
+	 *
 	 * @return String[][]
 	 * @throws RequisicaoPessoalException
 	 */
@@ -256,7 +256,7 @@ public class RequisicaoAprovacaoDAO implements InterfaceDataBase {
 
 	/**
 	 * Retorna todas as requisições em processo de WorkFlow
-	 * 
+	 *
 	 * @return String[][]
 	 * @throws RequisicaoPessoalException
 	 */
@@ -302,7 +302,7 @@ public class RequisicaoAprovacaoDAO implements InterfaceDataBase {
 	/**
 	 * Retorna o código da unidade do usuário no formato do RHEvolution. Ex:
 	 * 014C
-	 * 
+	 *
 	 * @return String[][]
 	 * @throws RequisicaoPessoalException
 	 */
@@ -329,7 +329,7 @@ public class RequisicaoAprovacaoDAO implements InterfaceDataBase {
 
 	/**
 	 * Retorna o código da unidade formato do RHEvolution. Ex: 014C
-	 * 
+	 *
 	 * @return String[][]
 	 * @throws RequisicaoPessoalException
 	 */
@@ -357,11 +357,11 @@ public class RequisicaoAprovacaoDAO implements InterfaceDataBase {
 
 	/**
 	 * Retorna os e-mails dos colaboradores envolvidos no processo de WorkFlow
-	 * 
+	 *
 	 * @return String[]
 	 * @throws RequisicaoPessoalException
 	 */
-	public String[] getEmailsEnvolvidosWorkFlow(Requisicao requisicao)
+	public String[] getEmailsEnvolvidosWorkFlowNEC(Requisicao requisicao)
 			throws RequisicaoPessoalException, AdmTIException {
 
 		ResponsavelEstruturaDAO responsavelEstruturaDAO = new ResponsavelEstruturaDAO();
@@ -420,9 +420,141 @@ public class RequisicaoAprovacaoDAO implements InterfaceDataBase {
 		return retorno;
 	}
 
+	public String[] getEmailsEnvolvidosWorkFlow(Requisicao requisicao)
+			throws RequisicaoPessoalException, AdmTIException {
+
+		ResponsavelEstruturaDAO responsavelEstruturaDAO = new ResponsavelEstruturaDAO();
+		StringBuffer sql = new StringBuffer();
+		String[] retorno = null;
+
+		// -- Consulta: Retorna lista de e-mails de todos os envolvidos no
+		// processo de homologação da RP
+		// -- exceto o e-mail do aprovador final da lista de envolvidos no
+		// workflow
+		sql.append(" SELECT UNIQUE FC.E_MAIL ");
+		sql.append(" FROM   reqpes.HISTORICO_REQUISICAO    HR ");
+		sql.append("       ,FUNCIONARIO_COMPLEMENTO FC ");
+		sql.append("       ,reqpes.USUARIO                 U ");
+		sql.append(" WHERE  U.USUARIO_SQ     = HR.USUARIO_SQ ");
+		sql.append(" AND    U.IDENTIFICACAO  = FC.ID_FUNCIONARIO ");
+		sql.append(" AND    HR.REQUISICAO_SQ = " + requisicao.getCodRequisicao());
+		sql.append(" AND    HR.NIVEL         <> 5 ");
+		sql.append(" AND    U.FL_ATIVO       = 'S' ");
+
+		try {
+			retorno = manipulaDAO.getLista(sql.toString(), DATA_BASE_NAME);
+		} catch (Exception e) {
+			throw new RequisicaoPessoalException(
+					"RequisicaoAprovacaoDAO  \n -> Problemas na consulta de getUnidadeRHEvolutionByCodUnidade: \n\n"
+							+ sql.toString(),
+					e.getMessage());
+		}
+		return retorno;
+	}
+
+	public String[] getEmailsEnvolvidosWorkFlowAPB(Requisicao requisicao)
+			throws RequisicaoPessoalException, AdmTIException {
+
+		ResponsavelEstruturaDAO responsavelEstruturaDAO = new ResponsavelEstruturaDAO();
+		StringBuffer sql = new StringBuffer();
+		String[] retornoFun = null;
+		String[] retornoAPB = null;
+		String[] retorno = null;
+		String conteudo = "";
+
+		retornoAPB = getEmailsHomologadoresGEP();
+		// -- Consulta: Retorna lista de e-mails de todos os envolvidos no
+		// processo de homologação da RP
+		// -- exceto o e-mail do aprovador final da lista de envolvidos no
+		// workflow
+		sql.append(" SELECT UNIQUE FC.E_MAIL ");
+		sql.append(" FROM   reqpes.HISTORICO_REQUISICAO    HR ");
+		sql.append("       ,FUNCIONARIO_COMPLEMENTO FC ");
+		sql.append("       ,reqpes.USUARIO                 U ");
+		sql.append(" WHERE  U.USUARIO_SQ     = HR.USUARIO_SQ ");
+		sql.append(" AND    U.IDENTIFICACAO  = FC.ID_FUNCIONARIO ");
+		sql.append(" AND    HR.REQUISICAO_SQ = " + requisicao.getCodRequisicao());
+		sql.append(" AND    HR.NIVEL         <> 5 ");
+		sql.append(" AND    U.FL_ATIVO       = 'S' ");
+		try {
+			retornoFun = manipulaDAO.getLista(sql.toString(), DATA_BASE_NAME);
+		} catch (Exception e) {
+			throw new RequisicaoPessoalException(
+					"RequisicaoAprovacaoDAO  \n -> Problemas na consulta de getUnidadeRHEvolutionByCodUnidade: \n\n"
+							+ sql.toString(),
+					e.getMessage());
+		}
+
+		for (int i = 0; i < retornoAPB.length; i++) {
+			conteudo = conteudo + retornoAPB[i] + ";";
+		}
+
+		for (int i = 0; i < retornoFun.length; i++) {
+			if (conteudo.indexOf(retornoAPB[i]) >= 0) {
+				conteudo = conteudo + retornoAPB[i] + ";";
+			}
+		}
+
+		retorno = conteudo.split(";");
+
+		/*
+		 * // -- Carregando lista de usuários do AP&B
+		 * sql.append(" SELECT FC.E_MAIL ");
+		 * sql.append(" FROM   adm_ti.SISTEMA_PARAMETRO       S ");
+		 * sql.append("       ,geral.FUNCIONARIO_COMPLEMENTO FC ");
+		 * sql.append("       ,geral.FUNCIONARIOS            F ");
+		 * sql.append(" WHERE  S.COD_SISTEMA = " + Config.ID_SISTEMA);
+		 * sql.append(" AND    S.NOM_PARAMETRO = 'HOMOLOGADOR_GEP' ");
+		 * sql.append(" AND    F.ATIVO = 'A' ");
+		 * sql.append(" AND    F.ID = FC.ID_FUNCIONARIO ");
+		 * sql.append(" AND    FC.ID_FUNCIONARIO = S.VLR_SISTEMA_PARAMETRO ");
+		 * sql.append(" AND    FC.E_MAIL IS NOT NULL ");
+		 *
+		 * try { retorno = manipulaDAO.getLista(sql.toString(), DATA_BASE_NAME);
+		 * retorno = manipulaDAO.getLista(sql.toString(),
+		 * DATA_BASE_NAME_INFOGES); } catch (Exception e) { throw new
+		 * RequisicaoPessoalException(
+		 * "RequisicaoAprovacaoDAO  \n -> Problemas na consulta de getUnidadeRHEvolutionByCodUnidade: \n\n"
+		 * + sql.toString(), e.getMessage()); }
+		 */
+
+		return retorno;
+	}
+
+	public String[] getEmailsWorkFlow(Requisicao requisicao) throws RequisicaoPessoalException, AdmTIException {
+
+		ResponsavelEstruturaDAO responsavelEstruturaDAO = new ResponsavelEstruturaDAO();
+		StringBuffer sql = new StringBuffer();
+		String[] retorno = null;
+
+		// -- Consulta: Retorna lista de e-mails de todos os envolvidos no
+		// processo de homologação da RP
+		// -- exceto o e-mail do aprovador final da lista de envolvidos no
+		// workflow
+		sql.append(" SELECT UNIQUE FC.E_MAIL ");
+		sql.append(" FROM   reqpes.HISTORICO_REQUISICAO    HR ");
+		sql.append("       ,FUNCIONARIO_COMPLEMENTO FC ");
+		sql.append("       ,reqpes.USUARIO                 U ");
+		sql.append(" WHERE  U.USUARIO_SQ     = HR.USUARIO_SQ ");
+		sql.append(" AND    U.IDENTIFICACAO  = FC.ID_FUNCIONARIO ");
+		sql.append(" AND    HR.REQUISICAO_SQ = " + requisicao.getCodRequisicao());
+		sql.append(" AND    HR.NIVEL         <> 5 ");
+		sql.append(" AND    U.FL_ATIVO       = 'S' ");
+
+		try {
+			retorno = manipulaDAO.getLista(sql.toString(), DATA_BASE_NAME);
+		} catch (Exception e) {
+			throw new RequisicaoPessoalException(
+					"RequisicaoAprovacaoDAO  \n -> Problemas na consulta de getUnidadeRHEvolutionByCodUnidade: \n\n"
+							+ sql.toString(),
+					e.getMessage());
+		}
+		return retorno;
+	}
+
 	/**
 	 * Retorna os e-mails dos homologadores da Unidade aprovadora (GEP)
-	 * 
+	 *
 	 * @return String[]
 	 * @throws RequisicaoPessoalException
 	 */
@@ -453,8 +585,41 @@ public class RequisicaoAprovacaoDAO implements InterfaceDataBase {
 	}
 
 	/**
+	 * Retorna os e-mails dos homologadores da Unidade aprovadora (GEP)
+	 *
+	 * @return String[]
+	 * @throws RequisicaoPessoalException
+	 */
+	public String[] getEmailsHomologadoresNEC(Requisicao requisicao) throws RequisicaoPessoalException {
+		StringBuffer sql = new StringBuffer();
+		String[] retorno = null;
+
+		sql.append(" SELECT DISTINCT EMAIL FROM (");
+		sql.append(" SELECT EMAIL FROM USUARIO WHERE USUARIO_SQ  IN (");
+		sql.append(" SELECT USUARIO_SQ FROM HISTORICO_REQUISICAO WHERE REQUISICAO_SQ=" + requisicao.getCodRequisicao()
+				+ ")");
+		sql.append(" UNION");
+		sql.append(" SELECT E_MAIL FROM FUNCIONARIO_COMPLEMENTO");
+		sql.append(" WHERE ID_FUNCIONARIO IN");
+		sql.append(" (SELECT CHAPA FROM reqpes.GRUPO_NEC_USUARIOS WHERE COD_GRUPO=(");
+		sql.append(" SELECT COD_GRUPO FROM reqpes.GRUPO_NEC_UNIDADES WHERE COD_UNIDADE='" + requisicao.getCodUnidade()
+				+ "')))");
+
+		try {
+
+			retorno = manipulaDAO.getLista(sql.toString(), DATA_BASE_NAME);
+		} catch (Exception e) {
+			throw new RequisicaoPessoalException(
+					"RequisicaoAprovacaoDAO  \n -> Problemas na consulta de getEmailsHomologadoresNEC: \n\n"
+							+ sql.toString(),
+					e.getMessage());
+		}
+		return retorno;
+	}
+
+	/**
 	 * Retorna o e-mail do funcionário informado
-	 * 
+	 *
 	 * @return String[]
 	 * @throws RequisicaoPessoalException
 	 */
@@ -478,7 +643,7 @@ public class RequisicaoAprovacaoDAO implements InterfaceDataBase {
 
 	/**
 	 * Retorna o e-mail do responsável pela unidade informada
-	 * 
+	 *
 	 * @return String[]
 	 * @throws RequisicaoPessoalException
 	 */
@@ -508,7 +673,7 @@ public class RequisicaoAprovacaoDAO implements InterfaceDataBase {
 
 	/**
 	 * Retorna o nível atual no workflow de aprovação da RP
-	 * 
+	 *
 	 * @return int 0 - ERRO 1 - Gerente Unidade 2 - AP&B 3 - NEC 4 - Aprovador
 	 *         Final
 	 * @throws RequisicaoPessoalException

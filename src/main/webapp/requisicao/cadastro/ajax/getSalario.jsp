@@ -45,7 +45,7 @@
    &nbsp;&nbsp;<strong>Carga horária semanal:</strong>
 <%}else{
     //-- Enviando e-mail de crítica
-    RequisicaoMensagemControl.enviaMensagemCritica("getSalario.jsp", "Nenhum salário associado a esta cota! <br><b>Unidade:</b> "+codUnidade+"<br><b>Cargo:</b> "+codCargo+"<br><b>Cota:</b> "+cota, (Usuario) session.getAttribute("usuario"));
+   // RequisicaoMensagemControl.enviaMensagemCritica("getSalario.jsp", "Nenhum salário associado a esta cota! <br><b>Unidade:</b> "+codUnidade+"<br><b>Cargo:</b> "+codCargo+"<br><b>Cota:</b> "+cota, (Usuario) session.getAttribute("usuario"));
     %>    
   <font color="Red">Nenhum salário<br>associado a esta cota!</font>  
 <%}%>

@@ -1,6 +1,7 @@
 package br.senac.sp.reqpes.util;
 
 import java.util.Properties;
+import java.util.PropertyResourceBundle;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -9,6 +10,10 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import br.senac.sp.componente.Exception.AdmTIException;
+import br.senac.sp.componente.control.SistemaParametroControl;
+import br.senac.sp.reqpes.Interface.Config;
 
 /**
  * Classe criada por Paulo Evaristo Rosa Dias Data.: 22/06/2005 Objetivo classe
@@ -65,14 +70,28 @@ public class Email {
 	}
 
 	private void enviarEmail(String tipo) throws AddressException, MessagingException {
-
 		Properties mailProps = new Properties();
+		SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
 		// definição do mailserver
 		mailProps.put("mail.smtp.host", getSTMPServer());
-
 		Session mailSession = Session.getDefaultInstance(mailProps, null);
-
 		Message message = new MimeMessage(mailSession);
+
+		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
+		if (ambiente.equals("desenvolvimento")) {
+			try {
+				String para_desenvolvimento = sistemaParametroControl
+						.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA, "EMAILS_DESENVOLVIMENTO").toString();
+				this.setAssunto(this.getAssunto() + ("\n\n email enviado para:" + this.getPara()).toString());
+				this.setPara(para_desenvolvimento);
+				this.setCopiaOculta("");
+				this.setCopiaPara("");
+				// para = para_desenvolvimento;
+			} catch (AdmTIException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 		InternetAddress remetente = new InternetAddress(getRemetente());
 		InternetAddress destinatario = new InternetAddress(getPara());
@@ -100,7 +119,6 @@ public class Email {
 
 		message.setSubject(getAssunto());
 		message.setContent(corpoEmail, this.tipoTexto);
-
 		Transport.send(message);
 	}
 

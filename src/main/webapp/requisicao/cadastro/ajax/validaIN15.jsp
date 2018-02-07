@@ -20,10 +20,10 @@
       isValidaIN15 = instrucaoControl.validaIN15(codUnidade, codCargo, cotaCargo, codTabSalarial, segmento4);
       //-- Caso ocorra problema na consulta, gera crítica.
       if(!isValidaIN15){
-        RequisicaoMensagemControl.enviaMensagemCritica("validaIN15.jsp", "Não foi encontrada nenhuma cota associada nas tabelas salariais! <br><b>Cargo:</b> " + codCargo + "<br><b>Cota:</b> " + cotaCargo + "<br><b>Unidade:</b> " + codUnidade + "<br><b>Segmento4:</b> " + segmento4 + "<br><b>TabelaSalarial:</b> " + codTabSalarial, (Usuario) session.getAttribute("usuario"));
+       // RequisicaoMensagemControl.enviaMensagemCritica("validaIN15.jsp", "Não foi encontrada nenhuma cota associada nas tabelas salariais! <br><b>Cargo:</b> " + codCargo + "<br><b>Cota:</b> " + cotaCargo + "<br><b>Unidade:</b> " + codUnidade + "<br><b>Segmento4:</b> " + segmento4 + "<br><b>TabelaSalarial:</b> " + codTabSalarial, (Usuario) session.getAttribute("usuario"));
       }                
     }else{
-        RequisicaoMensagemControl.enviaMensagemCritica("validaIN15.jsp", "Erro parâmetros! <br><b>Cargo:</b> " + codCargo + "<br><b>Cota:</b> " + cotaCargo + "<br><b>Unidade:</b> " + codUnidade + "<br><b>Segmento4:</b> " + segmento4 + "<br><b>TabelaSalarial:</b> " + codTabSalarial, (Usuario) session.getAttribute("usuario"));
+       // RequisicaoMensagemControl.enviaMensagemCritica("validaIN15.jsp", "Erro parâmetros! <br><b>Cargo:</b> " + codCargo + "<br><b>Cota:</b> " + cotaCargo + "<br><b>Unidade:</b> " + codUnidade + "<br><b>Segmento4:</b> " + segmento4 + "<br><b>TabelaSalarial:</b> " + codTabSalarial, (Usuario) session.getAttribute("usuario"));
     }
     
     //-- Retorna o resultado da validação

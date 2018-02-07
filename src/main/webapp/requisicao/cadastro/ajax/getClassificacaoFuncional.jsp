@@ -20,7 +20,7 @@
     <textarea readonly cols="73" rows="4" name="dscClassificacaoFuncional"><%=dadosClassificacao[0][2].trim()%></textarea>
 <%}else{
     //-- Enviando e-mail de crítica
-    RequisicaoMensagemControl.enviaMensagemCritica("getClassificacaoFuncional.jsp", "Descrição da Classificação Funcional não encontrada! <br><b>ClassificacaoFuncional:</b> "+codClassificacaoFuncional, usuario);
+    //RequisicaoMensagemControl.enviaMensagemCritica("getClassificacaoFuncional.jsp", "Descrição da Classificação Funcional não encontrada! <br><b>ClassificacaoFuncional:</b> "+codClassificacaoFuncional, usuario);
     %>
     <font color="Red">Dados não encontrados!</font>
 <%}%>

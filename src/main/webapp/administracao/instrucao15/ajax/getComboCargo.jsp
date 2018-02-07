@@ -25,7 +25,7 @@
     </select>
 <%}else{
     //-- Enviando e-mail de crítica
-    RequisicaoMensagemControl.enviaMensagemCritica("getComboCargo.jsp", "Na Tabela Salarial selecionada não existem cargos associados! <br>Tabela Salarial: " + codTabelaSalarial, (Usuario) session.getAttribute("usuario"));
+    //RequisicaoMensagemControl.enviaMensagemCritica("getComboCargo.jsp", "Na Tabela Salarial selecionada não existem cargos associados! <br>Tabela Salarial: " + codTabelaSalarial, (Usuario) session.getAttribute("usuario"));
   %>
   <font color="Red">Na Tabela Salarial selecionada não existem cargos associados!</font>
   <input type="hidden" name="codCargo" id="codCargo" value="-1">

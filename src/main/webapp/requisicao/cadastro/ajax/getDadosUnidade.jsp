@@ -43,7 +43,7 @@
 <%if(dadosResponsavel == null && nomDiv.equals("divDadosAdicionaisUnidade")){%>
     <% 
       //-- Enviando e-mail de crítica
-      RequisicaoMensagemControl.enviaMensagemCritica("getDadosUnidade.jsp", "Nenhuma informação encontrada referente a unidade selecionada! <br>Unidade: " + codUnidade, usuario);
+     // RequisicaoMensagemControl.enviaMensagemCritica("getDadosUnidade.jsp", "Nenhuma informação encontrada referente a unidade selecionada! <br>Unidade: " + codUnidade, usuario);
     %>
     <p align="center">
       <font color="Red">

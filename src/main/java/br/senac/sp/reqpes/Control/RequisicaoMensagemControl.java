@@ -3,6 +3,7 @@ package br.senac.sp.reqpes.Control;
 //-- Classes do java
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PropertyResourceBundle;
 
 import org.apache.log4j.Logger;
 
@@ -96,7 +97,12 @@ public class RequisicaoMensagemControl {
 
 		// Adicionando os emails dos homologadores da unidade aprovadora na
 		// lista de envio (HOMOLOGADORES - GEP)
-		homologGep = new RequisicaoAprovacaoControl().getEmailsHomologadoresGEP();
+
+		// homologGep = new
+		// RequisicaoAprovacaoControl().getEmailsHomologadoresGEP();
+
+		homologGep = new RequisicaoAprovacaoControl().getEmailsHomologadoresNEC(requisicao);
+
 		for (int i = 0; i < homologGep.length; i++) {
 			listEmail.add(homologGep[i]);
 		}
@@ -407,59 +413,35 @@ public class RequisicaoMensagemControl {
 	 * @throws RequisicaoPessoalException,
 	 *             AdmTIException
 	 */
-	public static void enviaMensagem(Requisicao requisicao, String mensagem, String[] emailPara, String assunto)
-			throws RequisicaoPessoalException, AdmTIException {
-
-		SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
-		Email email = new Email();
-
-		SistemaParametro smtp = null;
-		SistemaParametro emailRemetente = null;
-		String[] para = emailPara;
-
-		try {
-			smtp = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA, "SMTP");
-			emailRemetente = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,
-					"EMAIL_REMETENTE");
-		} catch (Exception e) {
-			throw new AdmTIException("Requisição de Pessoal: Erro ao enviar e-mail:", e.getMessage());
-		}
-
-		email.setSTMPServer(smtp.getVlrSistemaParametro());
-		email.setTipoTexto("text/html");
-		email.setAssunto(assunto);
-		email.setRemetente(emailRemetente.getVlrSistemaParametro());
-		email.setCorpoEmail(TemplateCorpoEmail.getCorpoEmail(requisicao, mensagem).toString());
-		email.setParaVarios(para);
-
-		try {
-			email.enviarEmailRemetentesSimples();
-		} catch (Exception e) {
-			LOG.error(e.getMessage());
-			System.out.println(e.getMessage());
-		}
-	}
 
 	public static void enviaMensagem(Usuario usuario, Requisicao requisicao, String mensagem, String[] emailPara,
 			String assunto) throws RequisicaoPessoalException, AdmTIException {
 
 		SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
 		Email email = new Email();
-
 		SistemaParametro smtp = null;
-
-		// voltar essas linhas
-		// String[] para = emailPara;
+		String[] para = emailPara;
+		// String[] para_desenvolvimento;
 		String emailRemetente = usuario.getEmail();
-		// String[] para = { "sanches_i7system@hotmail.com",
-		// "davidson.gsouza@sp.senac.br","daniela.ccano@sp.senac.br" };
-		String[] para = { "sanches_i7system@hotmail.com" };
-		// String emailRemetente = "sanches_i7system@hotmail.com";
-
+		String emails_desenvolvimento = "";
 		try {
 			smtp = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA, "SMTP");
+			// emails_desenvolvimento = sistemaParametroControl
+			// .getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,
+			// "EMAILS_DESENVOLVIMENTO")
+			// .getVlrSistemaParametro();
+
 		} catch (Exception e) {
 			throw new AdmTIException("Requisição de Pessoal: Erro ao enviar e-mail:", e.getMessage());
+		}
+
+		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
+		if (ambiente.equals("desenvolvimento")) {
+			for (int i = 0; i < para.length; i++) {
+				assunto = assunto + " / email:" + para[i];
+			}
+			String para_desenv[] = { "sanches_i7system@hotmail.com" };
+			para = para_desenv;
 		}
 
 		email.setSTMPServer(smtp.getVlrSistemaParametro());
@@ -486,12 +468,8 @@ public class RequisicaoMensagemControl {
 		SistemaParametro smtp = null;
 
 		// voltar essas linhas
-		// String[] para = emailPara;
+		String[] para = emailPara;
 		String emailRemetente = usuario.getEmail();
-		// String[] para = { "sanches_i7system@hotmail.com",
-		// "davidson.gsouza@sp.senac.br","daniela.ccano@sp.senac.br" };
-		String[] para = { "sanches_i7system@hotmail.com" };
-		// String emailRemetente = "sanches_i7system@hotmail.com";
 
 		try {
 			smtp = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA, "SMTP");
@@ -501,12 +479,20 @@ public class RequisicaoMensagemControl {
 
 		email.setSTMPServer(smtp.getVlrSistemaParametro());
 		email.setTipoTexto("text/html");
-		email.setAssunto(assunto);
 		email.setRemetente(emailRemetente);
-
 		email.setCorpoEmail(mensagem);
 
+		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
+		if (ambiente.equals("desenvolvimento")) {
+			for (int i = 0; i < para.length; i++) {
+				assunto = assunto + " / email:" + para[i];
+			}
+			String para_desenv[] = { "sanches_i7system@hotmail.com" };
+			para = para_desenv;
+		}
+
 		email.setParaVarios(para);
+		email.setAssunto(assunto);
 
 		try {
 			email.enviarEmailRemetentesSimples();
@@ -516,45 +502,41 @@ public class RequisicaoMensagemControl {
 		}
 	}
 
-	public static void enviaMensagemCritica(String pagina, String mensagem, Usuario usuario) throws AdmTIException {
-
-		SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
-		StringBuffer corpo = new StringBuffer();
-		Email email = new Email();
-
-		SistemaParametro smtp = null;
-		SistemaParametro emailRemetente = null;
-		String[] para = { "marcus.soliveira@sp.senac.br" };
-
-		try {
-			smtp = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA, "SMTP");
-			emailRemetente = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,
-					"EMAIL_REMETENTE");
-		} catch (Exception e) {
-			throw new AdmTIException("Requisição de Pessoal: Erro ao enviar e-mail:", e.getMessage());
-		}
-
-		corpo.append("<b>Página :</b> " + pagina + "<BR><BR>");
-		corpo.append("<b>Crítica:</b> " + mensagem + "<BR><BR>");
-
-		if (usuario != null) {
-			corpo.append("<b>Usuário:</b> " + usuario.getNome() + "<BR>");
-			corpo.append("<b>Chapa  :</b> " + usuario.getChapa() + "<BR>");
-			corpo.append("<b>Perfil :</b> " + usuario.getSistemaPerfil().getNomSistemaPerfil() + "<BR>");
-			corpo.append("<b>Unidade:</b> " + usuario.getUnidade().getSigla());
-		}
-
-		email.setSTMPServer(smtp.getVlrSistemaParametro());
-		email.setTipoTexto("text/html");
-		email.setAssunto("Crítica: Requisição de Pessoal");
-		email.setRemetente(emailRemetente.getVlrSistemaParametro());
-		email.setCorpoEmail(corpo.toString());
-		email.setParaVarios(para);
-
-		try {
-			email.enviarEmailRemetentesSimples();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
+	/*
+	 * public static void enviaMensagemCritica(String pagina, String mensagem,
+	 * Usuario usuario) throws AdmTIException {
+	 *
+	 * SistemaParametroControl sistemaParametroControl = new
+	 * SistemaParametroControl(); StringBuffer corpo = new StringBuffer(); Email
+	 * email = new Email();
+	 *
+	 * SistemaParametro smtp = null; SistemaParametro emailRemetente = null;
+	 * String[] para = { "marcus.soliveira@sp.senac.br" };
+	 *
+	 * try { smtp =
+	 * sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.
+	 * ID_SISTEMA, "SMTP"); emailRemetente =
+	 * sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.
+	 * ID_SISTEMA, "EMAIL_REMETENTE"); } catch (Exception e) { throw new
+	 * AdmTIException("Requisição de Pessoal: Erro ao enviar e-mail:",
+	 * e.getMessage()); }
+	 *
+	 * corpo.append("<b>Página :</b> " + pagina + "<BR><BR>");
+	 * corpo.append("<b>Crítica:</b> " + mensagem + "<BR><BR>");
+	 *
+	 * if (usuario != null) { corpo.append("<b>Usuário:</b> " +
+	 * usuario.getNome() + "<BR>"); corpo.append("<b>Chapa  :</b> " +
+	 * usuario.getChapa() + "<BR>"); corpo.append("<b>Perfil :</b> " +
+	 * usuario.getSistemaPerfil().getNomSistemaPerfil() + "<BR>");
+	 * corpo.append("<b>Unidade:</b> " + usuario.getUnidade().getSigla()); }
+	 *
+	 * email.setSTMPServer(smtp.getVlrSistemaParametro());
+	 * email.setTipoTexto("text/html");
+	 * email.setAssunto("Crítica: Requisição de Pessoal");
+	 * email.setRemetente(emailRemetente.getVlrSistemaParametro());
+	 * email.setCorpoEmail(corpo.toString()); email.setParaVarios(para);
+	 *
+	 * try { email.enviarEmailRemetentesSimples(); } catch (Exception e) {
+	 * System.out.println(e.getMessage()); } }
+	 */
 }

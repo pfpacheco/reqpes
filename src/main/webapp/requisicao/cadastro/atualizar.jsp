@@ -181,10 +181,10 @@
 			  //-- Enviando e-mail para envolvidos no workflow
 			  listaEmails = requisicaoAprovacaoControl.getEmailsEnvolvidosWorkFlow(requisicao);
 			  
-			  //-- envia email de alteração 
-			    if(requisicao.getTipoedicao()==1 || requisicao.getTipoedicao()==2){
-			    	RequisicaoMensagemControl.enviaMensagemAlteracao(usuario, requisicao, listaEmails);			    	
-			    }
+			    //-- envia email de alteração 
+			    //if(requisicao.getTipoedicao()==1 || requisicao.getTipoedicao()==2){
+			    //	RequisicaoMensagemControl.enviaMensagemAlteracao(usuario, requisicao, listaEmails);		
+			    //}
 			  
 			  if(isPerfilGEP || isPerfilNEC){
 				//-- Realiza a notificação apenas quando a RP foi encaminhada para o aprovador final
@@ -211,7 +211,7 @@
 			}
 	  }else{
 	     retorno = -2;
-		 RequisicaoMensagemControl.enviaMensagemCritica("atualizar.jsp", "Tentativa de violação dos dados cadastrais da requisição! <br><b>RP:</b> " + requisicao.getCodRequisicao(), (Usuario) session.getAttribute("usuario"));
+		 //RequisicaoMensagemControl.enviaMensagemCritica("atualizar.jsp", "Tentativa de violação dos dados cadastrais da requisição! <br><b>RP:</b> " + requisicao.getCodRequisicao(), (Usuario) session.getAttribute("usuario"));
 	  }
 %>
 

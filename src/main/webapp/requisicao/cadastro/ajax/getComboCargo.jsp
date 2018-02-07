@@ -20,7 +20,7 @@
     </select>
 <%}else{
     //-- Enviando e-mail de crítica
-    RequisicaoMensagemControl.enviaMensagemCritica("getComboCargo.jsp", "Na unidade selecionada não existem cargos associados! <br><b>Unidade:</b> " + codUnidade, (Usuario) session.getAttribute("usuario"));
+ //   RequisicaoMensagemControl.enviaMensagemCritica("getComboCargo.jsp", "Na unidade selecionada não existem cargos associados! <br><b>Unidade:</b> " + codUnidade, (Usuario) session.getAttribute("usuario"));
   %>
   <font color="Red">Na unidade selecionada não existem cargos associados!</font>
   <input type="hidden" name="codCargo" id="codCargo" value="0">
