@@ -45,8 +45,7 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 
 	/**
 	 * @return int
-	 * @param requisicaoPerfil,
-	 *            usuario
+	 * @param requisicaoPerfil,	 *            usuario
 	 * @Procedure PROCEDURE SP_DML_REQUISICAO_PERFIL(P_IN_DML IN NUMBER
 	 *            ,P_IN_REQUISICAO_SQ IN NUMBER ,P_IN_SQ_NIVEL IN NUMBER
 	 *            ,P_IN_SEXO IN VARCHAR2 ,P_IN_DS_FORMACAO IN VARCHAR2
@@ -115,6 +114,8 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 			} else {
 				stmt.setInt(21, 0);
 			}
+			
+		
 
 			// Gerando log com parâmetros recebidos
 			parametros.append("\n1," + tipoDML);

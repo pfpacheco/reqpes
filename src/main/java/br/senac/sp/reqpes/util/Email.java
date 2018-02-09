@@ -72,27 +72,25 @@ public class Email {
 	private void enviarEmail(String tipo) throws AddressException, MessagingException {
 		Properties mailProps = new Properties();
 		SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
-		// definição do mailserver
 		mailProps.put("mail.smtp.host", getSTMPServer());
 		Session mailSession = Session.getDefaultInstance(mailProps, null);
 		Message message = new MimeMessage(mailSession);
 
 		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
+		String titulo_email=getAssunto();
+		
 		if (ambiente.equals("desenvolvimento")) {
-			try {
-				String para_desenvolvimento = sistemaParametroControl
-						.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA, "EMAILS_DESENVOLVIMENTO").toString();
-				this.setAssunto(this.getAssunto() + ("\n\n email enviado para:" + this.getPara()).toString());
-				this.setPara(para_desenvolvimento);
-				this.setCopiaOculta("");
-				this.setCopiaPara("");
-				// para = para_desenvolvimento;
-			} catch (AdmTIException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			for (int i = 0; i < paraVarios.length; i++) {
+				titulo_email = titulo_email + " / email:" + paraVarios[i];
 			}
+			this.setPara("sanches_i7system@hotmail.com");
 		}
 
+		if (ambiente!=("producao")) {
+				titulo_email = "TESTE - "+titulo_email;
+		}
+		
+	
 		InternetAddress remetente = new InternetAddress(getRemetente());
 		InternetAddress destinatario = new InternetAddress(getPara());
 
@@ -125,7 +123,7 @@ public class Email {
 	private void enviarEmailRemetentes(String tipo) throws AddressException, MessagingException {
 
 		Properties mailProps = new Properties();
-		// definição do mailserver
+
 		mailProps.put("mail.smtp.host", getSTMPServer());
 
 		Session mailSession = Session.getDefaultInstance(mailProps, null);
@@ -135,6 +133,24 @@ public class Email {
 		InternetAddress remetente = new InternetAddress(getRemetente());
 		message.setFrom(remetente);
 
+
+		// SE FOR DEENVOLVIMENTO MANDA PARA O PROGRAMADOR
+		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
+		
+		String titulo_email=getAssunto();
+		
+		if (ambiente.equals("desenvolvimento")) {
+			for (int i = 0; i < paraVarios.length; i++) {
+				titulo_email = titulo_email + " / email:" + paraVarios[i];
+			}
+			String para_desenv[] = { "sanches_i7system@hotmail.com" };
+			paraVarios = para_desenv;
+		}
+
+		if (ambiente!=("producao")) {
+				titulo_email = "TESTE - "+titulo_email;
+		}
+		
 		InternetAddress[] destinatarios = new InternetAddress[paraVarios.length];
 		for (int idx = 0; idx < paraVarios.length; idx++) {
 			destinatarios[idx] = new InternetAddress(paraVarios[idx]);
@@ -170,7 +186,7 @@ public class Email {
 			}
 		}
 
-		message.setSubject(getAssunto());
+		message.setSubject(titulo_email);
 		message.setContent(corpoEmail, this.tipoTexto);
 
 		Transport.send(message);

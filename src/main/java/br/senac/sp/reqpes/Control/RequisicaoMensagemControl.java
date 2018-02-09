@@ -434,16 +434,6 @@ public class RequisicaoMensagemControl {
 		} catch (Exception e) {
 			throw new AdmTIException("Requisição de Pessoal: Erro ao enviar e-mail:", e.getMessage());
 		}
-
-		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
-		if (ambiente.equals("desenvolvimento")) {
-			for (int i = 0; i < para.length; i++) {
-				assunto = assunto + " / email:" + para[i];
-			}
-			String para_desenv[] = { "sanches_i7system@hotmail.com" };
-			para = para_desenv;
-		}
-
 		email.setSTMPServer(smtp.getVlrSistemaParametro());
 		email.setTipoTexto("text/html");
 		email.setAssunto(assunto);
@@ -466,8 +456,6 @@ public class RequisicaoMensagemControl {
 		Email email = new Email();
 
 		SistemaParametro smtp = null;
-
-		// voltar essas linhas
 		String[] para = emailPara;
 		String emailRemetente = usuario.getEmail();
 

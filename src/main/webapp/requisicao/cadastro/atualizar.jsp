@@ -2,12 +2,12 @@
 <%@ page errorPage="../../error/error.jsp" %>
 <%@ page import="br.senac.sp.reqpes.model.Requisicao" %>
 <%@ page import="br.senac.sp.reqpes.model.Horarios" %>
-<%@ page import="br.senac.sp.reqpes.Control.*" %>
 <%@ page import="br.senac.sp.reqpes.Interface.*" %>
 <%@ page import="br.senac.sp.componente.model.Usuario" %>
 <%@ page import="br.senac.sp.componente.util.ConverteDate" %>
 <%@ page import="br.senac.sp.componente.model.SistemaParametro" %>
 <%@ page import="br.senac.sp.componente.control.SistemaParametroControl" %>
+<%@ page import="br.senac.sp.reqpes.Control.*" %>
 
 <%--
 <jsp:useBean id="requisicao" class="br.senac.sp.reqpes.model.Requisicao" />
@@ -165,9 +165,11 @@
 		  }else{
 			  requisicaoPerfil.setListFuncao(null);			  
 		  }
+
+          int[] chapas = null;
 	      
 		  new RequisicaoJornadaControl().alteraRequisicaoJornada(requisicaoJornada);
-		  new RequisicaoPerfilControl().alteraRequisicaoPerfil(requisicaoPerfil);		 
+		  new RequisicaoPerfilControl().alteraRequisicaoPerfil(requisicaoPerfil,usuario.getChapa());	
 		  
 		  //-- alterando o status na revisão
 		  if(requisicao.getTipoedicao()==0){

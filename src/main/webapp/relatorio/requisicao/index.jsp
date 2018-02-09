@@ -262,7 +262,7 @@
  }    
   //--
   function requisicaoDados(parametro){
-    popUP('<%=request.getContextPath()%>/relatorio/index.jsp?'+parametro,'link','toolbar=no,width=760,height=600,scrollbars=yes');
+    popUP('<%=request.getContextPath()%>/relatorio/index.jsp?consulta=S&'+parametro,'link','toolbar=no,width=760,height=600,scrollbars=yes');
   }
   //--
   function requisicaoHistorico(parametro){
