@@ -14,7 +14,6 @@
 <%@ page import="br.senac.sp.componente.util.ConverteDate" %>
 
 <jsp:include page="../../template/cabecalho.jsp"/>
-
 <%
   //-- Objetos control
   RequisicaoControl        requisicaoControl        = new RequisicaoControl();
@@ -126,8 +125,8 @@
 <br>
 <script language="JavaScript" src="../../js/formulario.js" type="text/javascript"></script> 
 <script language="JavaScript" src="../../js/mascara.js"    type="text/javascript"></script>
-<script language="JavaScript" src="../../js/ajaxItens.js" charset="utf-8"  type="text/javascript"></script>
-<script language="JavaScript" src="../../js/regrasRequisicao.js" type="text/javascript" charset="utf-8"></script>
+<script language="JavaScript" src="../../js/ajaxItens.js"  type="text/javascript"></script>
+<script language="JavaScript" src="../../js/regrasRequisicao.js" type="text/javascript"></script>
 
 <script language="javaScript">
   //------------------------------------------------------------------------------
@@ -216,7 +215,7 @@
 </script>
 
 <center>
-<form name="frmRequisicao" action="<%=acaoForm%>" method="POST" accept-charset="utf-8" >
+<form name="frmRequisicao" action="<%=acaoForm%>" method="POST">
   <input type="HIDDEN" name="codRequisicao"     value="<%=requisicao.getCodRequisicao()%>">
   <input type="HIDDEN" name="indStatus"         value="<%=requisicao.getIndStatus()%>">
   <input type="HIDDEN" name="nivelWorkflow"     value="<%=requisicao.getNivelWorkflow()%>">

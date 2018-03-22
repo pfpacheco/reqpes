@@ -426,11 +426,6 @@ public class RequisicaoMensagemControl {
 		String emails_desenvolvimento = "";
 		try {
 			smtp = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA, "SMTP");
-			// emails_desenvolvimento = sistemaParametroControl
-			// .getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,
-			// "EMAILS_DESENVOLVIMENTO")
-			// .getVlrSistemaParametro();
-
 		} catch (Exception e) {
 			throw new AdmTIException("Requisição de Pessoal: Erro ao enviar e-mail:", e.getMessage());
 		}
@@ -475,7 +470,7 @@ public class RequisicaoMensagemControl {
 			for (int i = 0; i < para.length; i++) {
 				assunto = assunto + " / email:" + para[i];
 			}
-			String para_desenv[] = { "sanches_i7system@hotmail.com" };
+			String para_desenv[] = { "consultor.solucoes@sp.senac.br" };
 			para = para_desenv;
 		}
 

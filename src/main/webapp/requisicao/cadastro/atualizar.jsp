@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%  session.setAttribute("root","../../"); %>
 <%@ page errorPage="../../error/error.jsp" %>
 <%@ page import="br.senac.sp.reqpes.model.Requisicao" %>
@@ -29,7 +30,7 @@
     RequisicaoAprovacaoControl requisicaoAprovacaoControl = new RequisicaoAprovacaoControl();
     SistemaParametroControl    sistemaParametroControl    = new SistemaParametroControl(); 
     
-    //-- Par‚metros de p·gina
+    //-- Par√¢metros de p√°gina
     int codRequisicao = (request.getParameter("codRequisicao")==null)?0:Integer.parseInt(request.getParameter("codRequisicao"));
     int chapaGerente  = (request.getParameter("chapaGerente")==null)?0:Integer.parseInt(request.getParameter("chapaGerente"));
     String indTipoHorarioSel = (request.getParameter("indTipoHorarioSel")==null)?"E":request.getParameter("indTipoHorarioSel");
@@ -80,32 +81,32 @@
     	requisicao.setIndStatus(3);
     }
   
-    //-- Objetos da p·gina
+    //-- Objetos da p√°gina
     String[] listaEmails = null;
     boolean isPerfilHOM = false;
     boolean isPerfilGEP = false;
     boolean isPerfilNEC = false;
     int retorno = 0;
     
-    //-- Objetos de sess„o
+    //-- Objetos de sess√£o
     Usuario usuario = (Usuario) session.getAttribute("usuario");
     
-    //-- Carregando configuraÁ„es
+    //-- Carregando configura√ß√£es
     int idPerfilHOM = Integer.parseInt((sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,"ID_PERFIL_HOM_UO").getVlrSistemaParametro()));
     int idPerfilGEP = Integer.parseInt((sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,"ID_PERFIL_HOM_GEP").getVlrSistemaParametro()));
     int idPerfilNEC = Integer.parseInt((sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,"ID_PERFIL_HOM_NEC").getVlrSistemaParametro()));
     String indEnviarEmails = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,"IND_ENVIAR_EMAILS").getVlrSistemaParametro();    
     
     if(usuario.getSistemaPerfil().getCodSistemaPerfil() == idPerfilHOM){
-      // Resgata o indicador de envio de e-mails caso o usu·rio seja HOMOLOGADOR UO (GERENTE)
+      // Resgata o indicador de envio de e-mails caso o usu√°rio seja HOMOLOGADOR UO (GERENTE)
       isPerfilHOM = true;
     }else
         if(usuario.getSistemaPerfil().getCodSistemaPerfil() == idPerfilGEP){
-          // Resgata o indicador de envio de e-mails caso o usu·rio seja HOMOLOGADOR AP&B
+          // Resgata o indicador de envio de e-mails caso o usu√°rio seja HOMOLOGADOR AP&B
           isPerfilGEP = true;
         }else    
             if(usuario.getSistemaPerfil().getCodSistemaPerfil() == idPerfilNEC){
-              // Resgata o indicador de envio de e-mails caso o usu·rio seja HOMOLOGADOR NEC
+              // Resgata o indicador de envio de e-mails caso o usu√°rio seja HOMOLOGADOR NEC
               isPerfilNEC = true;
             }    
 
@@ -118,7 +119,7 @@
          requisicao.setIndTipoRequisicao("A");
          //**requisicao.setDatInicioContratacao(ConverteDate.stringToSqlDate(request.getParameter("datInicioContratacao")));
          requisicao.setDatInicioContratacao(ConverteDate.stringToSqlDate("01/" + request.getParameter("datInicioContratacao")));
-         //-- verifica se o tipo de contrataÁ„o n„o È indeterminado (n„o h· datas de contrataÁ„o para este tipo)
+         //-- verifica se o tipo de contrata√ß√£o n√£o √© indeterminado (n√£o h√° datas de contrata√ß√£o para este tipo)
          if(!requisicao.getIndTipoContratacao().equals("1")){        
             //**requisicao.setDatFimContratacao(ConverteDate.stringToSqlDate(request.getParameter("datFimContratacao")));
             requisicao.setDatFimContratacao(ConverteDate.stringToSqlDate("01/" + request.getParameter("datFimContratacao")));
@@ -126,9 +127,9 @@
       }
      
     //-----------------------------------------------------------------------------------------------------------------------      
-	  //-- verificando o status da requisiÁ„o, apenas altera se estiver EM REVIS√O
+	  //-- verificando o status da requisi√ß√£o, apenas altera se estiver EM REVIS√ÉO
 	  if(requisicao.getIndStatus() == 3){
-		  //-- alterando os dados da requisiÁ„o
+		  //-- alterando os dados da requisi√ß√£o
 		  
 		  if(requisicao.getTipoedicao()==1 || requisicao.getTipoedicao()==2){
 			  requisicaoControl.alteraRequisicaoCompleta(requisicao, usuario);
@@ -136,7 +137,7 @@
 			  requisicaoControl.alteraRequisicao(requisicao, usuario);
 		  }
 		  
-	      // setando os valores da grid de hor·rios dos professores
+	      // setando os valores da grid de hor√°rios dos professores
 	      if(requisicaoJornada.getIndTipoHorario().equals("P")){
 		  	  Horarios[] h = new Horarios[7];
 		  	  String dias[] = {"Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"};
@@ -155,7 +156,7 @@
 		  	  requisicaoJornada.setHorarios(h);
 	      }
 	      
-	      // setando as funÁıes adicionais para os professores
+	      // setando as fun√ß√µes adicionais para os professores
 		  if(request.getParameterValues("codFuncao").length > 1){
 			  StringBuffer funcaoExtra = new StringBuffer();
 			  for(int i=1; i<request.getParameterValues("codFuncao").length; i++){
@@ -171,34 +172,34 @@
 		  new RequisicaoJornadaControl().alteraRequisicaoJornada(requisicaoJornada);
 		  new RequisicaoPerfilControl().alteraRequisicaoPerfil(requisicaoPerfil,usuario.getChapa());	
 		  
-		  //-- alterando o status na revis„o
+		  //-- alterando o status na revis√£o
 		  if(requisicao.getTipoedicao()==0){
 		  retorno = new RequisicaoRevisaoControl().alteraRequisicaoRevisao(requisicaoRevisao, usuario, isPerfilHOM);
 		  }
 			  
 		  //------------------------ ENVIO DE E-MAILS --------------------------------      
 			if(indEnviarEmails != null && indEnviarEmails.equals("S")){
-			  //-- resgatando os dados da requisiÁ„o que acaba de ser criada
+			  //-- resgatando os dados da requisi√ß√£o que acaba de ser criada
 			  requisicao = requisicaoControl.getRequisicao(codRequisicao);  
 			  //-- Enviando e-mail para envolvidos no workflow
 			  listaEmails = requisicaoAprovacaoControl.getEmailsEnvolvidosWorkFlow(requisicao);
 			  
-			    //-- envia email de alteraÁ„o 
+			    //-- envia email de altera√ß√£o 
 			    //if(requisicao.getTipoedicao()==1 || requisicao.getTipoedicao()==2){
 			    //	RequisicaoMensagemControl.enviaMensagemAlteracao(usuario, requisicao, listaEmails);		
 			    //}
 			  
 			  if(isPerfilGEP || isPerfilNEC){
-				//-- Realiza a notificaÁ„o apenas quando a RP foi encaminhada para o aprovador final
+				//-- Realiza a notifica√ß√£o apenas quando a RP foi encaminhada para o aprovador final
 				if(requisicaoAprovacaoControl.getNivelAprovacaoAtual(requisicao.getCodRequisicao()) == 4){              
 				  RequisicaoMensagemControl.enviaMensagemHomologacaoGEP(usuario, requisicao);
 				}else{
-				  //-- AprovaÁao intermedi·ria (AP&B e NEC)
+				  //-- Aprova√ßao intermedi√°ria (AP&B e NEC)
 				  if(isPerfilGEP){
-					//-- AprovaÁao AP&B => notifica o NEC
+					//-- Aprova√ßao AP&B => notifica o NEC
 					RequisicaoMensagemControl.enviaMensagemHomologacaoAPeB(usuario, requisicao, listaEmails);
 				  }else{
-					//-- AprovaÁao NEC => notifica a AP&B
+					//-- Aprova√ßao NEC => notifica a AP&B
 					RequisicaoMensagemControl.enviaMensagemHomologacaoNEC(usuario, requisicao, listaEmails);              
 				  }
 				}
@@ -207,27 +208,27 @@
 					  //-- Se foi o gerente de unidade que aprovou, notifica os homologadores da GEP
 					  RequisicaoMensagemControl.enviaMensagemHomologacaoUO(usuario, requisicao);
 					}else{
-					  //-- Se foi o usu·rio criador que revisou a RP, notifica o gerente de unidade 
+					  //-- Se foi o usu√°rio criador que revisou a RP, notifica o gerente de unidade 
 					  RequisicaoMensagemControl.enviaMensagemRevisaoEfetuada(usuario, requisicao, requisicaoAprovacaoControl.getEmailResponsavelUO(requisicao.getCodUnidade()));
 					}            
 			}
 	  }else{
 	     retorno = -2;
-		 //RequisicaoMensagemControl.enviaMensagemCritica("atualizar.jsp", "Tentativa de violaÁ„o dos dados cadastrais da requisiÁ„o! <br><b>RP:</b> " + requisicao.getCodRequisicao(), (Usuario) session.getAttribute("usuario"));
+		 //RequisicaoMensagemControl.enviaMensagemCritica("atualizar.jsp", "Tentativa de viola√ß√£o dos dados cadastrais da requisi√ß√£o! <br><b>RP:</b> " + requisicao.getCodRequisicao(), (Usuario) session.getAttribute("usuario"));
 	  }
 %>
 
 <script language="javascript">
   if(<%=retorno%> > 0){
     if(<%=isPerfilHOM%> || <%=isPerfilGEP%>){
-      alert('RequisiÁ„o revisada e aprovada com sucesso!');
+      alert('Requisi√ß√£o revisada e aprovada com sucesso!');
     }else{
-      alert('Revis„o realizada com sucesso!');
+      alert('Revis√£o realizada com sucesso!');
     }
   }else{
 	switch(<%=retorno%>){
-		case -1: alert('N„o foi possÌvel revisar a RP <%=codRequisicao%>!\nEsta RP j· foi revisada por outro colaborador da unidade.'); break;
-		case -2: alert('N„o foi possÌvel alterar os dados da RP <%=codRequisicao%>!\nEsta RP n„o est· em revis„o. A tentativa de violaÁ„o dos dados foi notificada aos administradores do sistema.'); break;
+		case -1: alert('N√£o foi poss√≠vel revisar a RP <%=codRequisicao%>!\nEsta RP j√° foi revisada por outro colaborador da unidade.'); break;
+		case -2: alert('N√£o foi poss√≠vel alterar os dados da RP <%=codRequisicao%>!\nEsta RP n√£o est√° em revis√£o. A tentativa de viola√ß√£o dos dados foi notificada aos administradores do sistema.'); break;
 	}
   }
 

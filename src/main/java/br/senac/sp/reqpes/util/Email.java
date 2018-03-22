@@ -83,14 +83,20 @@ public class Email {
 			for (int i = 0; i < paraVarios.length; i++) {
 				titulo_email = titulo_email + " / email:" + paraVarios[i];
 			}
-			this.setPara("sanches_i7system@hotmail.com");
+			this.setPara("consultor.solucoes@sp.senac.br");
 		}
 
-		if (ambiente!=("producao")) {
-				titulo_email = "TESTE - "+titulo_email;
-		}
+	//	if (ambiente.equals("homologacao")) {
+	//		for (int i = 0; i < paraVarios.length; i++) {
+	//			titulo_email = titulo_email + " / email:" + paraVarios[i];
+	//		}
+	//		this.setPara("consultor.solucoes@sp.senac.br");
+	//	}
 		
-	
+	//	if (ambiente!=("producao")) {
+	//		titulo_email = "TESTE - "+titulo_email;
+	//  }
+		
 		InternetAddress remetente = new InternetAddress(getRemetente());
 		InternetAddress destinatario = new InternetAddress(getPara());
 
@@ -116,7 +122,8 @@ public class Email {
 		}
 
 		message.setSubject(getAssunto());
-		message.setContent(corpoEmail, this.tipoTexto);
+	//	message.setContent(corpoEmail, this.tipoTexto);
+		message.setContent(corpoEmail, "text/html; charset=iso-8859-1");
 		Transport.send(message);
 	}
 
@@ -129,12 +136,14 @@ public class Email {
 		Session mailSession = Session.getDefaultInstance(mailProps, null);
 
 		Message message = new MimeMessage(mailSession);
+		message.setHeader("Content-Type", "text/html; charset=\"iso-8859-1\"");
+		message.setHeader("Content-Transfer-Encoding", "quoted-printable");
 
 		InternetAddress remetente = new InternetAddress(getRemetente());
 		message.setFrom(remetente);
 
 
-		// SE FOR DEENVOLVIMENTO MANDA PARA O PROGRAMADOR
+		// SE FOR DESENVOLVIMENTO MANDA PARA O PROGRAMADOR
 		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
 		
 		String titulo_email=getAssunto();
@@ -143,13 +152,22 @@ public class Email {
 			for (int i = 0; i < paraVarios.length; i++) {
 				titulo_email = titulo_email + " / email:" + paraVarios[i];
 			}
-			String para_desenv[] = { "sanches_i7system@hotmail.com" };
+			String para_desenv[] = { "consultor.solucoes@sp.senac.br" };
 			paraVarios = para_desenv;
 		}
 
-		if (ambiente!=("producao")) {
-				titulo_email = "TESTE - "+titulo_email;
-		}
+	//	if (ambiente.equals("homologacao")) {
+	//		for (int i = 0; i < paraVarios.length; i++) {
+	//			titulo_email = titulo_email + " / email:" + paraVarios[i];
+	//		}
+	//		String para_desenv[] = { "consultor.solucoes@sp.senac.br" };
+	//		paraVarios = para_desenv;
+	//	}
+		
+		
+	//    if (ambiente!=("producao")) {
+	//   	titulo_email = "TESTE - "+titulo_email;
+	//    }
 		
 		InternetAddress[] destinatarios = new InternetAddress[paraVarios.length];
 		for (int idx = 0; idx < paraVarios.length; idx++) {
@@ -187,7 +205,8 @@ public class Email {
 		}
 
 		message.setSubject(titulo_email);
-		message.setContent(corpoEmail, this.tipoTexto);
+		message.setContent(corpoEmail, "text/html; charset=iso-8859-1");
+//		message.setContent(corpoEmail, this.tipoTexto);
 
 		Transport.send(message);
 	}

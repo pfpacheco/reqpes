@@ -1,9 +1,11 @@
-<%@ page contentType="text/html;charset=ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<meta http-equiv="Content-Type" content="text/html" charset=UTF-8>
+
 <%
     /**
     autor: Luciano Silva <luciano.csilva@sp.senac.br>
     data:  23/02/2006
-           Essa é uma página simples que contém as imagens e mapeamento para montar o cabeçalho do template.
+           Essa Ã© uma pÃ¡gina simples que contÃ©m as imagens e mapeamento para montar o cabeÃ§alho do template.
     **/
 %>
 <script language="JavaScript">
@@ -52,21 +54,21 @@ function buscaGeral(){
 
 <!-- MAP MENU PRINCIPAL -->
 <map name="mapa_superior2009" id="mapa_superior2009">
-  <!-- PRESIDÊNCIA SUPERINTENDÊNCIA -->
+  <!-- PRESIDÃŠNCIA SUPERINTENDÃŠNCIA -->
   <area shape="rect" coords="6,4,140,15" href="http://www.intranet.sp.senac.br/jsp/default.jsp?newsID=a2662.htm&destaque=1244&testeira=676&unit=DIREG">
-  <!-- GERÊNCIAS FUNCIONAIS -->
+  <!-- GERÃŠNCIAS FUNCIONAIS -->
   <area shape="rect" coords="151,4,262,15" href="http://www.intranet.sp.senac.br/jsp/default.jsp?template=717.dwt&infog=gerencias_funcionais2009&testeira=346">
-  <!-- GERÊNCIA DE DESENVOLVIMENTO -->
+  <!-- GERÃŠNCIA DE DESENVOLVIMENTO -->
   <area shape="rect" coords="277,4,427,15" href="http://www.intranet.sp.senac.br/jsp/default.jsp?template=717.dwt&infog=infografico_gd&testeira=660">
-  <!-- GERÊNCIAS OPERAÇÕES -->
+  <!-- GERÃŠNCIAS OPERAÃ‡Ã•ES -->
   <area shape="rect" coords="437,4,562,15" href="http://www.intranet.sp.senac.br/jsp/default.jsp?template=717.dwt&infog=infografico_go&testeira=661">
   <!-- FALE CONOSCO -->
   <area shape="rect" coords="551,3,617,15" href="http://www.intranet.sp.senac.br/jsp/default.jsp?newsID=a13883.htm&testeira=545&unit=FLC">
-  <!-- HOTÉIS -->
+  <!-- HOTÃ‰IS -->
   <area shape="rect" coords="574,3,615,16" href="http://www.intranet.sp.senac.br/jsp/default.jsp?template=717.dwt&infog=hoteis2009&testeira=386">
-  <!-- CENTRO UNIVERSITÁRIO (CAMPUS SENAC) -->
+  <!-- CENTRO UNIVERSITÃRIO (CAMPUS SENAC) -->
   <area shape="rect" coords="2,20,118,32" href="http://www.intranet.sp.senac.br/jsp/default.jsp?template=717.dwt&infog=ensino_superior2005&testeira=384">
-  <!-- UNIDADES GRANDE SÃO PAULO -->
+  <!-- UNIDADES GRANDE SÃƒO PAULO -->
   <area shape="rect" coords="131,20,271,32" href="http://www.intranet.sp.senac.br/jsp/default.jsp?template=717.dwt&infog=mapa_cidade2006&testeira=721">  
   <!-- UNIDADES INTERIOR -->
   <area shape="rect" coords="289,20,383,32" href="http://www.intranet.sp.senac.br/jsp/default.jsp?template=717.dwt&infog=unidades2006&testeira=722">
@@ -98,11 +100,11 @@ function buscaGeral(){
 <map name="testeira">
   <!-- HOME-UNIDADE -->
   <area shape="rect" coords="122,5,613,36" href="http://www.intranet.sp.senac.br/jsp/default.jsp?newsID=a1455.htm&testeira=413">
-  <!-- NOTÍCIAS E EVENTOS SOBRE O TEMA -->
+  <!-- NOTÃCIAS E EVENTOS SOBRE O TEMA -->
   <area shape="rect" coords="454,37,614,50" href="http://www.intranet.sp.senac.br/jsp/default.jsp?start=1&order=datepublished&newsID=DYNAMIC,oracle.br.dataservers.BreakingNewsDataServer,selectBreakingNews&long=T&chanid=1&uf=&themeid=29&sectid=&unit=&template=469.dwt&testeira=413">
 </map>
 
-<!-- MAP RODAPÉ -->
+<!-- MAP RODAPÃ‰ -->
 <map name="map_rodape" id="map_rodape">
   <!-- EXPEDIENTE -->
   <area shape="rect" coords="70,7,130,22" href="http://www.intranet.sp.senac.br/jsp/default.jsp?newsID=a17590.htm&testeira=860&local=expediente"/>
