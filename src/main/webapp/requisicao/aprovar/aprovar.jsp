@@ -87,12 +87,12 @@
               //-- Aprovaçao intermediária (AP&B e NEC)
               if(usuario.getSistemaPerfil().getCodSistemaPerfil() == idPerfilGEP){
                 //-- Aprovaçao pela AP&B => notifica o NEC
-              listaEmails = requisicaoAprovacaoControl.getEmailsEnvolvidosWorkFlowNEC(requisicaoDados);  
-       		  RequisicaoMensagemControl.enviaMensagemHomologacaoNEC(usuario, requisicaoDados, listaEmails);
+              	listaEmails = requisicaoAprovacaoControl.getEmailsEnvolvidosWorkFlowNEC(requisicaoDados);  
+       		  	RequisicaoMensagemControl.enviaMensagemHomologacaoAPeB(usuario, requisicaoDados, listaEmails);
               }else{
                 //-- Aprovaçao pelo NEC => notifica a AP&B
-              listaEmails = requisicaoAprovacaoControl.getEmailsEnvolvidosWorkFlowAPB(requisicaoDados); // ap&b
-              RequisicaoMensagemControl.enviaMensagemHomologacaoAPeB(usuario, requisicaoDados, listaEmails);
+              	listaEmails = requisicaoAprovacaoControl.getEmailsEnvolvidosWorkFlowAPB(requisicaoDados); // ap&b
+              	RequisicaoMensagemControl.enviaMensagemHomologacaoNEC(usuario, requisicaoDados, listaEmails);
               }
             }
             

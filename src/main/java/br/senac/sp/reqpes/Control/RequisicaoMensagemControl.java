@@ -418,12 +418,19 @@ public class RequisicaoMensagemControl {
 			String assunto) throws RequisicaoPessoalException, AdmTIException {
 
 		SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
+		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
 		Email email = new Email();
 		SistemaParametro smtp = null;
 		String[] para = emailPara;
-		// String[] para_desenvolvimento;
 		String emailRemetente = usuario.getEmail();
-		String emails_desenvolvimento = "";
+
+		if (!ambiente.equals("producao")) {
+			assunto = ambiente + " - " + assunto;
+			emailRemetente = "otavio.remedio@sp.senac.br";
+			para = new String[]{emailRemetente, "GrupoGTI-SistemasTecnologia@sp.senac.br"};
+		}
+
+
 		try {
 			smtp = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA, "SMTP");
 		} catch (Exception e) {

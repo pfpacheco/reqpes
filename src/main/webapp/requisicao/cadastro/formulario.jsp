@@ -123,10 +123,10 @@
 %>
 
 <br>
-<script language="JavaScript" src="../../js/formulario.js" type="text/javascript"></script> 
-<script language="JavaScript" src="../../js/mascara.js"    type="text/javascript"></script>
-<script language="JavaScript" src="../../js/ajaxItens.js"  type="text/javascript"></script>
-<script language="JavaScript" src="../../js/regrasRequisicao.js" type="text/javascript"></script>
+<script language="JavaScript" src="../../js/formulario.js" type="text/javascript" charset="utf-8"></script> 
+<script language="JavaScript" src="../../js/mascara.js"    type="text/javascript" charset="utf-8"></script>
+<script language="JavaScript" src="../../js/ajaxItens.js"  type="text/javascript" charset="utf-8"></script>
+<script language="JavaScript" src="../../js/regrasRequisicao.js" type="text/javascript" charset="utf-8"></script>
 
 <script language="javaScript">
   //------------------------------------------------------------------------------
@@ -1078,15 +1078,19 @@
 	              <strong>Área:&nbsp;</strong>
 	            </td>
 	            <td class="tdintranet2">
-<%  if (tipoEdicao!=2){ %>
-	              <select name="codArea" class="select" style="width: 386px;">              
-<% } else { %>
-	              <select name="codArea" class="select" style="width: 386px;" >              
-<% } %>	            
-	                <option value="0">SELECIONE</option>
-	                <%for(int i=0; i<comboArea.length; i++){%>
-	                  <option value="<%=comboArea[i][0]%>" <%=(comboArea[i][0].equals(String.valueOf(requisicaoPerfil.getCodArea())))?" SELECTED":""%>><%=comboArea[i][1]%></option>
-	                <%}%>                
+	              <select name="codArea" class="select" style="width: 386px;">
+	              	<% if (tipoEdicao==2) {
+                  		for(int i=0; i<comboArea.length; i++) { 
+                  			if(comboArea[i][0].equals(String.valueOf(requisicaoPerfil.getCodArea()))) {%>
+                  				<option value="<%=comboArea[i][0]%>" " SELECTED"><%=comboArea[i][1]%></option>
+                  			<%}
+                  		}%>                  			                  	
+                  	<% } else { %>
+                  		<option value="0">SELECIONE</option>
+		                <%for(int i=0; i<comboArea.length; i++){%>
+		                  <option value="<%=comboArea[i][0]%>" <%=(comboArea[i][0].equals(String.valueOf(requisicaoPerfil.getCodArea())))?" SELECTED":""%>><%=comboArea[i][1]%></option>
+		                <%}%>                    	
+                  	<%}%> 
 	              </select>
 	            </td>
 	          </tr>          
@@ -1095,15 +1099,19 @@
 	              <strong>Função:&nbsp;</strong>
 	            </td>
 	            <td class="tdintranet2">
-<%  if (tipoEdicao!=2){ %>
                   <select name="codFuncao" class="select" style="width: 386px;">
-<% } else { %>
-	              <select name="codFuncao" class="select" style="width: 386px;">             
-<% } %>	 
-	                <option value="0">SELECIONE</option>
-	                <%for(int i=0; i<comboFuncao.length; i++){%>
-	                  <option value="<%=comboFuncao[i][0]%>" <%=(comboFuncao[i][0].equals(String.valueOf(requisicaoPerfil.getCodFuncao())))?" SELECTED":""%>><%=comboFuncao[i][1]%></option>
-	                <%}%>                                
+                  	<% if (tipoEdicao==2) {
+                  		for(int i=0; i<comboFuncao.length; i++) { 
+                  			if(comboFuncao[i][0].equals(String.valueOf(requisicaoPerfil.getCodFuncao()))) {%>
+                  				<option value="<%=comboFuncao[i][0]%>" " SELECTED"><%=comboFuncao[i][1]%></option>
+                  			<%}
+                  		}%>                  			                  	
+                  	<% } else { %>
+                  		<option value="0">SELECIONE</option>
+		                <%for(int i=0; i<comboFuncao.length; i++){%>
+		                  <option value="<%=comboFuncao[i][0]%>" <%=(comboFuncao[i][0].equals(String.valueOf(requisicaoPerfil.getCodFuncao())))?" SELECTED":""%>><%=comboFuncao[i][1]%></option>
+		                <%}%>                    	
+                  	<%}%> 	                                              
 	              </select>
 	              <div id="divBtnAddFuncao" style="display:none;">
 		              <a href="javascript: addFuncao();" title="Adicionar outra função">
@@ -1136,18 +1144,19 @@
 	              <strong>Nível hierárquico:&nbsp;</strong>
 	            </td>
 	            <td class="tdintranet2">
-
-<%  if (tipoEdicao!=2){ %>
-	              <select name="codNivelHierarquia" class="select" style="width: 386px;">              
-<% } else { %>
-	              <select name="codNivelHierarquia" class="select" style="width: 386px;">              
-<% } %>
-	            
-	            
-	                <option value="0">SELECIONE</option>
-	                <%for(int i=0; i<comboNivelHierarquia.length; i++){%>
-	                  <option value="<%=comboNivelHierarquia[i][0]%>" <%=(comboNivelHierarquia[i][0].equals(String.valueOf(requisicaoPerfil.getCodNivelHierarquia())))?" SELECTED":""%>><%=comboNivelHierarquia[i][1]%></option>
-	                <%}%>                                
+	              <select name="codNivelHierarquia" class="select" style="width: 386px;">
+	              	<% if (tipoEdicao==2) {
+                  		for(int i=0; i<comboNivelHierarquia.length; i++) { 
+                  			if(comboNivelHierarquia[i][0].equals(String.valueOf(requisicaoPerfil.getCodNivelHierarquia()))) {%>
+                  				<option value="<%=comboNivelHierarquia[i][0]%>"><%=comboNivelHierarquia[i][1]%></option>
+                  			<%}
+                  		}%>                  			                  	
+                  	<% } else { %>
+                  		<option value="0">SELECIONE</option>
+		                <%for(int i=0; i<comboNivelHierarquia.length; i++){%>
+		                  <option value="<%=comboNivelHierarquia[i][0]%>" <%=(comboNivelHierarquia[i][0].equals(String.valueOf(requisicaoPerfil.getCodNivelHierarquia())))?" SELECTED":""%>><%=comboNivelHierarquia[i][1]%></option>
+		                <%}%>                    	
+                  	<%}%>                               
 	              </select>
 	            </td>
 	          </tr>
@@ -1184,19 +1193,9 @@
 	              </a>              
 	            </td>
 	            <td class="tdintranet2" >
-	            
-	            	   
-	            	   
-<%  if (tipoEdicao!=2){ %>	            	            
 	              <textarea cols="73" rows="5" name="dscAtividadesCargo" title="Relate as principais atividades que o profissional irá desempenhar."
 	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdDscAtividadesCargo,4000);" 
-	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdDscAtividadesCargo,4000);"><%=requisicaoPerfil.getDscAtividadesCargo()%></textarea>
-<% }else{ %>
-	              <textarea cols="73" rows="5" name="dscAtividadesCargo" title="Relate as principais atividades que o profissional irá desempenhar."
-	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdDscAtividadesCargo,4000);" 
-	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdDscAtividadesCargo,4000);" readonly="readonly"><%=requisicaoPerfil.getDscAtividadesCargo()%></textarea>
-<% } %>
-
+	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdDscAtividadesCargo,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%>><%=requisicaoPerfil.getDscAtividadesCargo()%></textarea>
 	              <input type="text" name="qtdDscAtividadesCargo" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getDscAtividadesCargo().length())%>" size="4" align="middle">
 	            </td>
 	          </tr>           
@@ -1213,15 +1212,9 @@
 	              </a>                            
 	            </td>
 	            <td class="tdintranet2" >
-
-
-<%  if (tipoEdicao!=2){ %>	            
 	              <textarea cols="73" rows="5" name="descricaoFormacao" title="Informe a escolaridade mínima obrigatória e o curso ou área de Formação e caso exista restrição, informe também a escolaridade máxima desejada."
 	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdFormacao,4000);" 
-	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdFormacao,4000);" ><%=requisicaoPerfil.getDescricaoFormacao()%></textarea>
-<% }else{ %>
-	              <textarea cols="73" rows="5" name="descricaoFormacao" title="Informe a escolaridade mínima obrigatória e o curso ou área de Formação e caso exista restrição, informe também a escolaridade máxima desejada."  readonly="readonly"><%=requisicaoPerfil.getDescricaoFormacao()%></textarea>
-<% } %>	                      
+	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdFormacao,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%> ><%=requisicaoPerfil.getDescricaoFormacao()%></textarea>
 	              <input type="text" name="qtdFormacao" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getDescricaoFormacao().length())%>" size="4" align="middle">
 	            </td>
 	          </tr>    
@@ -1238,16 +1231,9 @@
 	              </a>   
 	            </td>
 	            <td class="tdintranet2">
-	            
-<%  if (tipoEdicao!=2){ %>		            
 	              <textarea cols="73" rows="5" name="dscExperiencia" title="A solicitação do tempo de experiência poderá ser de no máximo 6 meses. Procure relatar as experiências profissionais, atividades ou vivências anteriores que são relevantes para o desempenho da oportunidade."
 	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdExperiencia,4000);" 
-	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdExperiencia,4000);" ><%=requisicaoPerfil.getDscExperiencia()%></textarea>
-<% }else{ %>
-	              <textarea cols="73" rows="5" name="dscExperiencia" title="A solicitação do tempo de experiência poderá ser de no máximo 6 meses. Procure relatar as experiências profissionais, atividades ou vivências anteriores que são relevantes para o desempenho da oportunidade."
-  readonly="readonly"><%=requisicaoPerfil.getDscExperiencia()%></textarea>
-<% } %>
-
+	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdExperiencia,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%> ><%=requisicaoPerfil.getDscExperiencia()%></textarea>
 	              <input type="text" name="qtdExperiencia" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getDscExperiencia().length())%>" size="4" align="middle">
 	            </td>
 	          </tr>
@@ -1264,15 +1250,9 @@
 	              </a>   
 	            </td>
 	            <td class="tdintranet2" >
-	            
-<%  if (tipoEdicao!=2){ %>		            
 	              <textarea cols="73" rows="5" name="dscConhecimentos" title="Descrever os conhecimentos específicos necessários para exercer a função em questão. Exemplos: idiomas, informática, certificações diversas, etc."
 	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdConhecimentos,4000);" 
-	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdConhecimentos,4000);" ><%=requisicaoPerfil.getDscConhecimentos()%></textarea>
-<% }else{ %>	                      
-	              <textarea cols="73" rows="5" name="dscConhecimentos" title="Descrever os conhecimentos específicos necessários para exercer a função em questão. Exemplos: idiomas, informática, certificações diversas, etc."
-  readonly="readonly"><%=requisicaoPerfil.getDscConhecimentos()%></textarea>
-<% } %>
+	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdConhecimentos,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%> ><%=requisicaoPerfil.getDscConhecimentos()%></textarea>
 	              <input type="text" name="qtdConhecimentos" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getDscConhecimentos().length())%>" size="4" align="middle">
 	            </td>
 	          </tr>
@@ -1289,16 +1269,9 @@
 	              </a>  
 	            </td>
 	            <td class="tdintranet2">
-
-<%  if (tipoEdicao!=2){ %>
 	              <textarea cols="73" rows="5" name="outrasCarateristica" title="Relate os comportamentos, habilidades e atitudes desejadas para o desempenho da função."
 	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdOutrasCaracteristicas,4000);" 
-	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdOutrasCaracteristicas,4000);" ><%=requisicaoPerfil.getOutrasCarateristica()%></textarea>
-<% }else{ %>
-	              <textarea cols="73" rows="5" name="outrasCarateristica" title="Relate os comportamentos, habilidades e atitudes desejadas para o desempenho da função."
-  readonly="readonly"><%=requisicaoPerfil.getOutrasCarateristica()%></textarea>
-<% } %>
-
+	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdOutrasCaracteristicas,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%>><%=requisicaoPerfil.getOutrasCarateristica()%></textarea>
 	              <input type="text" name="qtdOutrasCaracteristicas" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getOutrasCarateristica().length())%>" size="4" align="middle">
 	            </td>
 	          </tr> 
@@ -1310,16 +1283,9 @@
 	              <STRONG>Observações:&nbsp;</STRONG>
 	            </td>
 	            <td class="tdintranet2">
-
-<%  if (tipoEdicao!=2){ %>
 	              <textarea cols="73" rows="5" name="comentarios"
 	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdComentarios,2000);" 
-	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdComentarios,2000);" ><%=requisicaoPerfil.getComentarios()%></textarea>
-<% }else{ %>
-	              <textarea cols="73" rows="5" name="comentarios"
-   readonly="readonly"><%=requisicaoPerfil.getComentarios()%></textarea>
-<% } %>
-
+	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdComentarios,2000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%>><%=requisicaoPerfil.getComentarios()%></textarea>
 	              <input type="text" name="qtdComentarios" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:2000) - requisicaoPerfil.getComentarios().length())%>" size="4" align="middle">
 	            </td>
 	          </tr>          
@@ -1413,6 +1379,15 @@
       if(<%=isHabilitaCH%>){
         document.getElementById('jornadaTrabalho').removeAttribute('readOnly');
       } 
+      
+      
+      document.frmRequisicao.dscAtividadesCargo.onkeyup();
+      document.frmRequisicao.descricaoFormacao.onkeyup();
+      document.frmRequisicao.dscExperiencia.onkeyup();
+      document.frmRequisicao.dscConhecimentos.onkeyup();
+      document.frmRequisicao.outrasCarateristica.onkeyup();
+      document.frmRequisicao.comentarios.onkeyup();
+      
   <%}%> 
  
 </script>

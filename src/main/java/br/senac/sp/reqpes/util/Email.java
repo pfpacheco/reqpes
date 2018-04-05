@@ -11,9 +11,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import br.senac.sp.componente.Exception.AdmTIException;
 import br.senac.sp.componente.control.SistemaParametroControl;
-import br.senac.sp.reqpes.Interface.Config;
 
 /**
  * Classe criada por Paulo Evaristo Rosa Dias Data.: 22/06/2005 Objetivo classe
@@ -78,7 +76,7 @@ public class Email {
 
 		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
 		String titulo_email=getAssunto();
-		
+
 		if (ambiente.equals("desenvolvimento")) {
 			for (int i = 0; i < paraVarios.length; i++) {
 				titulo_email = titulo_email + " / email:" + paraVarios[i];
@@ -92,11 +90,11 @@ public class Email {
 	//		}
 	//		this.setPara("consultor.solucoes@sp.senac.br");
 	//	}
-		
+
 	//	if (ambiente!=("producao")) {
 	//		titulo_email = "TESTE - "+titulo_email;
 	//  }
-		
+
 		InternetAddress remetente = new InternetAddress(getRemetente());
 		InternetAddress destinatario = new InternetAddress(getPara());
 
@@ -122,7 +120,6 @@ public class Email {
 		}
 
 		message.setSubject(getAssunto());
-	//	message.setContent(corpoEmail, this.tipoTexto);
 		message.setContent(corpoEmail, "text/html; charset=iso-8859-1");
 		Transport.send(message);
 	}
@@ -145,16 +142,16 @@ public class Email {
 
 		// SE FOR DESENVOLVIMENTO MANDA PARA O PROGRAMADOR
 		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
-		
+
 		String titulo_email=getAssunto();
-		
-		if (ambiente.equals("desenvolvimento")) {
-			for (int i = 0; i < paraVarios.length; i++) {
-				titulo_email = titulo_email + " / email:" + paraVarios[i];
-			}
-			String para_desenv[] = { "consultor.solucoes@sp.senac.br" };
-			paraVarios = para_desenv;
-		}
+
+//		if (ambiente.equals("desenvolvimento")) {
+//			for (int i = 0; i < paraVarios.length; i++) {
+//				titulo_email = titulo_email + " / email:" + paraVarios[i];
+//			}
+//			String para_desenv[] = { "consultor.solucoes@sp.senac.br" };
+//			paraVarios = para_desenv;
+//		}
 
 	//	if (ambiente.equals("homologacao")) {
 	//		for (int i = 0; i < paraVarios.length; i++) {
@@ -163,12 +160,12 @@ public class Email {
 	//		String para_desenv[] = { "consultor.solucoes@sp.senac.br" };
 	//		paraVarios = para_desenv;
 	//	}
-		
-		
+
+
 	//    if (ambiente!=("producao")) {
 	//   	titulo_email = "TESTE - "+titulo_email;
 	//    }
-		
+
 		InternetAddress[] destinatarios = new InternetAddress[paraVarios.length];
 		for (int idx = 0; idx < paraVarios.length; idx++) {
 			destinatarios[idx] = new InternetAddress(paraVarios[idx]);

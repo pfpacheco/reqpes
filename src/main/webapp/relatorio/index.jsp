@@ -11,8 +11,6 @@
   RequisicaoControl requisicaoControl = new RequisicaoControl();  
   SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
   Usuario usuario = (Usuario) session.getAttribute("usuario");
-
- 
   GrupoNecUsuarioControl grupoNecUsuarioControl = new GrupoNecUsuarioControl();
   String[][] usuariosNec = null;
   boolean nec = false;

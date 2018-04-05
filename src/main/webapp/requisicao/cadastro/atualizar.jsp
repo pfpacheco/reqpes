@@ -174,7 +174,7 @@
 		  
 		  //-- alterando o status na revisão
 		  if(requisicao.getTipoedicao()==0){
-		  retorno = new RequisicaoRevisaoControl().alteraRequisicaoRevisao(requisicaoRevisao, usuario, isPerfilHOM);
+		  	retorno = new RequisicaoRevisaoControl().alteraRequisicaoRevisao(requisicaoRevisao, usuario, isPerfilHOM);
 		  }
 			  
 		  //------------------------ ENVIO DE E-MAILS --------------------------------      

@@ -11,14 +11,21 @@
 <%@ page import="br.senac.sp.componente.control.SistemaParametroControl" %>
 
 
-<jsp:useBean id="requisicaoPerfil" class="br.senac.sp.reqpes.model.RequisicaoPerfil" />
-<jsp:setProperty name="requisicaoPerfil" property="*" />
-
 <%      
     int codRequisicao = (request.getParameter("codRequisicao")==null)?0:Integer.parseInt(request.getParameter("codRequisicao"));
     Usuario usuario = (Usuario) session.getAttribute("usuario");
     RequisicaoPerfilControl requisicaoPerfilControl = new RequisicaoPerfilControl();
-
+    
+    RequisicaoPerfil requisicaoPerfil = new RequisicaoPerfil();
+    requisicaoPerfil = requisicaoPerfilControl.getRequisicaoPerfil(codRequisicao);
+    
+    requisicaoPerfil.setDscAtividadesCargo(request.getParameter("dscAtividadesCargo"));
+    requisicaoPerfil.setDescricaoFormacao(request.getParameter("descricaoFormacao"));
+    requisicaoPerfil.setDscExperiencia(request.getParameter("dscExperiencia"));
+    requisicaoPerfil.setDscConhecimentos(request.getParameter("dscConhecimentos"));
+    requisicaoPerfil.setOutrasCarateristica(request.getParameter("outrasCarateristica"));
+    requisicaoPerfil.setComentarios(request.getParameter("comentarios"));
+     
     int retorno = 0;
     String erro = "";
        
