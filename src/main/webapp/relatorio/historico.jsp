@@ -204,7 +204,7 @@
             		 if (historico[i][5].equals( historicoCampos[j][2])) {
             			 conteudo= conteudo + "<p>" + historicoCampos[j][3] +" - foi alterado de "  + historicoCampos[j][4] + " para " + historicoCampos[j][5]+"</p>";  
                 	 }
-               }
+               	 }
                }
             %>
                   <tr>

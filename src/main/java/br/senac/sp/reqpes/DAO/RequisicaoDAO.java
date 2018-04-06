@@ -1180,6 +1180,7 @@ public class RequisicaoDAO implements InterfaceDataBase {
 		}
 
 		sql.append(" WHERE  T.REQUISICAO_SQ = " + codRequisicao);
+		sql.append(" ORDER BY T.DT_HISTORICO ");
 
 		try {
 			retorno = manipulaDAO.getMatriz(sql.toString(), dataSource);
@@ -1207,7 +1208,7 @@ public class RequisicaoDAO implements InterfaceDataBase {
 
 		sql.append(" SELECT T.REQUISICAO_SQ ");
 		sql.append("       ,T.USUARIO_SQ ");
-		sql.append("       ,TO_CHAR(T.DT_ENVIO, 'dd/mm/yyyy hh24:mi:ss') ");
+		sql.append("       ,TO_CHAR(T.DT_ENVIO, 'dd/mm/yyyy hh24:mi:ss') DT_ENVIO");
 		sql.append("       ,T.CAMPO ");
 		sql.append("       ,T.CONTEUDO_ANTERIOR ");
 		sql.append("       ,T.CONTEUDO_NOVO ");
@@ -1219,6 +1220,7 @@ public class RequisicaoDAO implements InterfaceDataBase {
 		}
 
 		sql.append(" WHERE  T.REQUISICAO_SQ = " + codRequisicao);
+		sql.append(" ORDER BY T.DT_ENVIO ");
 
 		try {
 			retorno = manipulaDAO.getMatriz(sql.toString(), dataSource);
