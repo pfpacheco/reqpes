@@ -17,6 +17,7 @@ import br.senac.sp.reqpes.Exception.RequisicaoPessoalException;
 import br.senac.sp.reqpes.Interface.Config;
 import br.senac.sp.reqpes.model.Requisicao;
 import br.senac.sp.reqpes.util.Email;
+import br.senac.sp.reqpes.util.TemplateCorpoEmail;
 
 public class RequisicaoMensagemControl {
 
@@ -447,7 +448,7 @@ public class RequisicaoMensagemControl {
 		email.setTipoTexto("text/html");
 		email.setAssunto(assunto);
 		email.setRemetente(emailRemetente);
-		email.setCorpoEmail(mensagem);
+		email.setCorpoEmail(TemplateCorpoEmail.getCorpoEmail(requisicao, mensagem).toString());
 		email.setParaVarios(para);
 
 		try {
