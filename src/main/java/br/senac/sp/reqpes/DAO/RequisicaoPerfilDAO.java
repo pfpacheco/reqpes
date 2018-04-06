@@ -61,7 +61,7 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 	 *            VARCHAR2) IS
 	 */
 
-	private int dmlRequisicaoPerfil(int tipoDML, RequisicaoPerfil requisicaoPerfil, int... gravaHistoricoChapa)
+	private int dmlRequisicaoPerfil(int tipoDML, RequisicaoPerfil requisicaoPerfil, int soPerfil, int... gravaHistoricoChapa)
 			throws RequisicaoPessoalException {
 
 		int sucesso = 1;
@@ -82,7 +82,7 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 
 		try {
 			stmt = transacao.getCallableStatement(
-					"{call reqpes.SP_DML_REQUISICAO_PERFIL(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
+					"{call reqpes.SP_DML_REQUISICAO_PERFIL(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}");
 			stmt.setInt(1, tipoDML); // 0 INSERT, 1 UPDATE
 			stmt.setInt(2, requisicaoPerfil.getCodRequisicao());
 			stmt.setInt(3, requisicaoPerfil.getSqNivel());
@@ -114,8 +114,8 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 			} else {
 				stmt.setInt(21, 0);
 			}
-			
-		
+
+			stmt.setInt(22, soPerfil);
 
 			// Gerando log com parâmetros recebidos
 			parametros.append("\n1," + tipoDML);
@@ -283,7 +283,7 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 
 				corpo.append("               <tr> ");
 				corpo.append("                 <td height='25' width='23%' align='right' class='tdintranet2'> ");
-				corpo.append("                   <STRONG>Responsável:&nbsp;</STRONG> ");
+				corpo.append("                   <STRONG>Responsável pela alteração:&nbsp;</STRONG> ");
 				corpo.append("                 </td> ");
 				corpo.append("                 <td class='tdintranet2' width='77%'> ");
 				corpo.append("                   " + dadosRequisicao[0][5]);
@@ -462,7 +462,7 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 	 * @procedure: SP_DML_REQUISICAO_JORNADA
 	 */
 	public int gravaRequisicaoPerfil(RequisicaoPerfil requisicaoPerfil) throws RequisicaoPessoalException {
-		return this.dmlRequisicaoPerfil(0, requisicaoPerfil);
+		return this.dmlRequisicaoPerfil(0, requisicaoPerfil, 0);
 	}
 
 	/**
@@ -472,7 +472,7 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 	 * @procedure: SP_DML_REQUISICAO_JORNADA
 	 */
 	public int alteraRequisicaoPerfil(RequisicaoPerfil requisicaoPerfil) throws RequisicaoPessoalException {
-		return this.dmlRequisicaoPerfil(1, requisicaoPerfil);
+		return this.dmlRequisicaoPerfil(1, requisicaoPerfil, 0);
 	}
 
 	/**
@@ -482,9 +482,9 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 	 * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
 	 * @procedure: SP_DML_REQUISICAO_JORNADA
 	 */
-	public int alteraRequisicaoPerfil(RequisicaoPerfil requisicaoPerfil, int gravaHistoricoChapa)
+	public int alteraRequisicaoPerfil(RequisicaoPerfil requisicaoPerfil, int soPerfil, int gravaHistoricoChapa)
 			throws RequisicaoPessoalException {
-		return this.dmlRequisicaoPerfil(1, requisicaoPerfil, gravaHistoricoChapa);
+		return this.dmlRequisicaoPerfil(1, requisicaoPerfil, soPerfil, gravaHistoricoChapa);
 	}
 
 	/**

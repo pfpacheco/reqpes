@@ -529,7 +529,7 @@
 	              <STRONG>Cota:&nbsp;</STRONG>
 	            </td>
 	            <td class="tdintranet2" width="19%">
-	              <input class="input" size="3" name="cotaCargo" id="cotaCargo" onkeypress="return Bloqueia_Caracteres(event);" onchange="getSalarioPorCota(this.value);" value="<%=(String.valueOf(requisicao.getCodRequisicao()).equals("0"))?"":String.valueOf(requisicao.getCotaCargo())%>" maxlength="1" readonly/>
+	              <input class="input" size="3" name="cotaCargo" id="cotaCargo" onkeypress="return Bloqueia_Caracteres(event);" onchange="getSalarioPorCota(this.value);" value="<%=(String.valueOf(requisicao.getCodRequisicao()).equals("0"))?"":String.valueOf(requisicao.getCotaCargo())%>" maxlength="1" <% if (tipoEdicao!=2) {%> readonly <% } %>/>
 	              &nbsp;&nbsp;&nbsp;<strong>Salário:&nbsp;</strong>
 	            </td>
 	            <td class="tdintranet2" width="62%">

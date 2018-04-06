@@ -30,7 +30,7 @@
     String erro = "";
        
     try{
-       retorno = requisicaoPerfilControl.alteraRequisicaoPerfil(requisicaoPerfil, usuario.getChapa());
+       retorno = requisicaoPerfilControl.alteraRequisicaoPerfil(requisicaoPerfil, 1, usuario.getChapa());
        out.print(retorno);
     } catch (Exception e) {
        erro = e.getMessage();

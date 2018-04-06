@@ -17,7 +17,6 @@ import br.senac.sp.reqpes.Exception.RequisicaoPessoalException;
 import br.senac.sp.reqpes.Interface.Config;
 import br.senac.sp.reqpes.model.Requisicao;
 import br.senac.sp.reqpes.util.Email;
-import br.senac.sp.reqpes.util.TemplateCorpoEmail;
 
 public class RequisicaoMensagemControl {
 
@@ -207,7 +206,7 @@ public class RequisicaoMensagemControl {
 			String[] destinatarios = new String[listEmail.size()];
 			listEmail.toArray(destinatarios);
 
-			enviaMensagem2(usuario, requisicao, mensagem, destinatarios, assunto);
+			enviaMensagem(usuario, requisicao, mensagem, destinatarios, assunto);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -426,6 +425,14 @@ public class RequisicaoMensagemControl {
 
 		if (!ambiente.equals("producao")) {
 			assunto = ambiente + " - " + assunto;
+
+			mensagem += " Em produção seria enviado para (";
+
+			for (String e : para) {
+				mensagem += e.replace("NAO-ENVIA", "") + ",";
+			}
+
+			mensagem += ")";
 			emailRemetente = "otavio.remedio@sp.senac.br";
 			para = new String[]{emailRemetente, "GrupoGTI-SistemasTecnologia@sp.senac.br"};
 		}
@@ -440,7 +447,7 @@ public class RequisicaoMensagemControl {
 		email.setTipoTexto("text/html");
 		email.setAssunto(assunto);
 		email.setRemetente(emailRemetente);
-		email.setCorpoEmail(TemplateCorpoEmail.getCorpoEmail(requisicao, mensagem).toString());
+		email.setCorpoEmail(mensagem);
 		email.setParaVarios(para);
 
 		try {

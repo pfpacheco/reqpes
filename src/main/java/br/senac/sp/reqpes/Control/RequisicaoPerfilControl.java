@@ -25,9 +25,9 @@ public class RequisicaoPerfilControl {
 		return requisicaoPerfilDAO.alteraRequisicaoPerfil(requisicaoPerfil);
 	}
 
-	public int alteraRequisicaoPerfil(RequisicaoPerfil requisicaoPerfil, int gravaHistoricoChapa)
+	public int alteraRequisicaoPerfil(RequisicaoPerfil requisicaoPerfil,  int soPerfil, int gravaHistoricoChapa)
 			throws RequisicaoPessoalException {
-		return requisicaoPerfilDAO.alteraRequisicaoPerfil(requisicaoPerfil, gravaHistoricoChapa);
+		return requisicaoPerfilDAO.alteraRequisicaoPerfil(requisicaoPerfil, soPerfil, gravaHistoricoChapa);
 	}
 
 	public RequisicaoPerfil getRequisicaoPerfil(int idRequisicao) throws RequisicaoPessoalException {
