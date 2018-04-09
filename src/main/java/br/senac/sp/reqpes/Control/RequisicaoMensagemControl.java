@@ -423,17 +423,18 @@ public class RequisicaoMensagemControl {
 		SistemaParametro smtp = null;
 		String[] para = emailPara;
 		String emailRemetente = usuario.getEmail();
+		String seriaEnviado = "";
 
 		if (!ambiente.equals("producao")) {
 			assunto = ambiente + " - " + assunto;
 
-			mensagem += " Em produção seria enviado para (";
+			seriaEnviado = " Em produção seria enviado para (";
 
 			for (String e : para) {
-				mensagem += e.replace("NAO-ENVIA", "") + ",";
+				seriaEnviado += e.replace("NAO-ENVIA", "") + ",";
 			}
 
-			mensagem += ")";
+			seriaEnviado += ")";
 			emailRemetente = "otavio.remedio@sp.senac.br";
 			para = new String[]{emailRemetente, "GrupoGTI-SistemasTecnologia@sp.senac.br"};
 		}
@@ -448,7 +449,8 @@ public class RequisicaoMensagemControl {
 		email.setTipoTexto("text/html");
 		email.setAssunto(assunto);
 		email.setRemetente(emailRemetente);
-		email.setCorpoEmail(TemplateCorpoEmail.getCorpoEmail(requisicao, mensagem).toString());
+		email.setCorpoEmail(mensagem.contains("DETALHES DA ALTERAÇÃO")? mensagem + seriaEnviado :
+				TemplateCorpoEmail.getCorpoEmail(requisicao, mensagem).toString() + seriaEnviado);
 		email.setParaVarios(para);
 
 		try {
