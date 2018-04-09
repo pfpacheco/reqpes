@@ -101,7 +101,7 @@
 			</activation>
 			<properties>
 				<ambiente>producao</ambiente>
-				<admti_path>http://www4.intranet.sp.senac.br/infoGES</admti_path>
+				<admti_path>http://www1.intranet.sp.senac.br/infoGES</admti_path>
 				<smtp>10.2.0.217</smtp>
 			</properties>
 			<build>
