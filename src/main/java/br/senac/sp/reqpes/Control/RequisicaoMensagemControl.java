@@ -435,8 +435,8 @@ public class RequisicaoMensagemControl {
 			}
 
 			seriaEnviado += ")";
-			emailRemetente = "otavio.remedio@sp.senac.br, daniela.ccano@sp.senac.br";
-			para = new String[]{emailRemetente, "GrupoGTI-SistemasTecnologia@sp.senac.br"};
+			emailRemetente = "";
+			para = new String[]{"otavio.remedio@sp.senac.br", "daniela.ccano@sp.senac.br", "GrupoGTI-SistemasTecnologia@sp.senac.br"};
 		}
 
 
