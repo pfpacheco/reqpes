@@ -20,7 +20,9 @@
   int idPerfilNEC = Integer.parseInt((sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,"ID_PERFIL_HOM_NEC").getVlrSistemaParametro()));
   
   Boolean isEmail = (request.getParameter("isEmail")==null)? Boolean.FALSE : Boolean.valueOf(request.getParameter("isEmail").trim());
+  String consulta = (request.getParameter("consulta")==null)? "N" : request.getParameter("consulta").trim();
 
+  
   //-- Objetos  
   StringBuffer sql = new StringBuffer();
   RequisicaoJornada requisicaoJornada = new RequisicaoJornadaControl().getRequisicaoJornada(codRequisicao);
@@ -57,6 +59,9 @@
   //-- Resgatando os dados  
   requisicao = requisicaoControl.getPesquisaRequisicao(codRequisicao);
   
+  
+  System.out.println(idPerfilNEC);
+  
   //verifica se tem perfil nec
   if(usuario.getSistemaPerfil().getCodSistemaPerfil() == idPerfilNEC){
 	//confirma se, apesar de ter perfil nec, tem permissão a unidade
@@ -68,6 +73,11 @@
 	 		}	  
 		}
   	}
+  
+  // retirar essa linda
+ // nec = true;
+  
+  
 %>
 
 <link href="<%=request.getContextPath()%>/css/stylesheet.css" rel="STYLESHEET" type="text/css"/>
@@ -95,7 +105,7 @@
                 	alert('Atualizado com sucesso!');
                 	window.close();
                 } else {
-                	alert('Não foi possível atualizar o perfil da reguisição.' + retorno);
+                	alert('Não foi possível atualizar o perfil da requisição.' + retorno);
                 }              
             }
           };
@@ -482,7 +492,7 @@
                     <td colspan="4" height="28" align="left" class="tdIntranet2">
                       <div style="padding-left:5px; padding-right:5px;">
                       	<STRONG>Principais atividades do cargo</STRONG><br>
-                      	<% if(nec && requisicao[0][54].equals("2") && nivelWorkFlow[0][0].equals("3")){%>	                      	
+                      	<% if(nec && requisicao[0][54].equals("2") && consulta.equals("N")){%>	                      	
 	                      	<textarea cols="73" rows="5" id="dscAtividadesCargo"
 	                      		onKeyDown="limitarCaracteres(this,document.getElementById('qtdDscAtividadesCargo'),4000);" 
 		                    	onKeyUP  ="limitarCaracteres(this,document.getElementById('qtdDscAtividadesCargo'),4000);"><%=(requisicao[0][74]==null)?"":requisicao[0][74]%></textarea>
@@ -499,7 +509,7 @@
                     <td colspan="4" height="28" align="left" class="tdIntranet2">
                       <div align="justify" style="padding-left:5px; padding-right:5px;">
                       	<STRONG>Escolaridade mínima</STRONG><br>
-                      	<% if(nec && requisicao[0][54].equals("2") && nivelWorkFlow[0][0].equals("3")) {%>
+                      	<% if(nec && requisicao[0][54].equals("2") && consulta.equals("N")) {%>
 	                      	<textarea cols="73" rows="5" id="descricaoFormacao" 
 	                      		onKeyDown="limitarCaracteres(this,document.getElementById('qtdFormacao'),4000);" 
 		                    	onKeyUP  ="limitarCaracteres(this,document.getElementById('qtdFormacao'),4000);"><%=(requisicao[0][59]==null)?((requisicao[0][58]==null)?"":requisicao[0][58]):requisicao[0][59]%></textarea>
@@ -516,7 +526,7 @@
                     <td colspan="4" height="28" class="tdIntranet2">
                       <div align="justify" style="padding-left:5px; padding-right:5px;">
                       	<STRONG>Experiência profissional</STRONG><br>
-                      	<% if(nec && requisicao[0][54].equals("2") && nivelWorkFlow[0][0].equals("3")) {%>                      		
+                      	<% if(nec && requisicao[0][54].equals("2") && consulta.equals("N")) {%>                      		
                       		<textarea cols="73" rows="5" id="dscExperiencia" 
 	                    		onKeyDown="limitarCaracteres(this,document.getElementById('qtdExperiencia'),4000);" 
 	                      		onKeyUP  ="limitarCaracteres(this,document.getElementById('qtdExperiencia'),4000);"><%=(requisicao[0][78]==null)?"":requisicao[0][78]%></textarea>
@@ -533,7 +543,7 @@
                     <td colspan="4" height="28" class="tdIntranet2">
                       <div align="justify" style="padding-left:5px; padding-right:5px;">
                       	<STRONG>Conhecimentos específicos</STRONG><br>
-                      	<% if(nec && requisicao[0][54].equals("2") && nivelWorkFlow[0][0].equals("3")) {%>                      		
+                      	<% if(nec && requisicao[0][54].equals("2") && consulta.equals("N")) {%>                      		
                       	  	<textarea cols="73" rows="5" id="dscConhecimentos" 
 	                      		onKeyDown="limitarCaracteres(this,document.getElementById('qtdConhecimentos'),4000);" 
 	                      		onKeyUP  ="limitarCaracteres(this,document.getElementById('qtdConhecimentos'),4000);" ><%=(requisicao[0][81]==null)?"":requisicao[0][81]%></textarea>
@@ -550,7 +560,7 @@
                     <td colspan="4" height="28" class="tdIntranet2">
                       <div align="justify" style="padding-left:5px; padding-right:5px;">
                       	<STRONG>Competências</STRONG><br>
-                      	<% if(nec && requisicao[0][54].equals("2") && nivelWorkFlow[0][0].equals("3")) {%>
+                      	<% if(nec && requisicao[0][54].equals("2") && consulta.equals("N")) {%>
                       		<textarea cols="73" rows="5" id="outrasCarateristica" title="Relate os comportamentos, habilidades e atitudes desejadas para o desempenho da função."
 	                      		onKeyDown="limitarCaracteres(this,document.getElementById('qtdOutrasCaracteristicas'),4000);" 
 	                      		onKeyUP  ="limitarCaracteres(this,document.getElementById('qtdOutrasCaracteristicas'),4000);" ><%=(requisicao[0][62]==null)?"":requisicao[0][62]%></textarea>
@@ -568,7 +578,7 @@
                 <td height="28" class="tdIntranet2" colspan="4">
                   <div align="justify" style="padding-left:5px; padding-right:5px;">
                   	<STRONG>Observações</STRONG><br>
-                  	<% if(nec && requisicao[0][54].equals("2") && nivelWorkFlow[0][0].equals("3")) {%>
+                  	<% if(nec && requisicao[0][54].equals("2") && consulta.equals("N")) {%>
 	                  	<textarea cols="73" rows="5" id="comentarios"
 		                	onKeyDown="limitarCaracteres(this,document.getElementById('qtdComentarios'),2000);" 
 		                    onKeyUP  ="limitarCaracteres(this,document.getElementById('qtdComentarios'),2000);" ><%=(requisicao[0][65]==null)?"":requisicao[0][65]%></textarea>
@@ -611,10 +621,14 @@
               <input type="button" class="botaoIntranet" value="Imprimir" onclick="imprimir();">
               &nbsp;&nbsp;
               <input type="button" class="botaoIntranet" value="  Fechar " onclick="window.close();">
-              <% if(nec) {%>
+              <% if(nec && consulta.equals("N")) {%>
               	&nbsp;&nbsp;
               	<input type="button" name="btnAtualizaTexto" class="botaoIntranet" value="Atualizar" onclick="atualizaTextos();">&nbsp;
               <% }%>
+              
+              
+                        
+              
             </div>            
         </td>
       </tr>
