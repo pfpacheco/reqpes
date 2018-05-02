@@ -29,16 +29,9 @@
   String[][] requisicao = null;
   String[][] dataUltimoNivel = null;
   String[][] versaoAtualSistema = null;
-  String[][] nivelWorkFlow = null;
-
+  
   //-- Configurando regra de exibição dos campos
   dataUltimoNivel = requisicaoControl.getMatriz(" SELECT TO_CHAR(MAX(T.DT_HISTORICO_SQL),'DD/MM/YYYY') FROM VW_HISTORICO_REQUISICAO T WHERE T.REQUISICAO_SQ =  " + codRequisicao);
-  nivelWorkFlow = requisicaoControl.getMatriz(" select nvl(t.nivel_workflow, 0) " +
-		  									  "   from reqpes.vw_historico_requisicao t " +
-		  									  "  where t.requisicao_sq = " + codRequisicao +
-		  									  "    and to_date(t.dt_historico, 'dd/mm/yyyy hh24:mi:ss') = (select max(to_date(x.dt_historico,'dd/mm/yyyy hh24:mi:ss')) " +
-		  									  "                            									 from reqpes.vw_historico_requisicao x " + 
-		  									  "                          								    where x.requisicao_sq = t.requisicao_sq)");
   
   Date dataIntegracao = ConverteDate.stringToDate(((new SistemaParametroControl().getSistemaParametroPorSistemaNome(Config.ID_SISTEMA, "DATA_INTEGRACAO")).getVlrSistemaParametro()));
   boolean isExibe = (dataIntegracao.compareTo(ConverteDate.stringToDate(dataUltimoNivel[0][0])) == 1);
