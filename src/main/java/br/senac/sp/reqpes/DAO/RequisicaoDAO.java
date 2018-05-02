@@ -1180,7 +1180,7 @@ public class RequisicaoDAO implements InterfaceDataBase {
 		}
 
 		sql.append(" WHERE  T.REQUISICAO_SQ = " + codRequisicao);
-		sql.append(" ORDER BY T.DT_HISTORICO ");
+		sql.append(" ORDER BY TO_DATE(T.DT_HISTORICO,'DD/MM/YYYY HH24:MI:SS')");
 
 		try {
 			retorno = manipulaDAO.getMatriz(sql.toString(), dataSource);
