@@ -1,5 +1,6 @@
 package br.senac.sp.reqpes.util;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
 
@@ -10,6 +11,7 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeUtility;
 
 import br.senac.sp.componente.control.SistemaParametroControl;
 
@@ -35,19 +37,19 @@ public class Email {
 
 	}
 
-	public void enviarEmailSimples() throws AddressException, MessagingException {
+	public void enviarEmailSimples() throws AddressException, MessagingException, UnsupportedEncodingException {
 		enviarEmail("SIMPLES");
 	}
 
-	public void enviarEmailCC() throws AddressException, MessagingException {
+	public void enviarEmailCC() throws AddressException, MessagingException, UnsupportedEncodingException {
 		enviarEmail("COPIA");
 	}
 
-	public void enviarEmailBCC() throws AddressException, MessagingException {
+	public void enviarEmailBCC() throws AddressException, MessagingException, UnsupportedEncodingException {
 		enviarEmail("COPIA_OCULTA");
 	}
 
-	public void enviarEmailCCBCC() throws AddressException, MessagingException {
+	public void enviarEmailCCBCC() throws AddressException, MessagingException, UnsupportedEncodingException {
 		enviarEmail("COPIA_E_COPIA_OCULTA");
 	}
 
@@ -67,7 +69,7 @@ public class Email {
 		enviarEmailRemetentes("COPIA_E_COPIA_OCULTA");
 	}
 
-	private void enviarEmail(String tipo) throws AddressException, MessagingException {
+	private void enviarEmail(String tipo) throws AddressException, MessagingException, UnsupportedEncodingException {
 		Properties mailProps = new Properties();
 		SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
 		mailProps.put("mail.smtp.host", getSTMPServer());
@@ -119,7 +121,7 @@ public class Email {
 			}
 		}
 
-		message.setSubject(getAssunto());
+		message.setSubject(MimeUtility.encodeText(getAssunto(),"utf-8","B"));
 		message.setContent(corpoEmail, "text/html; charset=iso-8859-1");
 		Transport.send(message);
 	}
