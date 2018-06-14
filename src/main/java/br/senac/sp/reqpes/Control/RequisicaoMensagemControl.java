@@ -418,27 +418,10 @@ public class RequisicaoMensagemControl {
 			String assunto) throws RequisicaoPessoalException, AdmTIException {
 
 		SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
-		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
 		Email email = new Email();
 		SistemaParametro smtp = null;
 		String[] para = emailPara;
 		String emailRemetente = usuario.getEmail();
-		String seriaEnviado = "";
-
-		if (!ambiente.equals("producao")) {
-			assunto = ambiente + " - " + assunto;
-
-			seriaEnviado = " Em produção seria enviado para (";
-
-			for (String e : para) {
-				seriaEnviado += e.replace("NAO-ENVIA", "") + ",";
-			}
-
-			seriaEnviado += ")";
-			emailRemetente = "otavio.remedio@sp.senac.br";
-			para = new String[]{"otavio.remedio@sp.senac.br", "daniela.ccano@sp.senac.br", "GrupoGTI-SistemasTecnologia@sp.senac.br"};
-		}
-
 
 		try {
 			smtp = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA, "SMTP");
@@ -449,8 +432,8 @@ public class RequisicaoMensagemControl {
 		email.setTipoTexto("text/html");
 		email.setAssunto(assunto);
 		email.setRemetente(emailRemetente);
-		email.setCorpoEmail(mensagem.contains("DETALHES DA ALTERAÇÃO")? mensagem + seriaEnviado :
-				TemplateCorpoEmail.getCorpoEmail(requisicao, mensagem).toString() + seriaEnviado);
+		email.setCorpoEmail(mensagem.contains("DETALHES DA ALTERAÇÃO")? mensagem :
+				TemplateCorpoEmail.getCorpoEmail(requisicao, mensagem).toString());
 		email.setParaVarios(para);
 
 		try {

@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
 
+import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -13,6 +14,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
 
+import br.senac.sp.componente.Exception.AdmTIException;
 import br.senac.sp.componente.control.SistemaParametroControl;
 
 /**
@@ -37,65 +39,47 @@ public class Email {
 
 	}
 
-	public void enviarEmailSimples() throws AddressException, MessagingException, UnsupportedEncodingException {
+	public void enviarEmailSimples() throws AddressException, MessagingException, UnsupportedEncodingException, AdmTIException {
 		enviarEmail("SIMPLES");
 	}
 
-	public void enviarEmailCC() throws AddressException, MessagingException, UnsupportedEncodingException {
+	public void enviarEmailCC() throws AddressException, MessagingException, UnsupportedEncodingException, AdmTIException {
 		enviarEmail("COPIA");
 	}
 
-	public void enviarEmailBCC() throws AddressException, MessagingException, UnsupportedEncodingException {
+	public void enviarEmailBCC() throws AddressException, MessagingException, UnsupportedEncodingException, AdmTIException {
 		enviarEmail("COPIA_OCULTA");
 	}
 
-	public void enviarEmailCCBCC() throws AddressException, MessagingException, UnsupportedEncodingException {
+	public void enviarEmailCCBCC() throws AddressException, MessagingException, UnsupportedEncodingException, AdmTIException {
 		enviarEmail("COPIA_E_COPIA_OCULTA");
 	}
 
-	public void enviarEmailRemetentesSimples() throws AddressException, MessagingException {
+	public void enviarEmailRemetentesSimples() throws AddressException, MessagingException, AdmTIException, UnsupportedEncodingException {
 		enviarEmailRemetentes("SIMPLES");
 	}
 
-	public void enviarEmailRemetentesCC() throws AddressException, MessagingException {
+	public void enviarEmailRemetentesCC() throws AddressException, MessagingException, AdmTIException, UnsupportedEncodingException {
 		enviarEmailRemetentes("COPIA");
 	}
 
-	public void enviarEmailRemetentesBCC() throws AddressException, MessagingException {
+	public void enviarEmailRemetentesBCC() throws AddressException, MessagingException, AdmTIException, UnsupportedEncodingException {
 		enviarEmailRemetentes("COPIA_OCULTA");
 	}
 
-	public void enviarEmailRemetentesCCBCC() throws AddressException, MessagingException {
+	public void enviarEmailRemetentesCCBCC() throws AddressException, MessagingException, AdmTIException, UnsupportedEncodingException {
 		enviarEmailRemetentes("COPIA_E_COPIA_OCULTA");
 	}
 
-	private void enviarEmail(String tipo) throws AddressException, MessagingException, UnsupportedEncodingException {
+	private void enviarEmail(String tipo) throws AddressException, MessagingException, UnsupportedEncodingException, AdmTIException {
 		Properties mailProps = new Properties();
 		SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
-		mailProps.put("mail.smtp.host", getSTMPServer());
-		Session mailSession = Session.getDefaultInstance(mailProps, null);
-		Message message = new MimeMessage(mailSession);
-
 		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
 		String titulo_email=getAssunto();
-
-		if (ambiente.equals("desenvolvimento")) {
-			for (int i = 0; i < paraVarios.length; i++) {
-				titulo_email = titulo_email + " / email:" + paraVarios[i];
-			}
-			this.setPara("consultor.solucoes@sp.senac.br");
-		}
-
-	//	if (ambiente.equals("homologacao")) {
-	//		for (int i = 0; i < paraVarios.length; i++) {
-	//			titulo_email = titulo_email + " / email:" + paraVarios[i];
-	//		}
-	//		this.setPara("consultor.solucoes@sp.senac.br");
-	//	}
-
-	//	if (ambiente!=("producao")) {
-	//		titulo_email = "TESTE - "+titulo_email;
-	//  }
+		String seriaEnviado = "";
+		mailProps.put("mail.smtp.host", ambiente.equals("desenvolvimento")?"localhost":getSTMPServer());
+		Session mailSession = Session.getDefaultInstance(mailProps, null);
+		Message message = new MimeMessage(mailSession);
 
 		InternetAddress remetente = new InternetAddress(getRemetente());
 		InternetAddress destinatario = new InternetAddress(getPara());
@@ -123,14 +107,35 @@ public class Email {
 
 		message.setSubject(MimeUtility.encodeText(getAssunto(),"utf-8","B"));
 		message.setContent(corpoEmail, "text/html; charset=iso-8859-1");
+
+
+		if (!ambiente.equals("producao")) {
+			assunto = ambiente + " - " + getAssunto();
+
+			message.setSubject(MimeUtility.encodeText(assunto,"utf-8","B"));
+			seriaEnviado = " Em produção seria enviado para (" + getPara() + ")";
+			message.setRecipient(Message.RecipientType.TO,
+					new InternetAddress(sistemaParametroControl.getSistemaParametros("WHERE SP.NOM_PARAMETRO = 'EMAIL_TESTES'")[0].getVlrSistemaParametro()));
+			message.setRecipients(Message.RecipientType.CC, (Address[])null);
+			message.setRecipients(Message.RecipientType.BCC, (Address[])null);
+			message.setContent(corpoEmail + seriaEnviado, "text/html; charset=iso-8859-1");
+		}
+
+
+
 		Transport.send(message);
 	}
 
-	private void enviarEmailRemetentes(String tipo) throws AddressException, MessagingException {
+	private void enviarEmailRemetentes(String tipo) throws AddressException, MessagingException, AdmTIException, UnsupportedEncodingException {
+
+		// SE FOR DESENVOLVIMENTO MANDA PARA O PROGRAMADOR
+		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
+		String seriaEnviado = "";
+		SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
+
 
 		Properties mailProps = new Properties();
-
-		mailProps.put("mail.smtp.host", getSTMPServer());
+		mailProps.put("mail.smtp.host", ambiente.equals("desenvolvimento")?"localhost":getSTMPServer());
 
 		Session mailSession = Session.getDefaultInstance(mailProps, null);
 
@@ -140,33 +145,8 @@ public class Email {
 
 		InternetAddress remetente = new InternetAddress(getRemetente());
 		message.setFrom(remetente);
-
-
-		// SE FOR DESENVOLVIMENTO MANDA PARA O PROGRAMADOR
-		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
-
 		String titulo_email=getAssunto();
 
-//		if (ambiente.equals("desenvolvimento")) {
-//			for (int i = 0; i < paraVarios.length; i++) {
-//				titulo_email = titulo_email + " / email:" + paraVarios[i];
-//			}
-//			String para_desenv[] = { "consultor.solucoes@sp.senac.br" };
-//			paraVarios = para_desenv;
-//		}
-
-	//	if (ambiente.equals("homologacao")) {
-	//		for (int i = 0; i < paraVarios.length; i++) {
-	//			titulo_email = titulo_email + " / email:" + paraVarios[i];
-	//		}
-	//		String para_desenv[] = { "consultor.solucoes@sp.senac.br" };
-	//		paraVarios = para_desenv;
-	//	}
-
-
-	//    if (ambiente!=("producao")) {
-	//   	titulo_email = "TESTE - "+titulo_email;
-	//    }
 
 		InternetAddress[] destinatarios = new InternetAddress[paraVarios.length];
 		for (int idx = 0; idx < paraVarios.length; idx++) {
@@ -205,7 +185,24 @@ public class Email {
 
 		message.setSubject(titulo_email);
 		message.setContent(corpoEmail, "text/html; charset=iso-8859-1");
-//		message.setContent(corpoEmail, this.tipoTexto);
+
+		if (!ambiente.equals("producao")) {
+			assunto = ambiente + " - " + getAssunto();
+
+			seriaEnviado = " Em produção seria enviado para (";
+			for (String e : paraVarios) {
+				seriaEnviado += e.replace("NAO-ENVIA", "") + ",";
+			}
+			seriaEnviado += ")";
+
+			message.setSubject(MimeUtility.encodeText(assunto,"utf-8","B"));
+			message.setRecipients(Message.RecipientType.TO, (Address[])null);
+			message.setRecipient(Message.RecipientType.TO,
+					new InternetAddress(sistemaParametroControl.getSistemaParametros("WHERE SP.NOM_PARAMETRO = 'EMAIL_TESTES'")[0].getVlrSistemaParametro()));
+			message.setRecipients(Message.RecipientType.CC, (Address[])null);
+			message.setRecipients(Message.RecipientType.BCC, (Address[])null);
+			message.setContent(corpoEmail + seriaEnviado, "text/html; charset=iso-8859-1");
+		}
 
 		Transport.send(message);
 	}
