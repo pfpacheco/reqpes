@@ -206,7 +206,7 @@ public class Email {
 
 			//limpa os destinatarios
 			message.setRecipients(Message.RecipientType.TO, (Address[])null);
-			//seta o destinatario de teses conforme o parametro
+			//seta o destinatario de testes conforme o parametro
 			message.setRecipient(Message.RecipientType.TO,
 					new InternetAddress(sistemaParametroControl.getSistemaParametros("WHERE SP.NOM_PARAMETRO = 'EMAIL_TESTES'")[0].getVlrSistemaParametro()));
 			//limpa os destinatarios copiados
