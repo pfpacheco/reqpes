@@ -129,12 +129,16 @@ public class Email {
 	private void enviarEmailRemetentes(String tipo) throws AddressException, MessagingException, AdmTIException, UnsupportedEncodingException {
 
 		// SE FOR DESENVOLVIMENTO MANDA PARA O PROGRAMADOR
+
+		//recupera a variável de ambiente
 		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
 		String seriaEnviado = "";
 		SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
 
 
 		Properties mailProps = new Properties();
+
+		//altera a propridade do servidor quando o ambiente for desenvolvedor
 		mailProps.put("mail.smtp.host", ambiente.equals("desenvolvimento")?"localhost":getSTMPServer());
 
 		Session mailSession = Session.getDefaultInstance(mailProps, null);
@@ -186,7 +190,10 @@ public class Email {
 		message.setSubject(titulo_email);
 		message.setContent(corpoEmail, "text/html; charset=iso-8859-1");
 
+
+		//alltera as propriedades caso não seja ambiente de produção
 		if (!ambiente.equals("producao")) {
+			//adiciona o nome do ambiente no assunto pra indicar que é um teste
 			assunto = ambiente + " - " + getAssunto();
 
 			seriaEnviado = " Em produção seria enviado para (";
@@ -196,14 +203,20 @@ public class Email {
 			seriaEnviado += ")";
 
 			message.setSubject(MimeUtility.encodeText(assunto,"utf-8","B"));
+
+			//limpa os destinatarios
 			message.setRecipients(Message.RecipientType.TO, (Address[])null);
+			//seta o destinatario de teses conforme o parametro
 			message.setRecipient(Message.RecipientType.TO,
 					new InternetAddress(sistemaParametroControl.getSistemaParametros("WHERE SP.NOM_PARAMETRO = 'EMAIL_TESTES'")[0].getVlrSistemaParametro()));
+			//limpa os destinatarios copiados
 			message.setRecipients(Message.RecipientType.CC, (Address[])null);
+			//limpa os destinatarios ocultos
 			message.setRecipients(Message.RecipientType.BCC, (Address[])null);
 			message.setContent(corpoEmail + seriaEnviado, "text/html; charset=iso-8859-1");
 		}
 
+		//comando que envia a mensagem
 		Transport.send(message);
 	}
 
