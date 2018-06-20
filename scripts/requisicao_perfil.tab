@@ -1,0 +1,67 @@
+create table REQPES.REQUISICAO_PERFIL
+(
+  requisicao_sq            NUMBER(6) not null,
+  sq_nivel                 NUMBER(2),
+  sexo                     VARCHAR2(1),
+  ds_formacao              VARCHAR2(4000),
+  faixa_etaria_ini         NUMBER(2),
+  faixa_etaria_fim         NUMBER(2),
+  outras_carateristica     VARCHAR2(4000),
+  experiencia              NUMBER(3),
+  complemento_escolaridade VARCHAR2(1),
+  tp_experiencia           VARCHAR2(50),
+  comentarios              VARCHAR2(4000),
+  dsc_oportunidade         VARCHAR2(4000),
+  dsc_atividades_cargo     VARCHAR2(4000),
+  cod_area                 NUMBER,
+  cod_funcao               NUMBER,
+  cod_nivel_hierarquia     NUMBER,
+  dsc_experiencia          VARCHAR2(4000),
+  dsc_conhecimentos        VARCHAR2(4000)
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 2M
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.REQUISICAO_PERFIL
+  is 'Armazena o perfil da vaga da RP';
+create index REQPES.IDX_SQ_NIVEL on REQPES.REQUISICAO_PERFIL (SQ_NIVEL)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 128K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.REQUISICAO_PERFIL
+  add constraint PK_RPEXTERNA primary key (REQUISICAO_SQ)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 256K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.REQUISICAO_PERFIL
+  add constraint REQUISICAO_FK_REQPERFIL foreign key (REQUISICAO_SQ)
+  references REQPES.REQUISICAO (REQUISICAO_SQ);
+grant select, update on REQPES.REQUISICAO_PERFIL to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.REQUISICAO_PERFIL to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.REQUISICAO_PERFIL to AN$RHEV;
+

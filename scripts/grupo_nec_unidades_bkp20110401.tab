@@ -1,0 +1,20 @@
+create table REQPES.GRUPO_NEC_UNIDADES_BKP20110401
+(
+  cod_grupo   NUMBER not null,
+  cod_unidade VARCHAR2(4) not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+grant select, update on REQPES.GRUPO_NEC_UNIDADES_BKP20110401 to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.GRUPO_NEC_UNIDADES_BKP20110401 to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.GRUPO_NEC_UNIDADES_BKP20110401 to AN$RHEV;
+

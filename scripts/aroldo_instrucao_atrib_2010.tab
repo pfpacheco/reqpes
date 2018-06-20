@@ -1,0 +1,20 @@
+create table REQPES.AROLDO_INSTRUCAO_ATRIB_2010
+(
+  cod_instrucao NUMBER not null,
+  cod_unidade   VARCHAR2(10) not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+grant select, update on REQPES.AROLDO_INSTRUCAO_ATRIB_2010 to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.AROLDO_INSTRUCAO_ATRIB_2010 to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.AROLDO_INSTRUCAO_ATRIB_2010 to AN$RHEV;
+

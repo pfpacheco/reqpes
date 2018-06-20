@@ -1,0 +1,58 @@
+create table REQPES.SOLICITACAO_MOTIVO_RECRU
+(
+  id_solicitacao  NUMBER not null,
+  id_recrutamento NUMBER not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.SOLICITACAO_MOTIVO_RECRU
+  is 'Vinculação entre os Motivos de Solicitações com o Tipo de Recrutamento';
+comment on column REQPES.SOLICITACAO_MOTIVO_RECRU.id_solicitacao
+  is 'Codigo da Solicitac?o';
+comment on column REQPES.SOLICITACAO_MOTIVO_RECRU.id_recrutamento
+  is 'Codigo do Tipo de Recrutamento';
+create index REQPES.IDX_SOLICITACAO_RECRUTAMENTO on REQPES.SOLICITACAO_MOTIVO_RECRU (ID_RECRUTAMENTO)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.SOLICITACAO_MOTIVO_RECRU
+  add constraint PK_SOLICIT_MOTIVO_RECRU primary key (ID_SOLICITACAO, ID_RECRUTAMENTO)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.SOLICITACAO_MOTIVO_RECRU
+  add constraint FK_SOLICIT_MOTIVO foreign key (ID_SOLICITACAO)
+  references REQPES.SOLICITACAO_MOTIVO (ID);
+alter table REQPES.SOLICITACAO_MOTIVO_RECRU
+  add constraint FK_SOLICIT_RECRU foreign key (ID_RECRUTAMENTO)
+  references REQPES.RECRUTAMENTO (ID_RECRUTAMENTO);
+grant select, update on REQPES.SOLICITACAO_MOTIVO_RECRU to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.SOLICITACAO_MOTIVO_RECRU to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.SOLICITACAO_MOTIVO_RECRU to AN$RHEV;
+

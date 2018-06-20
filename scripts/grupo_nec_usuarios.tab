@@ -1,0 +1,41 @@
+create table REQPES.GRUPO_NEC_USUARIOS
+(
+  cod_grupo NUMBER not null,
+  chapa     NUMBER not null,
+  user_log  NUMBER not null,
+  dat_log   DATE default SYSDATE not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.GRUPO_NEC_USUARIOS
+  is 'Atribuição dos grupos com os usuarios';
+alter table REQPES.GRUPO_NEC_USUARIOS
+  add constraint PK_GRUPO_NEC_USUARIOS primary key (COD_GRUPO, CHAPA)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.GRUPO_NEC_USUARIOS
+  add constraint FK_GRUPO_NEC_USUARIOS foreign key (COD_GRUPO)
+  references REQPES.GRUPO_NEC (COD_GRUPO);
+grant select, update on REQPES.GRUPO_NEC_USUARIOS to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.GRUPO_NEC_USUARIOS to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.GRUPO_NEC_USUARIOS to AN$RHEV;
+

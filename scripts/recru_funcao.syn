@@ -1,0 +1,3 @@
+create or replace synonym REQPES.RECRU_FUNCAO
+  for RECRU_FUNCAO@RECRU_RHWEB.SP.SENAC.BR;
+

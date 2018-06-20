@@ -1,0 +1,37 @@
+create table REQPES.VERSAO
+(
+  versao    VARCHAR2(100) not null,
+  data      DATE default SYSDATE not null,
+  descricao VARCHAR2(4000) not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.VERSAO
+  is 'Histórico das versões do sistema';
+alter table REQPES.VERSAO
+  add constraint PK_VERSAO primary key (VERSAO)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+grant select, update on REQPES.VERSAO to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.VERSAO to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.VERSAO to AN$RHEV;
+

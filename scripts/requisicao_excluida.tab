@@ -1,0 +1,42 @@
+create table REQPES.REQUISICAO_EXCLUIDA
+(
+  requisicao_sq  NUMBER(6) not null,
+  funcionario_id NUMBER(7) not null,
+  motivo         VARCHAR2(2000) not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 256K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.REQUISICAO_EXCLUIDA
+  is 'Armazena as RP''s excluidas e seu motivo de exclusão';
+comment on column REQPES.REQUISICAO_EXCLUIDA.funcionario_id
+  is 'Funcionario que realizou a exclus?o';
+comment on column REQPES.REQUISICAO_EXCLUIDA.motivo
+  is 'Descric?o do motivo da exclus?o';
+create unique index REQPES.XPKREQUISICAO_EXCLUIDA on REQPES.REQUISICAO_EXCLUIDA (REQUISICAO_SQ)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 256K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.REQUISICAO_EXCLUIDA
+  add constraint REQUISICAO_FK_EXCLUIDA foreign key (REQUISICAO_SQ)
+  references REQPES.REQUISICAO (REQUISICAO_SQ);
+grant select, update on REQPES.REQUISICAO_EXCLUIDA to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.REQUISICAO_EXCLUIDA to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.REQUISICAO_EXCLUIDA to AN$RHEV;
+

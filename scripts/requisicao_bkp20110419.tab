@@ -1,0 +1,61 @@
+create table REQPES.REQUISICAO_BKP20110419
+(
+  requisicao_sq           NUMBER(6) not null,
+  cod_unidade             VARCHAR2(4) not null,
+  usuario_sq              NUMBER(8) not null,
+  cargo_sq                NUMBER(5),
+  cod_ma                  VARCHAR2(3),
+  cod_sma                 VARCHAR2(3),
+  cota                    NUMBER(2) not null,
+  tp_contratacao          NUMBER,
+  nm_superior             VARCHAR2(60) not null,
+  fone_unidade            VARCHAR2(15) not null,
+  jornada_trabalho        NUMBER(5,2) not null,
+  local_trabalho          VARCHAR2(1) not null,
+  motivo_solicitacao      NUMBER,
+  obs                     VARCHAR2(2000),
+  supervisao              VARCHAR2(1) not null,
+  nr_funcionario          NUMBER(3) not null,
+  ds_tarefa               VARCHAR2(2000),
+  viagem                  VARCHAR2(1) not null,
+  salario                 NUMBER(18,2) not null,
+  outro_local             VARCHAR2(2000),
+  nm_indicado             VARCHAR2(60),
+  inicio_contratacao      DATE,
+  fim_contratacao         DATE,
+  cod_recrutamento        NUMBER,
+  dt_requisicao           DATE not null,
+  cod_area                NUMBER,
+  razao_substituicao      NUMBER,
+  tipo_indicacao          VARCHAR2(1),
+  nome_indicado           VARCHAR2(80),
+  ds_motivo_solicitacao   VARCHAR2(2000),
+  classificacao_funcional NUMBER(5),
+  id_indicado             NUMBER(7),
+  substituido_id_hist     NUMBER(7),
+  transferencia_data      DATE,
+  ind_carta_convte        CHAR(1),
+  ind_ex_carta_convte     CHAR(1),
+  ind_ex_funcionario      CHAR(1),
+  id_code_combination     NUMBER(15),
+  ind_tipo_requisicao     VARCHAR2(1) not null,
+  cod_status              NUMBER not null,
+  dsc_recrutamento        VARCHAR2(4000),
+  ind_carater_excecao     VARCHAR2(1) not null,
+  versao_sistema          VARCHAR2(100)
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+grant select, update on REQPES.REQUISICAO_BKP20110419 to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.REQUISICAO_BKP20110419 to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.REQUISICAO_BKP20110419 to AN$RHEV;
+

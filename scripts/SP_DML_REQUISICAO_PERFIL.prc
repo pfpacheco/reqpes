@@ -1,4 +1,4 @@
-CREATE OR REPLACE PROCEDURE SP_DML_REQUISICAO_PERFIL(P_IN_DML                      IN NUMBER
+CREATE OR REPLACE PROCEDURE REQPES.SP_DML_REQUISICAO_PERFIL(P_IN_DML                      IN NUMBER
                                                     ,P_IN_REQUISICAO_SQ            IN NUMBER
                                                     ,P_IN_SQ_NIVEL                 IN NUMBER
                                                     ,P_IN_SEXO                     IN VARCHAR2
@@ -18,7 +18,8 @@ CREATE OR REPLACE PROCEDURE SP_DML_REQUISICAO_PERFIL(P_IN_DML                   
                                                     ,P_IN_DSC_EXPERIENCIA          IN VARCHAR2
                                                     ,P_IN_DSC_CONHECIMENTOS        IN VARCHAR2
                                                     ,P_IN_LIST_FUNCAO              IN VARCHAR2
-                                                    ,P_IN_GRAVA_HISTORICO_CHAPA    IN NUMBER) IS
+                                                    ,P_IN_GRAVA_HISTORICO_CHAPA    IN NUMBER
+                                                    ,P_IN_SO_PERFIL                IN NUMBER) IS
 
   REG_REQUISICAO_PERFIL REQUISICAO_PERFIL%ROWTYPE;
 
@@ -56,8 +57,11 @@ BEGIN
   REG_REQUISICAO_PERFIL.DSC_EXPERIENCIA          := P_IN_DSC_EXPERIENCIA;
   REG_REQUISICAO_PERFIL.DSC_CONHECIMENTOS        := P_IN_DSC_CONHECIMENTOS;
   -------------------------------------------------------------------------------
-  REQUISICAO_PKG.SP_DML_REQUISICAO_PERFIL(P_IN_DML, REG_REQUISICAO_PERFIL, P_IN_LIST_FUNCAO, P_IN_GRAVA_HISTORICO_CHAPA);
+  REQUISICAO_PKG.SP_DML_REQUISICAO_PERFIL(P_IN_DML, REG_REQUISICAO_PERFIL, P_IN_LIST_FUNCAO, P_IN_GRAVA_HISTORICO_CHAPA, P_IN_SO_PERFIL);
   -------------------------------------------------------------------------------
 
 END SP_DML_REQUISICAO_PERFIL;
 /
+grant execute, debug on REQPES.SP_DML_REQUISICAO_PERFIL to AN$RHEV;
+
+

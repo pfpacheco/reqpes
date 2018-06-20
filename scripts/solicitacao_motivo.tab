@@ -1,0 +1,46 @@
+create table REQPES.SOLICITACAO_MOTIVO
+(
+  id        NUMBER(3) not null,
+  descricao VARCHAR2(50) not null,
+  ativo     VARCHAR2(1) not null,
+  rp_tipo   VARCHAR2(1) not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.SOLICITACAO_MOTIVO
+  is 'Tabela destinada a armazenar os motivos das solicitações';
+comment on column REQPES.SOLICITACAO_MOTIVO.id
+  is 'Identificador do motivo da solicitac?o.';
+comment on column REQPES.SOLICITACAO_MOTIVO.descricao
+  is 'Descric?o do motivo da solicitac?o.';
+comment on column REQPES.SOLICITACAO_MOTIVO.ativo
+  is 'Determina se o motivo da solicitac?o estara disponivel. Valores validos: S(im) e N(?o).';
+comment on column REQPES.SOLICITACAO_MOTIVO.rp_tipo
+  is 'Identifica se o motivo e para uma RP de (A)dmiss?o ou de (T)ransferencia.';
+alter table REQPES.SOLICITACAO_MOTIVO
+  add constraint PK_SOLICITACAO_MOTIVO primary key (ID)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+grant select, update on REQPES.SOLICITACAO_MOTIVO to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.SOLICITACAO_MOTIVO to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.SOLICITACAO_MOTIVO to AN$RHEV;
+

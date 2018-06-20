@@ -1,0 +1,41 @@
+create table REQPES.REQUISICAO_REPROVADA
+(
+  requisicao_sq NUMBER(6) not null,
+  cod_unidade   VARCHAR2(10) not null,
+  dt_reprovada  DATE not null,
+  motivo        VARCHAR2(2000) not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 192K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.REQUISICAO_REPROVADA
+  is 'Armazena as RP''s que foram reprovadas';
+alter table REQPES.REQUISICAO_REPROVADA
+  add constraint PK_REQUISICAO_REPROVADA primary key (REQUISICAO_SQ, COD_UNIDADE)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 192K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.REQUISICAO_REPROVADA
+  add constraint FK_REQUISICAO_REPROVADA foreign key (REQUISICAO_SQ)
+  references REQPES.REQUISICAO (REQUISICAO_SQ);
+grant select, update on REQPES.REQUISICAO_REPROVADA to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.REQUISICAO_REPROVADA to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.REQUISICAO_REPROVADA to AN$RHEV;
+

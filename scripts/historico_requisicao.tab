@@ -1,0 +1,101 @@
+create table REQPES.HISTORICO_REQUISICAO
+(
+  requisicao_sq         NUMBER(6) not null,
+  cod_unidade           VARCHAR2(10),
+  dt_envio              DATE not null,
+  dt_homologacao        DATE,
+  usuario_sq            NUMBER(8),
+  status                VARCHAR2(20),
+  unidade_atual_usuario VARCHAR2(10),
+  nivel                 NUMBER
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 8M
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.HISTORICO_REQUISICAO
+  is 'Historicos de homologações efetuadas com as RP''s';
+comment on column REQPES.HISTORICO_REQUISICAO.cod_unidade
+  is 'Unidade na qual a RP foi encaminhada';
+comment on column REQPES.HISTORICO_REQUISICAO.dt_homologacao
+  is 'Campo descontinuado na nova versão, mantido apenas para historico.';
+comment on column REQPES.HISTORICO_REQUISICAO.status
+  is 'Valores validos: ''criou'', ''reprovou'', ''homologou'', ''aprovou'', ''solicitou revisão'', ''revisou'', ''expirou''.';
+comment on column REQPES.HISTORICO_REQUISICAO.unidade_atual_usuario
+  is 'Unidade em que o usuario estava naquele momento durante a RP. Apenas para efeito de relatorios e historico.';
+comment on column REQPES.HISTORICO_REQUISICAO.nivel
+  is 'Nivel no workflow de aprovação';
+create index REQPES.IDX_HISTORICO_DATA on REQPES.HISTORICO_REQUISICAO (DT_ENVIO)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+create index REQPES.IDX_HISTORICO_REQUISICAO on REQPES.HISTORICO_REQUISICAO (REQUISICAO_SQ)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 2M
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+create index REQPES.IDX_HISTORICO_STATUS on REQPES.HISTORICO_REQUISICAO (STATUS)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 3M
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+create index REQPES.IDX_HISTORICO_UNIDADE on REQPES.HISTORICO_REQUISICAO (COD_UNIDADE)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 2M
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+create index REQPES.IDX_HISTORICO_USUARIO on REQPES.HISTORICO_REQUISICAO (USUARIO_SQ)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 448K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.HISTORICO_REQUISICAO
+  add constraint REQUISICAO_FK_HIST foreign key (REQUISICAO_SQ)
+  references REQPES.REQUISICAO (REQUISICAO_SQ);
+grant select, update on REQPES.HISTORICO_REQUISICAO to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.HISTORICO_REQUISICAO to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.HISTORICO_REQUISICAO to AN$RHEV;
+

@@ -1,0 +1,28 @@
+create table REQPES.INSTRUCAO_BKP20110418
+(
+  cod_instrucao     NUMBER not null,
+  cod_tab_salarial  NUMBER not null,
+  cod_cargo         NUMBER not null,
+  cota              NUMBER not null,
+  cod_area_subarea  VARCHAR2(100),
+  dat_cadastro      DATE not null,
+  dat_alteracao     DATE,
+  user_cadastro     NUMBER not null,
+  user_alteracao    NUMBER,
+  cod_instrucao_pai NUMBER
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+grant select, update on REQPES.INSTRUCAO_BKP20110418 to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.INSTRUCAO_BKP20110418 to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.INSTRUCAO_BKP20110418 to AN$RHEV;
+

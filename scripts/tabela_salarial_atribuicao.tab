@@ -1,0 +1,43 @@
+create table REQPES.TABELA_SALARIAL_ATRIBUICAO
+(
+  cod_tab_salarial      NUMBER not null,
+  cod_tab_salarial_rhev NUMBER not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.TABELA_SALARIAL_ATRIBUICAO
+  is 'Vinculação das Tabelas Salariais utilizada pela RP com as Tabelas Salariais utilizadas no RHEvolution';
+comment on column REQPES.TABELA_SALARIAL_ATRIBUICAO.cod_tab_salarial
+  is 'Codigo da Tabela Salarial RP';
+comment on column REQPES.TABELA_SALARIAL_ATRIBUICAO.cod_tab_salarial_rhev
+  is 'Codigo da Tabela Salarial RHEvolution';
+alter table REQPES.TABELA_SALARIAL_ATRIBUICAO
+  add constraint PK_TAB_SALARIAL_ATRIBUICAO primary key (COD_TAB_SALARIAL, COD_TAB_SALARIAL_RHEV)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.TABELA_SALARIAL_ATRIBUICAO
+  add constraint FK_TAB_SALARIAL_ATRIBUICAO foreign key (COD_TAB_SALARIAL)
+  references REQPES.TABELA_SALARIAL (COD_TAB_SALARIAL);
+grant select, update on REQPES.TABELA_SALARIAL_ATRIBUICAO to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.TABELA_SALARIAL_ATRIBUICAO to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.TABELA_SALARIAL_ATRIBUICAO to AN$RHEV;
+

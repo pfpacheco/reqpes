@@ -1,0 +1,134 @@
+create table REQPES.REQUISICAO_JORNADA
+(
+  requisicao_sq       NUMBER(6) not null,
+  hr_segunda_entrada1 DATE,
+  hr_segunda_entrada2 DATE,
+  hr_segunda_saida1   DATE,
+  hr_segunda_saida2   DATE,
+  hr_terca_entrada1   DATE,
+  hr_terca_entrada2   DATE,
+  hr_terca_saida1     DATE,
+  hr_terca_saida2     DATE,
+  hr_quarta_entrada1  DATE,
+  hr_quarta_entrada2  DATE,
+  hr_quarta_saida1    DATE,
+  hr_quarta_saida2    DATE,
+  hr_quinta_entrada1  DATE,
+  hr_quinta_entrada2  DATE,
+  hr_quinta_saida1    DATE,
+  hr_quinta_saida2    DATE,
+  hr_sexta_entrada1   DATE,
+  hr_sexta_entrada2   DATE,
+  hr_sexta_saida1     DATE,
+  hr_sexta_saida2     DATE,
+  hr_sabado_entrada1  DATE,
+  hr_sabado_entrada2  DATE,
+  hr_sabado_saida1    DATE,
+  hr_sabado_saida2    DATE,
+  hr_domingo_entrada1 DATE,
+  hr_domingo_entrada2 DATE,
+  hr_domingo_saida1   DATE,
+  hr_domingo_saida2   DATE,
+  cla_segunda         VARCHAR2(10),
+  cla_terca           VARCHAR2(10),
+  cla_quarta          VARCHAR2(10),
+  cla_quinta          VARCHAR2(10),
+  cla_sexta           VARCHAR2(10),
+  cla_sabado          VARCHAR2(10),
+  cla_domingo         VARCHAR2(10),
+  cod_escala          VARCHAR2(20),
+  id_calendario       NUMBER,
+  hr_segunda_entrada3 DATE,
+  hr_segunda_entrada4 DATE,
+  hr_segunda_saida3   DATE,
+  hr_segunda_saida4   DATE,
+  hr_terca_entrada3   DATE,
+  hr_terca_entrada4   DATE,
+  hr_terca_saida3     DATE,
+  hr_terca_saida4     DATE,
+  hr_quarta_entrada3  DATE,
+  hr_quarta_entrada4  DATE,
+  hr_quarta_saida3    DATE,
+  hr_quarta_saida4    DATE,
+  hr_quinta_entrada3  DATE,
+  hr_quinta_entrada4  DATE,
+  hr_quinta_saida3    DATE,
+  hr_quinta_saida4    DATE,
+  hr_sexta_entrada3   DATE,
+  hr_sexta_entrada4   DATE,
+  hr_sexta_saida3     DATE,
+  hr_sexta_saida4     DATE,
+  hr_sabado_entrada3  DATE,
+  hr_sabado_entrada4  DATE,
+  hr_sabado_saida3    DATE,
+  hr_sabado_saida4    DATE,
+  hr_domingo_entrada3 DATE,
+  hr_domingo_entrada4 DATE,
+  hr_domingo_saida3   DATE,
+  hr_domingo_saida4   DATE,
+  ind_tipo_horario    VARCHAR2(1)
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 4M
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.REQUISICAO_JORNADA
+  is 'Armazena a Jornada de Trabalho das RP''s';
+comment on column REQPES.REQUISICAO_JORNADA.cod_escala
+  is 'Informac?o TimeKeeper / RHEvolution';
+comment on column REQPES.REQUISICAO_JORNADA.id_calendario
+  is 'Informac?o TimeKeeper / RHEvolution';
+comment on column REQPES.REQUISICAO_JORNADA.ind_tipo_horario
+  is 'M - Monitor / E - Escala / P - Professor';
+create index REQPES.IDX_COD_ESCALA on REQPES.REQUISICAO_JORNADA (COD_ESCALA)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+create index REQPES.IDX_ID_CALENDARIO on REQPES.REQUISICAO_JORNADA (ID_CALENDARIO)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.REQUISICAO_JORNADA
+  add constraint PK_REQ_JORNADA primary key (REQUISICAO_SQ)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 256K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.REQUISICAO_JORNADA
+  add constraint REQUISICAO_FK_JORN foreign key (REQUISICAO_SQ)
+  references REQPES.REQUISICAO (REQUISICAO_SQ);
+grant select, update on REQPES.REQUISICAO_JORNADA to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.REQUISICAO_JORNADA to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.REQUISICAO_JORNADA to AN$RHEV;
+

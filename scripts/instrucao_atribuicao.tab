@@ -1,0 +1,51 @@
+create table REQPES.INSTRUCAO_ATRIBUICAO
+(
+  cod_instrucao NUMBER not null,
+  cod_unidade   VARCHAR2(10) not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 3M
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.INSTRUCAO_ATRIBUICAO
+  is 'Armazena as atribuições das Instruções cadastradas ( Instrução 15 - GEP )';
+create index REQPES.IDX_INSTRUCAO_ATRB_INSTRUCAO on REQPES.INSTRUCAO_ATRIBUICAO (COD_INSTRUCAO)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.INSTRUCAO_ATRIBUICAO
+  add constraint PK_INSTRUCAO_ATRIBUICAO primary key (COD_INSTRUCAO, COD_UNIDADE)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 4M
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.INSTRUCAO_ATRIBUICAO
+  add constraint FK_INSTRUCAO_ATRIBUICAO foreign key (COD_INSTRUCAO)
+  references REQPES.INSTRUCAO (COD_INSTRUCAO);
+grant select, update on REQPES.INSTRUCAO_ATRIBUICAO to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.INSTRUCAO_ATRIBUICAO to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.INSTRUCAO_ATRIBUICAO to AN$RHEV;
+

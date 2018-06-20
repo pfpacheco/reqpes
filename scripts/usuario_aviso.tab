@@ -1,0 +1,46 @@
+create table REQPES.USUARIO_AVISO
+(
+  chapa          NUMBER not null,
+  cod_tipo_aviso NUMBER not null,
+  user_log       NUMBER not null,
+  dat_log        DATE default SYSDATE not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.USUARIO_AVISO
+  is 'Tabela que armazena os e-mails que serão encaminhados como cópia após aprovação da RP';
+comment on column REQPES.USUARIO_AVISO.chapa
+  is 'Número da chapa do funcionário que recebe e-mail de cópia';
+comment on column REQPES.USUARIO_AVISO.cod_tipo_aviso
+  is 'Código do tipo de aviso referenciado com o cargo';
+alter table REQPES.USUARIO_AVISO
+  add constraint PK_USUARIO_AVISO primary key (CHAPA, COD_TIPO_AVISO)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.USUARIO_AVISO
+  add constraint FK_TIPO_AVISO foreign key (COD_TIPO_AVISO)
+  references REQPES.TIPO_AVISO (COD_TIPO_AVISO);
+grant select, update on REQPES.USUARIO_AVISO to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.USUARIO_AVISO to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.USUARIO_AVISO to AN$RHEV;
+grant select on REQPES.USUARIO_AVISO to GERAL;
+

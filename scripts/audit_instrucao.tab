@@ -1,0 +1,23 @@
+create table REQPES.AUDIT_INSTRUCAO
+(
+  cod_instrucao NUMBER not null,
+  ind_operacao  VARCHAR2(1) not null,
+  log           VARCHAR2(4000) not null,
+  usr_operacao  VARCHAR2(500) not null,
+  dat_operacao  DATE default SYSDATE not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+grant select, update on REQPES.AUDIT_INSTRUCAO to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.AUDIT_INSTRUCAO to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.AUDIT_INSTRUCAO to AN$RHEV;
+

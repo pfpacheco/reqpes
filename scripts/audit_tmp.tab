@@ -1,0 +1,11 @@
+create global temporary table REQPES.AUDIT_TMP
+(
+  session_id NUMBER not null,
+  usuario    NUMBER not null,
+  atribuicao VARCHAR2(4000) not null
+)
+on commit delete rows;
+grant select, update on REQPES.AUDIT_TMP to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.AUDIT_TMP to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.AUDIT_TMP to AN$RHEV;
+

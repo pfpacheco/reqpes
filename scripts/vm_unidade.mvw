@@ -1,0 +1,33 @@
+CREATE MATERIALIZED VIEW REQPES.VM_UNIDADE
+REFRESH FORCE ON DEMAND
+AS
+SELECT COD_UNIDADE
+      ,COD_REGIONAL
+      ,TIPO
+      ,SIGLA
+      ,NOME
+      ,RATEIO
+      ,PTU_CONS
+      ,PTU_ACESSO
+      ,CIDADE
+      ,NOME_GERENTE
+      ,RG_GERENTE
+      ,NOME_SECRETARIO
+      ,RG_SECRETARIO
+      ,CGC
+      ,NOME_CENTRO
+      ,ENDERECO
+      ,COD_CIDADE
+      ,ESTADO
+      ,CEP
+      ,TELEFONE
+      ,CPF_GERENTE
+      ,EMAIL
+      ,FAX
+      ,TP_CARGO
+FROM   UNIDADE_SNC@GERAL_WEB;
+grant select, update on REQPES.VM_UNIDADE to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.VM_UNIDADE to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.VM_UNIDADE to AN$RHEV;
+
+

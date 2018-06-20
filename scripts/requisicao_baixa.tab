@@ -1,0 +1,40 @@
+create table REQPES.REQUISICAO_BAIXA
+(
+  requisicao_sq  NUMBER(6) not null,
+  funcionario_id NUMBER(7) not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 256K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.REQUISICAO_BAIXA
+  is 'Armazena os ID''s dos colaboradores que foram utilizados na Baixa da RP';
+create unique index REQPES.PK_REQUISICAO_BAIXA on REQPES.REQUISICAO_BAIXA (REQUISICAO_SQ)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 128K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.REQUISICAO_BAIXA
+  add constraint REQUISICAO_FK_BAIXA foreign key (REQUISICAO_SQ)
+  references REQPES.REQUISICAO (REQUISICAO_SQ);
+grant select, update on REQPES.REQUISICAO_BAIXA to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.REQUISICAO_BAIXA to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.REQUISICAO_BAIXA to AN$RHEV;
+grant select on REQPES.REQUISICAO_BAIXA to RHEV;
+grant select on REQPES.REQUISICAO_BAIXA to RHEVSENAC;
+grant select on REQPES.REQUISICAO_BAIXA to USR_RHEV;
+

@@ -1,0 +1,39 @@
+create table REQPES.REQUISICAO_PERFIL_FUNCAO
+(
+  requisicao_sq NUMBER not null,
+  cod_funcao    NUMBER not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.REQUISICAO_PERFIL_FUNCAO
+  is 'Guarda as relacoes extras das funcoes no perfil da RP';
+alter table REQPES.REQUISICAO_PERFIL_FUNCAO
+  add constraint PK_REQ_PERFIL_FUNCAO primary key (REQUISICAO_SQ, COD_FUNCAO)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.REQUISICAO_PERFIL_FUNCAO
+  add constraint FK_REQ_PERFIL_FUNCAO foreign key (REQUISICAO_SQ)
+  references REQPES.REQUISICAO (REQUISICAO_SQ);
+grant select, update on REQPES.REQUISICAO_PERFIL_FUNCAO to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.REQUISICAO_PERFIL_FUNCAO to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.REQUISICAO_PERFIL_FUNCAO to AN$RHEV;
+

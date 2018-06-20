@@ -1,0 +1,51 @@
+create table REQPES.REQUISICAO_REVISAO
+(
+  requisicao_sq NUMBER(6) not null,
+  nro_revisao   NUMBER(2) not null,
+  status        VARCHAR2(10) not null,
+  motivo        VARCHAR2(2000) not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 384K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.REQUISICAO_REVISAO
+  is 'Armazena as solicitações de Revisão das RP''s';
+create index REQPES.IDX_REVISAO_REQUISICAO on REQPES.REQUISICAO_REVISAO (REQUISICAO_SQ)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+create index REQPES.IDX_REVISAO_STATUS on REQPES.REQUISICAO_REVISAO (STATUS)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.REQUISICAO_REVISAO
+  add constraint REQUISICAO_FK_REQREV foreign key (REQUISICAO_SQ)
+  references REQPES.REQUISICAO (REQUISICAO_SQ);
+grant select, update on REQPES.REQUISICAO_REVISAO to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.REQUISICAO_REVISAO to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.REQUISICAO_REVISAO to AN$RHEV;
+

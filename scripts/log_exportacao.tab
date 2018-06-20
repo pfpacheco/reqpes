@@ -1,0 +1,25 @@
+create table REQPES.LOG_EXPORTACAO
+(
+  requisicao_sq NUMBER(6) not null,
+  dsc_log       VARCHAR2(4000) not null,
+  dat_log       DATE default SYSDATE not null,
+  user_log      NUMBER not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.LOG_EXPORTACAO
+  is 'Grava o log de exportacao - Banco de Talentos X RHEvolution X RP';
+grant select, update on REQPES.LOG_EXPORTACAO to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.LOG_EXPORTACAO to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.LOG_EXPORTACAO to AN$RHEV;
+grant select on REQPES.LOG_EXPORTACAO to RECRU;
+

@@ -1,0 +1,3 @@
+create or replace synonym REQPES.XXGL_UTIL
+  for APPS.XXGL_UTIL@DB$EBS.SP.SENAC.BR;
+

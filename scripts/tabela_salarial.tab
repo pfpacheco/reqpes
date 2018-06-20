@@ -1,0 +1,46 @@
+create table REQPES.TABELA_SALARIAL
+(
+  cod_tab_salarial       NUMBER not null,
+  dsc_tab_salarial       VARCHAR2(400) not null,
+  ind_ativo              VARCHAR2(1) not null,
+  ind_exibe_area_subarea VARCHAR2(1) not null,
+  dat_cadastro           DATE default SYSDATE not null,
+  dat_alteracao          DATE,
+  user_cadastro          NUMBER not null,
+  user_alteracao         NUMBER
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.TABELA_SALARIAL
+  is 'Tabelas Salariais utilizadas na associação com cargos ( Instrução 15 - GEP )';
+comment on column REQPES.TABELA_SALARIAL.ind_ativo
+  is '(S)im / (N)?o';
+comment on column REQPES.TABELA_SALARIAL.ind_exibe_area_subarea
+  is '(S)im / (N)?o';
+alter table REQPES.TABELA_SALARIAL
+  add constraint PK_TAB_SALARIAL primary key (COD_TAB_SALARIAL)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+grant select, update on REQPES.TABELA_SALARIAL to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.TABELA_SALARIAL to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.TABELA_SALARIAL to AN$RHEV;
+

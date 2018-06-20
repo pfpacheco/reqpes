@@ -1,0 +1,20 @@
+create table REQPES.HISTORICO_PERFIL
+(
+  requisicao_sq  NUMBER not null,
+  id_usuario     NUMBER not null,
+  texto_anterior VARCHAR2(4000) not null,
+  nm_campo       VARCHAR2(4000) not null,
+  data           DATE default SYSDATE not null
+)
+tablespace RHEVSENAC_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+

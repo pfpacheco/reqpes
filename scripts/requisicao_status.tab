@@ -1,0 +1,37 @@
+create table REQPES.REQUISICAO_STATUS
+(
+  cod_status NUMBER not null,
+  dsc_status VARCHAR2(150) not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.REQUISICAO_STATUS
+  is 'Armazena os status possiveis de uma RP no Workflow';
+alter table REQPES.REQUISICAO_STATUS
+  add constraint PK_COD_STATUS primary key (COD_STATUS)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+grant select, update on REQPES.REQUISICAO_STATUS to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.REQUISICAO_STATUS to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.REQUISICAO_STATUS to AN$RHEV;
+grant select on REQPES.REQUISICAO_STATUS to RECRU;
+

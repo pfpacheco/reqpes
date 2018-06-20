@@ -1,0 +1,7 @@
+create sequence REQPES.SEQ_TABELA_SALARIAL
+minvalue 1
+maxvalue 999999999999999999999999999
+start with 11
+increment by 1
+nocache;
+

@@ -1,0 +1,37 @@
+create table REQPES.UO_CARGO_ADM_COORD
+(
+  cod_unidade   VARCHAR2(5) not null,
+  dat_cadastro  DATE default SYSDATE not null,
+  user_cadastro NUMBER not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.UO_CARGO_ADM_COORD
+  is 'Tabela contendo as UO''s que podem ter o cargo de ASSIST. TEC. ADMINISTRATIVO I como COORDENADOR ADMINISTRATIVO';
+alter table REQPES.UO_CARGO_ADM_COORD
+  add constraint PK_UO_CARGO_ADM_COORD primary key (COD_UNIDADE)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+grant select, update on REQPES.UO_CARGO_ADM_COORD to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.UO_CARGO_ADM_COORD to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.UO_CARGO_ADM_COORD to AN$RHEV;
+

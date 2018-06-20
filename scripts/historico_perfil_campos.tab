@@ -1,0 +1,35 @@
+create table REQPES.HISTORICO_PERFIL_CAMPOS
+(
+  requisicao_sq     NUMBER(6) not null,
+  usuario_sq        NUMBER(8) not null,
+  dt_envio          DATE not null,
+  campo             VARCHAR2(200) not null,
+  conteudo_anterior VARCHAR2(2000),
+  conteudo_novo     VARCHAR2(2000)
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.HISTORICO_PERFIL_CAMPOS
+  add constraint HISTORICO_PERFIL_CAMPOS_PK primary key (REQUISICAO_SQ, USUARIO_SQ, DT_ENVIO, CAMPO)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+

@@ -1,0 +1,40 @@
+create table REQPES.GRUPO_NEC
+(
+  cod_grupo      NUMBER not null,
+  dsc_grupo      VARCHAR2(400) not null,
+  dat_cadastro   DATE default SYSDATE not null,
+  dat_alteracao  DATE,
+  user_cadastro  NUMBER not null,
+  user_alteracao NUMBER
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.GRUPO_NEC
+  is 'Grupo que controla as unidades de acesso dos usuarios NEC';
+alter table REQPES.GRUPO_NEC
+  add constraint PK_GRUPO_NEC primary key (COD_GRUPO)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+grant select, update on REQPES.GRUPO_NEC to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.GRUPO_NEC to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.GRUPO_NEC to AN$RHEV;
+

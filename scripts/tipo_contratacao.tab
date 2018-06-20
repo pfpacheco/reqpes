@@ -1,0 +1,37 @@
+create table REQPES.TIPO_CONTRATACAO
+(
+  cod_tipo_contratacao NUMBER(3) not null,
+  descricao            VARCHAR2(50) not null,
+  ind_ativo            VARCHAR2(1) not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.TIPO_CONTRATACAO
+  is 'Armazena os Tipos de Contratações possiveis no Senac que exigem RP';
+alter table REQPES.TIPO_CONTRATACAO
+  add constraint PK_COD_TIPO_CONTRATACAO primary key (COD_TIPO_CONTRATACAO)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+grant select, update on REQPES.TIPO_CONTRATACAO to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.TIPO_CONTRATACAO to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.TIPO_CONTRATACAO to AN$RHEV;
+

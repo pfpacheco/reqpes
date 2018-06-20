@@ -1,0 +1,102 @@
+create table REQPES.INSTRUCAO
+(
+  cod_instrucao     NUMBER not null,
+  cod_tab_salarial  NUMBER not null,
+  cod_cargo         NUMBER not null,
+  cota              NUMBER not null,
+  cod_area_subarea  VARCHAR2(100),
+  dat_cadastro      DATE default SYSDATE not null,
+  dat_alteracao     DATE,
+  user_cadastro     NUMBER not null,
+  user_alteracao    NUMBER,
+  cod_instrucao_pai NUMBER
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 768K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.INSTRUCAO
+  is 'Armazena registros das tabelas, cotas e cargos ( Instrução 15 - GEP )';
+comment on column REQPES.INSTRUCAO.cota
+  is '0 a 9';
+comment on column REQPES.INSTRUCAO.cod_instrucao_pai
+  is 'Apenas para migracao de monitores, realizada via script (user_cadastro = 877180000)';
+create index REQPES.IDX_INSTRUCAO_AREA on REQPES.INSTRUCAO (COD_AREA_SUBAREA)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 384K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+create index REQPES.IDX_INSTRUCAO_CARGO on REQPES.INSTRUCAO (COD_CARGO)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 448K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+create index REQPES.IDX_INSTRUCAO_TAB_SALARIAL on REQPES.INSTRUCAO (COD_TAB_SALARIAL)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 448K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+create unique index REQPES.UNIQUE_INSTRUCAO on REQPES.INSTRUCAO (COD_TAB_SALARIAL, COD_CARGO, COTA, COD_AREA_SUBAREA)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.INSTRUCAO
+  add constraint PK_INSTRUCAO primary key (COD_INSTRUCAO)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 256K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.INSTRUCAO
+  add constraint FK_INSTRUCAO_PAI foreign key (COD_INSTRUCAO_PAI)
+  references REQPES.INSTRUCAO (COD_INSTRUCAO);
+alter table REQPES.INSTRUCAO
+  add constraint FK_INSTRUCAO_TAB_SALARIAL foreign key (COD_TAB_SALARIAL)
+  references REQPES.TABELA_SALARIAL (COD_TAB_SALARIAL);
+grant select, update on REQPES.INSTRUCAO to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.INSTRUCAO to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.INSTRUCAO to AN$RHEV;
+

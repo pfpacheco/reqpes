@@ -1,0 +1,46 @@
+create table REQPES.RECRUTAMENTO
+(
+  id_recrutamento NUMBER(2) not null,
+  descricao       VARCHAR2(30) not null,
+  ativo           CHAR(1) not null,
+  rp_tipo         VARCHAR2(1) not null
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.RECRUTAMENTO
+  is 'Armazena informações relativas aos tipos de recrutamento das RPs.';
+comment on column REQPES.RECRUTAMENTO.id_recrutamento
+  is 'Identificador do recrutamento.';
+comment on column REQPES.RECRUTAMENTO.descricao
+  is 'Descric?o do recrutamento.';
+comment on column REQPES.RECRUTAMENTO.ativo
+  is 'Indica se o recrutamento esta ou n?o disponivel. Valores: S(im) ou N(?o).';
+comment on column REQPES.RECRUTAMENTO.rp_tipo
+  is 'Identifica se o motivo e para uma RP de (A)dmiss?o ou de (T)ransferencia.';
+alter table REQPES.RECRUTAMENTO
+  add constraint PK_RECRUTAMENTO primary key (ID_RECRUTAMENTO)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+grant select, update on REQPES.RECRUTAMENTO to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.RECRUTAMENTO to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.RECRUTAMENTO to AN$RHEV;
+

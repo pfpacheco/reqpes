@@ -1,0 +1,68 @@
+create table REQPES.TIPO_AVISO
+(
+  cod_tipo_aviso NUMBER not null,
+  titulo         VARCHAR2(200) not null,
+  cargo_chave    VARCHAR2(100) not null,
+  cargo_regime   VARCHAR2(1),
+  dat_cadastro   DATE default SYSDATE not null,
+  user_cadastro  NUMBER not null,
+  dat_alteracao  DATE,
+  user_alteracao NUMBER
+)
+tablespace REQ_DAT
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on table REQPES.TIPO_AVISO
+  is 'Armazena o tipo de aviso associado com o cargo';
+comment on column REQPES.TIPO_AVISO.cargo_regime
+  is 'H - Horista / M - Mensalista';
+create unique index REQPES.IDX_CARGO_CHAVE_REGIME on REQPES.TIPO_AVISO (CARGO_CHAVE, CARGO_REGIME)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+create index REQPES.IDX_TIPO_AVISO_CHAVE on REQPES.TIPO_AVISO (CARGO_CHAVE)
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table REQPES.TIPO_AVISO
+  add constraint PK_TIPO_AVISO primary key (COD_TIPO_AVISO)
+  using index 
+  tablespace REQ_DAT
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+grant select, update on REQPES.TIPO_AVISO to AN$LUIZ_AOBELEUTERIO;
+grant select, update on REQPES.TIPO_AVISO to AN$MARCOS_ABARBOSA;
+grant select, insert, update, delete on REQPES.TIPO_AVISO to AN$RHEV;
+
