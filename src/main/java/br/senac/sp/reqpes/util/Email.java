@@ -114,8 +114,15 @@ public class Email {
 
 			message.setSubject(MimeUtility.encodeText(assunto,"utf-8","B"));
 			seriaEnviado = " Em produção seria enviado para (" + getPara() + ")";
-			message.setRecipient(Message.RecipientType.TO,
-					new InternetAddress(sistemaParametroControl.getSistemaParametros("WHERE SP.NOM_PARAMETRO = 'EMAIL_TESTES'")[0].getVlrSistemaParametro()));
+
+			String[] emails = sistemaParametroControl.getSistemaParametros("WHERE SP.NOM_PARAMETRO = 'EMAIL_TESTES' AND SP.COD_SISTEMA = 7 ")[0].getVlrSistemaParametro().split(",");
+			InternetAddress[] destinatarios = new InternetAddress[emails.length];
+			for (int i = 0; i < emails.length; i++) {
+				destinatarios[i] = new InternetAddress(emails[i]);
+			}
+
+			message.setRecipients(Message.RecipientType.TO, (Address[])null);
+			message.setRecipients(Message.RecipientType.TO, destinatarios);
 			message.setRecipients(Message.RecipientType.CC, (Address[])null);
 			message.setRecipients(Message.RecipientType.BCC, (Address[])null);
 			message.setContent(corpoEmail + seriaEnviado, "text/html; charset=iso-8859-1");
@@ -204,11 +211,17 @@ public class Email {
 
 			message.setSubject(MimeUtility.encodeText(assunto,"utf-8","B"));
 
+			//seta o destinatario de testes conforme o parametro
+			String[] emails = sistemaParametroControl.getSistemaParametros("WHERE SP.NOM_PARAMETRO = 'EMAIL_TESTES' AND SP.COD_SISTEMA = 7 ")[0].getVlrSistemaParametro().split(",");
+			destinatarios = new InternetAddress[emails.length];
+			for (int i = 0; i < emails.length; i++) {
+				destinatarios[i] = new InternetAddress(emails[i]);
+			}
+
 			//limpa os destinatarios
 			message.setRecipients(Message.RecipientType.TO, (Address[])null);
-			//seta o destinatario de testes conforme o parametro
-			message.setRecipient(Message.RecipientType.TO,
-					new InternetAddress(sistemaParametroControl.getSistemaParametros("WHERE SP.NOM_PARAMETRO = 'EMAIL_TESTES'")[0].getVlrSistemaParametro()));
+			//seta o destinatarios de teste
+			message.setRecipients(Message.RecipientType.TO, destinatarios);
 			//limpa os destinatarios copiados
 			message.setRecipients(Message.RecipientType.CC, (Address[])null);
 			//limpa os destinatarios ocultos
