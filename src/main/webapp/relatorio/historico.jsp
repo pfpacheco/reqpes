@@ -110,7 +110,7 @@
     transition: opacity 1s;
 }
 
-.tooltip .tooltiptext::after {
+.tooltip .tooltiptext::before {
     content: "";
     position: absolute;
     top: -5%;
