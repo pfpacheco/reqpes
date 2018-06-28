@@ -101,8 +101,8 @@
     //-- caso seja o homologador de unidade (GERENTE) que esteja criando a RP (sobe 1 nível no WorkFlow)
     if(perfilUsuario == Integer.parseInt(idPerfilHOM.getVlrSistemaParametro())){
       requisicao.setIndStatus(2); 
-    //  requisicao.setNivelWorkflow(2); // HOMOLOGAÇÃO AP&B
-      requisicao.setNivelWorkflow(3); // HOMOLOGAÇÃO NEC
+    //  requisicao.setNivelWorkflow(3); // HOMOLOGAÇÃO AP&B
+      requisicao.setNivelWorkflow(2); // HOMOLOGAÇÃO NEC
 
     }else
         //-- caso seja o homologador da unidade aprovadora (AP&B) que esteja criando a RP (sobe 2 níveis no WorkFlow)
@@ -115,16 +115,16 @@
             //-- caso seja o homologador da unidade aprovadora (NEC) que esteja criando a RP (volta 1 nível no WorkFlow)
             if(perfilUsuario == Integer.parseInt(idPerfilNEC.getVlrSistemaParametro())){
               requisicao.setIndStatus(2); 
-            //  requisicao.setNivelWorkflow(2); // HOMOLOGAÇÃO AP&B
-              requisicao.setNivelWorkflow(3); // HOMOLOGAÇÃO NEC
+            //  requisicao.setNivelWorkflow(2); //  HOMOLOGAÇÃO NEC
+              requisicao.setNivelWorkflow(3); //HOMOLOGAÇÃO AP&B
             }    
     
     //-- caso a unidade destino seja a unidade aprovadora, altera o status da RP (sobe 1 nível no WorkFlow) 
     //-- isto ocorre quando uma RP é criada para uma unidade sem gerente
     if(requisicao.getCodUODestino().equals(codUOAPR.getVlrSistemaParametro()) && perfilUsuario != Integer.parseInt(idPerfilGEP.getVlrSistemaParametro())){
       requisicao.setIndStatus(2);
-//      requisicao.setNivelWorkflow(2); // HOMOLOGAÇÃO AP&B
-      requisicao.setNivelWorkflow(3); // HOMOLOGAÇÃO NEC
+//      requisicao.setNivelWorkflow(2); // HOMOLOGAÇÃO NEC
+      requisicao.setNivelWorkflow(3); // HOMOLOGAÇÃO AP&B
 
     }
 

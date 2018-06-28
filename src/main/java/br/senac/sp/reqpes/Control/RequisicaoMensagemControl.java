@@ -255,10 +255,10 @@ public class RequisicaoMensagemControl {
 			}
 
 			// Adicionando os emails dos homologadores GEP - AP&B
-			listaEmails = requisicaoAprovacaoControl.getEmailsHomologadoresGEP();
-			for (int i = 0; listaEmails != null && i < listaEmails.length; i++) {
-				listEmail.add(listaEmails[i]);
-			}
+//			listaEmails = requisicaoAprovacaoControl.getEmailsHomologadoresGEP();
+//			for (int i = 0; listaEmails != null && i < listaEmails.length; i++) {
+//				listEmail.add(listaEmails[i]);
+//			}
 
 			// Criando array com os valores armzenados no ArrayList
 			String[] destinatarios = new String[listEmail.size()];
