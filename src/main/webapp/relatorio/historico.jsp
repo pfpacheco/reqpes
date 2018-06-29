@@ -113,7 +113,7 @@
 .tooltip .tooltiptext::before {
     content: "";
     position: absolute;
-    top: -5%;
+    top: -23%;
     left: 50%;
     margin-left: -5px;
     border-width: 5px;
