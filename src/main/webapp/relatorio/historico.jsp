@@ -95,7 +95,7 @@
     visibility: hidden;
     background-color: #555;
     color: #fff;
-    width: auto;
+    min-width: 425px;
     text-align: center;
     border-radius: 6px;
     padding-left: 5px;
@@ -103,28 +103,45 @@
     padding-right: 5px;
     z-index: 1;
     /* left: 20%; */
-    margin-left: -370px;
+    margin-left: -300px;
     /* margin-top: -250px; */
-    margin-top: 10px;
+    margin-top: 8px;
     opacity: 0;
-    transition: opacity 1s;
+    transition: opacity 0s;
 }
 
-.tooltip .tooltiptext::before {
+/*.tooltip .tooltiptext::before {
     content: "";
     position: absolute;
-    top: -23%;
+    top: -50%;
     left: 50%;
     margin-left: -5px;
-    border-width: 5px;
+    border-width: 10px;
     border-style: solid;
     border-color: transparent transparent #555 transparent;
+}*/
+
+.ponta {
+    content: "";
+    position: absolute;
+    left: 50%;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent #555 transparent;
+    visibility: hidden;
+    opacity: 0;
 }
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
 }
+
+.tooltip:hover .ponta {
+    visibility: visible;
+    opacity: 1;
+}
+
 </style>
 
 <head>
@@ -217,6 +234,7 @@
                 
                <% if(conteudo!="") { %> 
                     <td height="23" align="left" class="<%=classCSS%>" width="17%">&nbsp;<div class="tooltip"><%=(historico[i][6]==null)?"":(historico[i][6].equals("solicitou revis?o"))?"solicitou revisão":historico[i][6]%>
+                    <div class="ponta"></div>
                     <span class="tooltiptext"><%=conteudo %></span></div></td>
                <% } else { %>
                     <td height="23" align="left" class="<%=classCSS%>" width="17%">&nbsp;<%=(historico[i][6]==null)?"":(historico[i][6].equals("solicitou revis?o"))?"solicitou revisão":historico[i][6]%><%=conteudo %></td>
