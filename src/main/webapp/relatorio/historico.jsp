@@ -124,6 +124,7 @@
 .ponta {
     content: "";
     position: absolute;
+    top: 0px;
     left: 50%;
     border-width: 10px;
     border-style: solid;
