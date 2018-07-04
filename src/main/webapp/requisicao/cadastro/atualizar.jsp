@@ -273,8 +273,7 @@
   }
 
   <%if (requisicao.getTipoedicao() == 0) {%>
-  window.location = "<%=request.getContextPath()%>
-	/requisicao/aprovar/index.jsp";
+  window.location = "<%=request.getContextPath()%>/requisicao/aprovar/index.jsp";
 <%} else {%>
 	window.close();
 <%}%>

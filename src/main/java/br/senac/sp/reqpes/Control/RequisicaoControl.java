@@ -148,6 +148,10 @@ public class RequisicaoControl {
 		return requisicaoDAO.getDadosUsuarioAtualHistorico(chapa);
 	}
 
+	public String[][] getDadosUsuarioAtualHistoricoPorUsuarioSq(int usuario_sq) throws RequisicaoPessoalException {
+		return requisicaoDAO.getDadosUsuarioAtualHistoricoPorUsuarioSq(usuario_sq);
+	}
+
 	public String[][] getDadosUsuarioAtualHistorico(String codUnidade) throws RequisicaoPessoalException {
 		return requisicaoDAO.getDadosUsuarioAtualHistorico(codUnidade);
 	}

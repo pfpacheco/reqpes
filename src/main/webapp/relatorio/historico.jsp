@@ -76,7 +76,8 @@
                dadosHistoricoAtual = requisicaoControl.getDadosUsuarioAtualHistorico(Integer.parseInt(gerenteAtual[1]));      
                break;
                
-      default: perfil = "";
+      default: perfil = "ADMINISTRATIVO";
+               dadosHistoricoAtual = requisicaoControl.getDadosUsuarioAtualHistoricoPorUsuarioSq(Integer.parseInt(historico[0][10]));
                break;
      }                
   }
@@ -222,7 +223,10 @@
                for(int j=0; j<historicoCampos.length; j++ ){
             	 if (historico[i][10].equals( historicoCampos[j][1])) {
             		 if (historico[i][5].equals( historicoCampos[j][2])) {
-            			 conteudo= conteudo + "<p>" + historicoCampos[j][3] +" - foi alterado de "  + historicoCampos[j][4] + " para " + historicoCampos[j][5]+"</p>";  
+                         if(historico[i][6].equals("alterou"))
+            			   conteudo= conteudo + "<p>" + historicoCampos[j][3] +" - foi alterado de "  + historicoCampos[j][4] + " para " + historicoCampos[j][5]+"</p>";
+            			else
+            				conteudo= conteudo + "<p>" + historicoCampos[j][3] +"</p>";
                 	 }
                	 }
                }
