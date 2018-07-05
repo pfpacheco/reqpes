@@ -428,64 +428,77 @@
         
         <%-- DADOS RESTANTES DA RP --%>
         <div id="divDados" style="display:none;">
-            <%-- DADOS DA UNIDADE --%>
-	        <table border="0" width="100%" cellpadding="0" cellspacing="0">
-	          <tr>
-	            <td colspan="3" height="18" class="tdCabecalho" background="../../imagens/tit_item.gif">
-	             <STRONG>&nbsp;&nbsp;DADOS DA UNIDADE</STRONG>            
-	            </td>
-	          </tr>       
-	          <tr>
-	            <td colspan="3" height="10" class="tdIntranet2"></td>
-	          </tr>                      
-	          <tr>
-	            <td height="25" width="20%" align="right" class="tdintranet2">
-	              <STRONG>Unidade:&nbsp;</STRONG>
-	            </td>
-	            <td class="tdintranet2" >
-	              <div id="divNomUnidade">
-	                <input class="input" size="87" name="nomUnidade" id="idnomUnidade" value="" readonly/>
-	              </div>
-	            </td>
-	          </tr> 
-	          <tr>
-	            <td height="25" width="20%" align="right" class="tdintranet2">
-	              <STRONG>Responsável:&nbsp;</STRONG>
-	            </td>
-	            <td class="tdintranet2" >
-	              <div id="divResponsavelUnidade">
-	                <input class="input" size="87" name="nomSuperior" id="idnomSuperior" value="<%=requisicao.getNomSuperior()%>" maxlength="60" readonly/>
-	              </div>
-	            </td>
-	          </tr>     
-	          <tr>
-	            <td height="25" width="20%" align="right" class="tdintranet2">
-	              <STRONG>Telefone:&nbsp;</STRONG>
-	            </td>
-	            <td class="tdintranet2" >
-	              <div id="divTelUnidade">              
-	                <input class="input" size="87" name="telUnidade" id="idtelUnidade" value="<%=requisicao.getTelUnidade()%>" maxlength="15" readonly/>
-	              </div>
-	            </td>
-	          </tr> 
-	          <tr>
-	            <td class="tdintranet2" colspan="2">
-	              <div id="divDadosAdicionaisUnidade">
-	                <input type="HIDDEN" name="codUnidade"   id="idcodUnidade" value="<%=requisicao.getCodUnidade()%>" maxlength="4"/>
-	                <input type="HIDDEN" name="codUODestino" id="idcodUODestino"/>
-	                <input type="HIDDEN" name="chapaGerente" id="idchapaGerente"/>
-	              </div>            
-	            </td>
-	          </tr>
-	          <tr>
-	            <td colspan="3" height="10" class="tdIntranet2"></td>
-	          </tr>                      
-	          <tr>
-	            <td colspan="2" height="3" class="tdCabecalho" background="../../imagens/fio_azul_end.gif"></td>
-	          </tr>                      
-	        </table>        
-	        <br>
-	        
+            <%if(tipoEdicao !=2) {%>
+                <%-- DADOS DA UNIDADE --%>
+    	        <table border="0" width="100%" cellpadding="0" cellspacing="0">
+    	          <tr>
+    	            <td colspan="3" height="18" class="tdCabecalho" background="../../imagens/tit_item.gif">
+    	             <STRONG>&nbsp;&nbsp;DADOS DA UNIDADE</STRONG>            
+    	            </td>
+    	          </tr>       
+    	          <tr>
+    	            <td colspan="3" height="10" class="tdIntranet2"></td>
+    	          </tr>                      
+    	          <tr>
+    	            <td height="25" width="20%" align="right" class="tdintranet2">
+    	              <STRONG>Unidade:&nbsp;</STRONG>
+    	            </td>
+    	            <td class="tdintranet2" >
+    	              <div id="divNomUnidade">
+    	                <input class="input" size="87" name="nomUnidade" id="idnomUnidade" value="" readonly/>
+    	              </div>
+    	            </td>
+    	          </tr> 
+    	          <tr>
+    	            <td height="25" width="20%" align="right" class="tdintranet2">
+    	              <STRONG>Responsável:&nbsp;</STRONG>
+    	            </td>
+    	            <td class="tdintranet2" >
+    	              <div id="divResponsavelUnidade">
+    	                <input class="input" size="87" name="nomSuperior" id="idnomSuperior" value="<%=requisicao.getNomSuperior()%>" maxlength="60" readonly/>
+    	              </div>
+    	            </td>
+    	          </tr>     
+    	          <tr>
+    	            <td height="25" width="20%" align="right" class="tdintranet2">
+    	              <STRONG>Telefone:&nbsp;</STRONG>
+    	            </td>
+    	            <td class="tdintranet2" >
+    	              <div id="divTelUnidade">              
+    	                <input class="input" size="87" name="telUnidade" id="idtelUnidade" value="<%=requisicao.getTelUnidade()%>" maxlength="15" readonly/>
+    	              </div>
+    	            </td>
+    	          </tr> 
+    	          <tr>
+    	            <td class="tdintranet2" colspan="2">
+    	              <div id="divDadosAdicionaisUnidade">
+    	                <input type="HIDDEN" name="codUnidade"   id="idcodUnidade" value="<%=requisicao.getCodUnidade()%>" maxlength="4"/>
+    	                <input type="HIDDEN" name="codUODestino" id="idcodUODestino"/>
+    	                <input type="HIDDEN" name="chapaGerente" id="idchapaGerente"/>
+    	              </div>            
+    	            </td>
+    	          </tr>
+    	          <tr>
+    	            <td colspan="3" height="10" class="tdIntranet2"></td>
+    	          </tr>                      
+    	          <tr>
+    	            <td colspan="2" height="3" class="tdCabecalho" background="../../imagens/fio_azul_end.gif"></td>
+    	          </tr>                      
+    	        </table> 
+                <br>     
+            <%} else {%>
+              <table border="0" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td class="tdintranet2" colspan="2">
+                    <div id="divDadosAdicionaisUnidade">
+                      <input type="HIDDEN" name="codUnidade"   id="idcodUnidade" value="<%=requisicao.getCodUnidade()%>" maxlength="4"/>
+                      <input type="HIDDEN" name="codUODestino" id="idcodUODestino"/>
+                      <input type="HIDDEN" name="chapaGerente" id="idchapaGerente"/>
+                    </div>            
+                  </td>
+                </tr>
+              </table>
+            <%}%>  
 	        <%-- DADOS DA REQUISIÇÃO --%>
 	        <table border="0" width="100%" cellpadding="0" cellspacing="0">
 	          <tr>
@@ -1120,238 +1133,340 @@
 	        <br>        
 	        
 	        <%-- PERFIL DO CANDIDATO --%>
-	        <table border="0" width="100%" cellpadding="0" cellspacing="0">
-	          <tr>
-	            <td colspan="3" height="18" class="tdCabecalho" background="../../imagens/tit_item.gif">
-	             <STRONG>&nbsp;&nbsp;PERFIL DO CANDIDATO</STRONG>
-	            </td>
-	          </tr>           
-	          <tr>
-	            <td colspan="2" height="10" class="tdIntranet2"></td>
-	          </tr>
-	          <tr>
-	            <td height="25" align="right" class="tdintranet2">
-	              <strong>Área:&nbsp;</strong>
-	            </td>
-	            <td class="tdintranet2">
-	              <select name="codArea" class="select" style="width: 386px;">
-	              	<% if (tipoEdicao==2) {
-                  		for(int i=0; i<comboArea.length; i++) { 
-                  			if(comboArea[i][0].equals(String.valueOf(requisicaoPerfil.getCodArea()))) {%>
-                  				<option value="<%=comboArea[i][0]%>" " SELECTED"><%=comboArea[i][1]%></option>
-                  			<%}
-                  		}%>                  			                  	
-                  	<% } else { %>
-                  		<option value="0">SELECIONE</option>
-		                <%for(int i=0; i<comboArea.length; i++){%>
-		                  <option value="<%=comboArea[i][0]%>" <%=(comboArea[i][0].equals(String.valueOf(requisicaoPerfil.getCodArea())))?" SELECTED":""%>><%=comboArea[i][1]%></option>
-		                <%}%>                    	
-                  	<%}%> 
-	              </select>
-	            </td>
-	          </tr>          
-	          <tr>
-	            <td height="25" align="right" class="tdintranet2">
-	              <strong>Função:&nbsp;</strong>
-	            </td>
-	            <td class="tdintranet2">
-                  <select name="codFuncao" class="select" style="width: 386px;">
-                  	<% if (tipoEdicao==2) {
-                  		for(int i=0; i<comboFuncao.length; i++) { 
-                  			if(comboFuncao[i][0].equals(String.valueOf(requisicaoPerfil.getCodFuncao()))) {%>
-                  				<option value="<%=comboFuncao[i][0]%>" " SELECTED"><%=comboFuncao[i][1]%></option>
-                  			<%}
-                  		}%>                  			                  	
-                  	<% } else { %>
-                  		<option value="0">SELECIONE</option>
-		                <%for(int i=0; i<comboFuncao.length; i++){%>
-		                  <option value="<%=comboFuncao[i][0]%>" <%=(comboFuncao[i][0].equals(String.valueOf(requisicaoPerfil.getCodFuncao())))?" SELECTED":""%>><%=comboFuncao[i][1]%></option>
-		                <%}%>                    	
-                  	<%}%> 	                                              
-	              </select>
-	              <div id="divBtnAddFuncao" style="display:none;">
-		              <a href="javascript: addFuncao();" title="Adicionar outra função">
-		              	<img src="../../imagens/add.png" border="0" align="top"/>
-		              </a>
-	              </div>
-	            </td>
-	          </tr>
-	          <tr>
-	          	<td colspan="2" class="tdintranet2" style="padding-left:183px;">
-	          		<div id="divPerfilFuncao"><%
-	          		  if(requisicaoPerfil.getListFuncao() != null){
-	          			  String[] funcoes = requisicaoPerfil.getListFuncao().split(","); 
-	          			  for(int idx=0; idx<funcoes.length; idx++){         				  
-	          	              out.print("<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">");
-	          	              out.print("<tr><td height=\"25\">");
-	          				  out.print("<select name=\"codFuncao\" class=\"select\" style=\"width: 386px;\">");
-	          	              out.print("<option value=\"0\">SELECIONE</option>");                          
-	          	              for(int i=0; i<comboFuncao.length; i++){
-	                            out.print("<option value=\""+ comboFuncao[i][0] +"\"" +(comboFuncao[i][0].equals(funcoes[idx])?" SELECTED":"") +">"+ comboFuncao[i][1] +"</option>");
-	                          }
-	                          out.print("</td></tr></select></table>");
-	          			  }          		
-	          		  }
-	          		%></div>
-	          	</td>
-	          </tr>
-	          <tr>
-	            <td height="25" align="right" class="tdintranet2">
-	              <strong>Nível hierárquico:&nbsp;</strong>
-	            </td>
-	            <td class="tdintranet2">
-	              <select name="codNivelHierarquia" class="select" style="width: 386px;">
-	              	<% if (tipoEdicao==2) {
-                  		for(int i=0; i<comboNivelHierarquia.length; i++) { 
-                  			if(comboNivelHierarquia[i][0].equals(String.valueOf(requisicaoPerfil.getCodNivelHierarquia()))) {%>
-                  				<option value="<%=comboNivelHierarquia[i][0]%>"><%=comboNivelHierarquia[i][1]%></option>
-                  			<%}
-                  		}%>                  			                  	
-                  	<% } else { %>
-                  		<option value="0">SELECIONE</option>
-		                <%for(int i=0; i<comboNivelHierarquia.length; i++){%>
-		                  <option value="<%=comboNivelHierarquia[i][0]%>" <%=(comboNivelHierarquia[i][0].equals(String.valueOf(requisicaoPerfil.getCodNivelHierarquia())))?" SELECTED":""%>><%=comboNivelHierarquia[i][1]%></option>
-		                <%}%>                    	
-                  	<%}%>                               
-	              </select>
-	            </td>
-	          </tr>
-	          
-	          <%-- 26/09/2011 Solicitado pelo NEC
-	          <tr>
-	            <td height="25" width="30%" align="right" class="tdintranet2" valign="top">
-	              <STRONG>Descrição da vaga:&nbsp;</STRONG>
-	              <br>
-	              <a href="javascript:void(0);" class="dcontexto">
-	                <img src="../../imagens/help.gif" border="0" align="middle">&nbsp;
-	                <span>Descreva a oportunidade de forma a atrair o interesse do candidato para o cargo e para fazer parte da Instituição.</span>
-	              </a>
-	            </td>
-	            <td class="tdintranet2" >
-	              <textarea cols="73" rows="5" name="dscOportunidade" title="Descreva a oportunidade de forma a atrair o interesse do candidato para o cargo e para fazer parte da Instituição."
-	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdDscOportunidade,4000);" 
-	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdDscOportunidade,4000);" ><%=requisicaoPerfil.getDscOportunidade()%></textarea>
-	              <input type="text" name="qtdDscOportunidade" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getDscOportunidade().length())%>" size="4" align="middle">
-	            </td>
-	          </tr>
-	          --%>
-	                     
-	          <tr>
-	            <td colspan="2" height="6" class="tdIntranet2"></td>
-	          </tr>  
-	          <tr>
-	            <td height="25" width="30%" align="right" class="tdintranet2" valign="top">
-	              <STRONG>Principais atividades&nbsp;&nbsp;<br>do cargo:&nbsp;</STRONG>
-	              <br>
-	              <a href="javascript:void(0);" class="dcontexto">
-	                <img src="../../imagens/help.gif" border="0" align="middle">&nbsp;
-	                <span>Relate as principais atividades que o profissional irá desempenhar.</span>
-	              </a>              
-	            </td>
-	            <td class="tdintranet2" >
-	              <textarea cols="73" rows="5" name="dscAtividadesCargo" title="Relate as principais atividades que o profissional irá desempenhar."
-	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdDscAtividadesCargo,4000);" 
-	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdDscAtividadesCargo,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%>><%=requisicaoPerfil.getDscAtividadesCargo()%></textarea>
-	              <input type="text" name="qtdDscAtividadesCargo" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getDscAtividadesCargo().length())%>" size="4" align="middle">
-	            </td>
-	          </tr>           
-	          <tr>
-	            <td colspan="2" height="6" class="tdIntranet2"></td>
-	          </tr>
-	          <tr>
-	            <td height="25" width="30%" align="right" class="tdintranet2" valign="top">
-	              <STRONG>Escolaridade mínima:&nbsp;</STRONG>
-	              <br>
-	              <a href="javascript:void(0);" class="dcontexto">
-	                <img src="../../imagens/help.gif" border="0" align="middle">&nbsp;
-	                <span>Informe a escolaridade mínima obrigatória e o curso ou área de Formação e caso exista restrição, informe também a escolaridade máxima desejada.</span>
-	              </a>                            
-	            </td>
-	            <td class="tdintranet2" >
-	              <textarea cols="73" rows="5" name="descricaoFormacao" title="Informe a escolaridade mínima obrigatória e o curso ou área de Formação e caso exista restrição, informe também a escolaridade máxima desejada."
-	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdFormacao,4000);" 
-	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdFormacao,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%> ><%=requisicaoPerfil.getDescricaoFormacao()%></textarea>
-	              <input type="text" name="qtdFormacao" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getDescricaoFormacao().length())%>" size="4" align="middle">
-	            </td>
-	          </tr>    
-	          <tr>
-	            <td colspan="2" height="6" class="tdIntranet2"></td>
-	          </tr> 
-	          <tr>
-	            <td height="25" width="30%" align="right" class="tdintranet2" valign="top">
-	              <STRONG>Experiência profissional:&nbsp;</STRONG>
-	              <br>
-	              <a href="javascript:void(0);" class="dcontexto">
-	                <img src="../../imagens/help.gif" border="0" align="middle">&nbsp;
-	                <span>A solicitação do tempo de experiência poderá ser de no máximo 6 meses. Procure relatar as experiências profissionais, atividades ou vivências anteriores que são relevantes para o desempenho da oportunidade.</span>
-	              </a>   
-	            </td>
-	            <td class="tdintranet2">
-	              <textarea cols="73" rows="5" name="dscExperiencia" title="A solicitação do tempo de experiência poderá ser de no máximo 6 meses. Procure relatar as experiências profissionais, atividades ou vivências anteriores que são relevantes para o desempenho da oportunidade."
-	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdExperiencia,4000);" 
-	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdExperiencia,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%> ><%=requisicaoPerfil.getDscExperiencia()%></textarea>
-	              <input type="text" name="qtdExperiencia" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getDscExperiencia().length())%>" size="4" align="middle">
-	            </td>
-	          </tr>
-	          <tr>
-	            <td colspan="2" height="6" class="tdIntranet2"></td>
-	          </tr> 
-	          <tr>
-	            <td height="25" width="30%" align="right" class="tdintranet2" valign="top">
-	              <STRONG>Conhecimentos específicos:&nbsp;</STRONG>
-	              <br>
-	              <a href="javascript:void(0);" class="dcontexto">
-	                <img src="../../imagens/help.gif" border="0" align="middle">&nbsp;
-	                <span>Descrever os conhecimentos específicos necessários para exercer a função em questão. Exemplos: idiomas, informática, certificações diversas, etc.</span>
-	              </a>   
-	            </td>
-	            <td class="tdintranet2" >
-	              <textarea cols="73" rows="5" name="dscConhecimentos" title="Descrever os conhecimentos específicos necessários para exercer a função em questão. Exemplos: idiomas, informática, certificações diversas, etc."
-	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdConhecimentos,4000);" 
-	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdConhecimentos,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%> ><%=requisicaoPerfil.getDscConhecimentos()%></textarea>
-	              <input type="text" name="qtdConhecimentos" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getDscConhecimentos().length())%>" size="4" align="middle">
-	            </td>
-	          </tr>
-	          <tr>
-	            <td colspan="2" height="6" class="tdIntranet2"></td>
-	          </tr>            
-	          <tr>
-	            <td height="25" width="30%" align="right" class="tdintranet2" valign="top">
-	              <STRONG>Competências:&nbsp;</STRONG>
-	              <br>
-	              <a href="javascript:void(0);" class="dcontexto">
-	                <img src="../../imagens/help.gif" border="0" align="middle">&nbsp;
-	                <span>Relate os comportamentos, habilidades e atitudes desejadas para o desempenho da função.</span>
-	              </a>  
-	            </td>
-	            <td class="tdintranet2">
-	              <textarea cols="73" rows="5" name="outrasCarateristica" title="Relate os comportamentos, habilidades e atitudes desejadas para o desempenho da função."
-	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdOutrasCaracteristicas,4000);" 
-	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdOutrasCaracteristicas,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%>><%=requisicaoPerfil.getOutrasCarateristica()%></textarea>
-	              <input type="text" name="qtdOutrasCaracteristicas" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getOutrasCarateristica().length())%>" size="4" align="middle">
-	            </td>
-	          </tr> 
-	          <tr>
-	            <td colspan="2" height="6" class="tdIntranet2"></td>
-	          </tr>            
-	          <tr>
-	            <td height="25" width="30%" align="right" class="tdintranet2" valign="top">
-	              <STRONG>Observações:&nbsp;</STRONG>
-	            </td>
-	            <td class="tdintranet2">
-	              <textarea cols="73" rows="5" name="comentarios"
-	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdComentarios,2000);" 
-	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdComentarios,2000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%>><%=requisicaoPerfil.getComentarios()%></textarea>
-	              <input type="text" name="qtdComentarios" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:2000) - requisicaoPerfil.getComentarios().length())%>" size="4" align="middle">
-	            </td>
-	          </tr>          
-	          <tr>
-	            <td colspan="2" height="10" class="tdIntranet2"></td>
-	          </tr>                             
-	          <tr>
-	            <td colspan="2" height="3" class="tdCabecalho" background="../../imagens/fio_azul_end.gif"></td>
-	          </tr>                      
-	        </table>              
+            <%if(tipoEdicao ==2) {%>
+              <table width="100%" border="0" cellpadding="0" cellspacing="1">
+                <tr>
+                  <td colspan="4" height="18" align="center" class="tdCabecalho" background='<%= request.getContextPath()%>/imagens/tit_item.gif'>
+                    <STRONG>PERFIL DO CANDIDATO</STRONG>
+                  </td>
+                </tr>                            
+                <tr>
+                  <td colspan="4" height="28" align="left" class="tdIntranet2">
+                    &nbsp;<STRONG>Área</STRONG><br>&nbsp;<%=(requisicaoPesquisa[0][70]==null)?"":requisicaoPesquisa[0][70]%>
+                  </td>               
+                </tr>              
+                  <tr>
+                    <td colspan="4" height="28" align="left" class="tdIntranet2">
+                      &nbsp;<STRONG>Função</STRONG><br>&nbsp;<%=(requisicaoPesquisa[0][71]==null)?"":requisicaoPesquisa[0][71]%>
+                    </td>               
+                  </tr>              
+                  <tr>
+                    <td colspan="4" height="28" align="left" class="tdIntranet2">
+                      &nbsp;<STRONG>Nível hierárquico</STRONG><br>&nbsp;<%=(requisicaoPesquisa[0][72]==null)?"":requisicaoPesquisa[0][72]%>
+                    </td>
+                  </tr>
+                  <% if(requisicaoPesquisa[0][73] != null){ %>
+                    <tr>
+                      <td colspan="4" height="28" class="tdIntranet2">
+                        <div align="justify" style="padding-left:5px; padding-right:5px;">
+                          <STRONG>Descrição da vaga</STRONG><br><%=requisicaoPesquisa[0][73]%>
+                        </div>
+                      </td>               
+                    </tr>
+                  <%}%>
+                  <tr>
+                    <td colspan="4" height="28" align="left" class="tdIntranet2">
+                      <div style="padding-left:5px; padding-right:5px;">
+                        <STRONG>Principais atividades do cargo</STRONG><br>
+                        <%=(requisicaoPesquisa[0][74]==null)?"":requisicaoPesquisa[0][74]%>                        
+                      </div>
+                    </td>               
+                  </tr>                    
+                  <tr>
+                    <td colspan="4" height="28" align="left" class="tdIntranet2">
+                      <div align="justify" style="padding-left:5px; padding-right:5px;">
+                        <STRONG>Escolaridade mínima</STRONG><br>
+                        <%=(requisicaoPesquisa[0][59]==null)?((requisicaoPesquisa[0][58]==null)?"":requisicaoPesquisa[0][58]):requisicaoPesquisa[0][59]%>                        
+                      </div>
+                    </td>               
+                  </tr>
+                  <tr>
+                    <td colspan="4" height="28" class="tdIntranet2">
+                      <div align="justify" style="padding-left:5px; padding-right:5px;">
+                        <STRONG>Experiência profissional</STRONG><br>
+                        <%=(requisicaoPesquisa[0][78]==null)?"":requisicaoPesquisa[0][78]%>                        
+                      </div>
+                    </td>               
+                  </tr>
+                  <tr>
+                    <td colspan="4" height="28" class="tdIntranet2">
+                      <div align="justify" style="padding-left:5px; padding-right:5px;">
+                        <STRONG>Conhecimentos específicos</STRONG><br>
+                        <%=(requisicaoPesquisa[0][81]==null)?"":requisicaoPesquisa[0][81]%>                        
+                      </div>
+                    </td>               
+                  </tr>
+                  <tr>
+                    <td colspan="4" height="28" class="tdIntranet2">
+                      <div align="justify" style="padding-left:5px; padding-right:5px;">
+                        <STRONG>Competências</STRONG><br>
+                        <%=(requisicaoPesquisa[0][62]==null)?"":requisicaoPesquisa[0][62]%>
+                      </div>
+                    </td>               
+                  </tr>   
+                  <tr>
+                    <td height="28" class="tdIntranet2" colspan="4">
+                      <div align="justify" style="padding-left:5px; padding-right:5px;">
+                        <STRONG>Observações</STRONG><br>
+                        <%=(requisicaoPesquisa[0][65]==null)?"":requisicaoPesquisa[0][65]%>
+                      </div>
+                    </td>               
+                  </tr> 
+                  <%if(isExibe){%>
+                      <tr>
+                        <td height="28" align="left" class="tdIntranet2" colspan="4">
+                          &nbsp;<STRONG>Indicado - Nome</STRONG><br>&nbsp;<%=(requisicaoPesquisa[0][26]==null)?"":((requisicaoPesquisa[0][37]==null)?"":requisicaoPesquisa[0][37]+" - ") + requisicaoPesquisa[0][26]%>
+                        </td>               
+                      </tr>
+                      <tr>
+                        <td height="28" align="left" class="tdIntranet2" colspan="4">
+                          &nbsp;<STRONG>Indicado - Unidade</STRONG><br>&nbsp;<%=(requisicaoPesquisa[0][66]==null)?"":requisicaoPesquisa[0][66]%>
+                        </td>               
+                      </tr>                            
+                  <%}%>
+                  <tr>
+                    <td height="28" align="left" class="tdIntranet2" colspan="4">
+                      &nbsp;<STRONG>Funcionário utilizado na Baixa</STRONG><br>&nbsp;<%=(requisicaoPesquisa[0][67]==null)?"":requisicaoPesquisa[0][67]+" - "+requisicaoPesquisa[0][68]%>
+                    </td>               
+                  </tr>              
+                  <tr>
+                    <td height="3" colspan="4" class="tdCabecalho" background='<%= request.getContextPath()%>/imagens/fio_azul_end.gif' ></td>
+                  </tr>              
+                </table>
+            <%} else {%>
+    	        <table border="0" width="100%" cellpadding="0" cellspacing="0">
+    	          <tr>
+    	            <td colspan="3" height="18" class="tdCabecalho" background="../../imagens/tit_item.gif">
+    	             <STRONG>&nbsp;&nbsp;PERFIL DO CANDIDATO</STRONG>
+    	            </td>
+    	          </tr>           
+    	          <tr>
+    	            <td colspan="2" height="10" class="tdIntranet2"></td>
+    	          </tr>
+    	          <tr>
+    	            <td height="25" align="right" class="tdintranet2">
+    	              <strong>Área:&nbsp;</strong>
+    	            </td>
+    	            <td class="tdintranet2">
+    	              <select name="codArea" class="select" style="width: 386px;">
+    	              	<% if (tipoEdicao==2) {
+                      		for(int i=0; i<comboArea.length; i++) { 
+                      			if(comboArea[i][0].equals(String.valueOf(requisicaoPerfil.getCodArea()))) {%>
+                      				<option value="<%=comboArea[i][0]%>" " SELECTED"><%=comboArea[i][1]%></option>
+                      			<%}
+                      		}%>                  			                  	
+                      	<% } else { %>
+                      		<option value="0">SELECIONE</option>
+    		                <%for(int i=0; i<comboArea.length; i++){%>
+    		                  <option value="<%=comboArea[i][0]%>" <%=(comboArea[i][0].equals(String.valueOf(requisicaoPerfil.getCodArea())))?" SELECTED":""%>><%=comboArea[i][1]%></option>
+    		                <%}%>                    	
+                      	<%}%> 
+    	              </select>
+    	            </td>
+    	          </tr>          
+    	          <tr>
+    	            <td height="25" align="right" class="tdintranet2">
+    	              <strong>Função:&nbsp;</strong>
+    	            </td>
+    	            <td class="tdintranet2">
+                      <select name="codFuncao" class="select" style="width: 386px;">
+                      	<% if (tipoEdicao==2) {
+                      		for(int i=0; i<comboFuncao.length; i++) { 
+                      			if(comboFuncao[i][0].equals(String.valueOf(requisicaoPerfil.getCodFuncao()))) {%>
+                      				<option value="<%=comboFuncao[i][0]%>" " SELECTED"><%=comboFuncao[i][1]%></option>
+                      			<%}
+                      		}%>                  			                  	
+                      	<% } else { %>
+                      		<option value="0">SELECIONE</option>
+    		                <%for(int i=0; i<comboFuncao.length; i++){%>
+    		                  <option value="<%=comboFuncao[i][0]%>" <%=(comboFuncao[i][0].equals(String.valueOf(requisicaoPerfil.getCodFuncao())))?" SELECTED":""%>><%=comboFuncao[i][1]%></option>
+    		                <%}%>                    	
+                      	<%}%> 	                                              
+    	              </select>
+    	              <div id="divBtnAddFuncao" style="display:none;">
+    		              <a href="javascript: addFuncao();" title="Adicionar outra função">
+    		              	<img src="../../imagens/add.png" border="0" align="top"/>
+    		              </a>
+    	              </div>
+    	            </td>
+    	          </tr>
+    	          <tr>
+    	          	<td colspan="2" class="tdintranet2" style="padding-left:183px;">
+    	          		<div id="divPerfilFuncao"><%
+    	          		  if(requisicaoPerfil.getListFuncao() != null){
+    	          			  String[] funcoes = requisicaoPerfil.getListFuncao().split(","); 
+    	          			  for(int idx=0; idx<funcoes.length; idx++){         				  
+    	          	              out.print("<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">");
+    	          	              out.print("<tr><td height=\"25\">");
+    	          				  out.print("<select name=\"codFuncao\" class=\"select\" style=\"width: 386px;\">");
+    	          	              out.print("<option value=\"0\">SELECIONE</option>");                          
+    	          	              for(int i=0; i<comboFuncao.length; i++){
+    	                            out.print("<option value=\""+ comboFuncao[i][0] +"\"" +(comboFuncao[i][0].equals(funcoes[idx])?" SELECTED":"") +">"+ comboFuncao[i][1] +"</option>");
+    	                          }
+    	                          out.print("</td></tr></select></table>");
+    	          			  }          		
+    	          		  }
+    	          		%></div>
+    	          	</td>
+    	          </tr>
+    	          <tr>
+    	            <td height="25" align="right" class="tdintranet2">
+    	              <strong>Nível hierárquico:&nbsp;</strong>
+    	            </td>
+    	            <td class="tdintranet2">
+    	              <select name="codNivelHierarquia" class="select" style="width: 386px;">
+    	              	<% if (tipoEdicao==2) {
+                      		for(int i=0; i<comboNivelHierarquia.length; i++) { 
+                      			if(comboNivelHierarquia[i][0].equals(String.valueOf(requisicaoPerfil.getCodNivelHierarquia()))) {%>
+                      				<option value="<%=comboNivelHierarquia[i][0]%>"><%=comboNivelHierarquia[i][1]%></option>
+                      			<%}
+                      		}%>                  			                  	
+                      	<% } else { %>
+                      		<option value="0">SELECIONE</option>
+    		                <%for(int i=0; i<comboNivelHierarquia.length; i++){%>
+    		                  <option value="<%=comboNivelHierarquia[i][0]%>" <%=(comboNivelHierarquia[i][0].equals(String.valueOf(requisicaoPerfil.getCodNivelHierarquia())))?" SELECTED":""%>><%=comboNivelHierarquia[i][1]%></option>
+    		                <%}%>                    	
+                      	<%}%>                               
+    	              </select>
+    	            </td>
+    	          </tr>
+    	          
+    	          <%-- 26/09/2011 Solicitado pelo NEC
+    	          <tr>
+    	            <td height="25" width="30%" align="right" class="tdintranet2" valign="top">
+    	              <STRONG>Descrição da vaga:&nbsp;</STRONG>
+    	              <br>
+    	              <a href="javascript:void(0);" class="dcontexto">
+    	                <img src="../../imagens/help.gif" border="0" align="middle">&nbsp;
+    	                <span>Descreva a oportunidade de forma a atrair o interesse do candidato para o cargo e para fazer parte da Instituição.</span>
+    	              </a>
+    	            </td>
+    	            <td class="tdintranet2" >
+    	              <textarea cols="73" rows="5" name="dscOportunidade" title="Descreva a oportunidade de forma a atrair o interesse do candidato para o cargo e para fazer parte da Instituição."
+    	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdDscOportunidade,4000);" 
+    	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdDscOportunidade,4000);" ><%=requisicaoPerfil.getDscOportunidade()%></textarea>
+    	              <input type="text" name="qtdDscOportunidade" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getDscOportunidade().length())%>" size="4" align="middle">
+    	            </td>
+    	          </tr>
+    	          --%>
+    	                     
+    	          <tr>
+    	            <td colspan="2" height="6" class="tdIntranet2"></td>
+    	          </tr>  
+    	          <tr>
+    	            <td height="25" width="30%" align="right" class="tdintranet2" valign="top">
+    	              <STRONG>Principais atividades&nbsp;&nbsp;<br>do cargo:&nbsp;</STRONG>
+    	              <br>
+    	              <a href="javascript:void(0);" class="dcontexto">
+    	                <img src="../../imagens/help.gif" border="0" align="middle">&nbsp;
+    	                <span>Relate as principais atividades que o profissional irá desempenhar.</span>
+    	              </a>              
+    	            </td>
+    	            <td class="tdintranet2" >
+    	              <textarea cols="73" rows="5" name="dscAtividadesCargo" title="Relate as principais atividades que o profissional irá desempenhar."
+    	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdDscAtividadesCargo,4000);" 
+    	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdDscAtividadesCargo,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%>><%=requisicaoPerfil.getDscAtividadesCargo()%></textarea>
+    	              <input type="text" name="qtdDscAtividadesCargo" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getDscAtividadesCargo().length())%>" size="4" align="middle">
+    	            </td>
+    	          </tr>           
+    	          <tr>
+    	            <td colspan="2" height="6" class="tdIntranet2"></td>
+    	          </tr>
+    	          <tr>
+    	            <td height="25" width="30%" align="right" class="tdintranet2" valign="top">
+    	              <STRONG>Escolaridade mínima:&nbsp;</STRONG>
+    	              <br>
+    	              <a href="javascript:void(0);" class="dcontexto">
+    	                <img src="../../imagens/help.gif" border="0" align="middle">&nbsp;
+    	                <span>Informe a escolaridade mínima obrigatória e o curso ou área de Formação e caso exista restrição, informe também a escolaridade máxima desejada.</span>
+    	              </a>                            
+    	            </td>
+    	            <td class="tdintranet2" >
+    	              <textarea cols="73" rows="5" name="descricaoFormacao" title="Informe a escolaridade mínima obrigatória e o curso ou área de Formação e caso exista restrição, informe também a escolaridade máxima desejada."
+    	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdFormacao,4000);" 
+    	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdFormacao,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%> ><%=requisicaoPerfil.getDescricaoFormacao()%></textarea>
+    	              <input type="text" name="qtdFormacao" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getDescricaoFormacao().length())%>" size="4" align="middle">
+    	            </td>
+    	          </tr>    
+    	          <tr>
+    	            <td colspan="2" height="6" class="tdIntranet2"></td>
+    	          </tr> 
+    	          <tr>
+    	            <td height="25" width="30%" align="right" class="tdintranet2" valign="top">
+    	              <STRONG>Experiência profissional:&nbsp;</STRONG>
+    	              <br>
+    	              <a href="javascript:void(0);" class="dcontexto">
+    	                <img src="../../imagens/help.gif" border="0" align="middle">&nbsp;
+    	                <span>A solicitação do tempo de experiência poderá ser de no máximo 6 meses. Procure relatar as experiências profissionais, atividades ou vivências anteriores que são relevantes para o desempenho da oportunidade.</span>
+    	              </a>   
+    	            </td>
+    	            <td class="tdintranet2">
+    	              <textarea cols="73" rows="5" name="dscExperiencia" title="A solicitação do tempo de experiência poderá ser de no máximo 6 meses. Procure relatar as experiências profissionais, atividades ou vivências anteriores que são relevantes para o desempenho da oportunidade."
+    	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdExperiencia,4000);" 
+    	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdExperiencia,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%> ><%=requisicaoPerfil.getDscExperiencia()%></textarea>
+    	              <input type="text" name="qtdExperiencia" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getDscExperiencia().length())%>" size="4" align="middle">
+    	            </td>
+    	          </tr>
+    	          <tr>
+    	            <td colspan="2" height="6" class="tdIntranet2"></td>
+    	          </tr> 
+    	          <tr>
+    	            <td height="25" width="30%" align="right" class="tdintranet2" valign="top">
+    	              <STRONG>Conhecimentos específicos:&nbsp;</STRONG>
+    	              <br>
+    	              <a href="javascript:void(0);" class="dcontexto">
+    	                <img src="../../imagens/help.gif" border="0" align="middle">&nbsp;
+    	                <span>Descrever os conhecimentos específicos necessários para exercer a função em questão. Exemplos: idiomas, informática, certificações diversas, etc.</span>
+    	              </a>   
+    	            </td>
+    	            <td class="tdintranet2" >
+    	              <textarea cols="73" rows="5" name="dscConhecimentos" title="Descrever os conhecimentos específicos necessários para exercer a função em questão. Exemplos: idiomas, informática, certificações diversas, etc."
+    	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdConhecimentos,4000);" 
+    	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdConhecimentos,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%> ><%=requisicaoPerfil.getDscConhecimentos()%></textarea>
+    	              <input type="text" name="qtdConhecimentos" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getDscConhecimentos().length())%>" size="4" align="middle">
+    	            </td>
+    	          </tr>
+    	          <tr>
+    	            <td colspan="2" height="6" class="tdIntranet2"></td>
+    	          </tr>            
+    	          <tr>
+    	            <td height="25" width="30%" align="right" class="tdintranet2" valign="top">
+    	              <STRONG>Competências:&nbsp;</STRONG>
+    	              <br>
+    	              <a href="javascript:void(0);" class="dcontexto">
+    	                <img src="../../imagens/help.gif" border="0" align="middle">&nbsp;
+    	                <span>Relate os comportamentos, habilidades e atitudes desejadas para o desempenho da função.</span>
+    	              </a>  
+    	            </td>
+    	            <td class="tdintranet2">
+    	              <textarea cols="73" rows="5" name="outrasCarateristica" title="Relate os comportamentos, habilidades e atitudes desejadas para o desempenho da função."
+    	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdOutrasCaracteristicas,4000);" 
+    	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdOutrasCaracteristicas,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%>><%=requisicaoPerfil.getOutrasCarateristica()%></textarea>
+    	              <input type="text" name="qtdOutrasCaracteristicas" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getOutrasCarateristica().length())%>" size="4" align="middle">
+    	            </td>
+    	          </tr> 
+    	          <tr>
+    	            <td colspan="2" height="6" class="tdIntranet2"></td>
+    	          </tr>            
+    	          <tr>
+    	            <td height="25" width="30%" align="right" class="tdintranet2" valign="top">
+    	              <STRONG>Observações:&nbsp;</STRONG>
+    	            </td>
+    	            <td class="tdintranet2">
+    	              <textarea cols="73" rows="5" name="comentarios"
+    	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdComentarios,2000);" 
+    	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdComentarios,2000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%>><%=requisicaoPerfil.getComentarios()%></textarea>
+    	              <input type="text" name="qtdComentarios" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:2000) - requisicaoPerfil.getComentarios().length())%>" size="4" align="middle">
+    	            </td>
+    	          </tr>          
+    	          <tr>
+    	            <td colspan="2" height="10" class="tdIntranet2"></td>
+    	          </tr>                             
+    	          <tr>
+    	            <td colspan="2" height="3" class="tdCabecalho" background="../../imagens/fio_azul_end.gif"></td>
+    	          </tr>                      
+    	        </table>      
+            <%}%>        
 	        <br>
 	        
 	        <%-- BOTÕES DE ENVIO --%>
