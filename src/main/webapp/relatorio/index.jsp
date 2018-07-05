@@ -125,7 +125,7 @@
 </script>
 
 <%if(requisicao != null && requisicao.length > 0){%>
-  <table width="610" border="0" align="center">
+  <table width="90%" border="0" align="center">
       <tr>
         <td>
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -627,7 +627,7 @@
       </tr>
     </table>
 <%}else{%> 
-  <table width="610" border="0" align="center">
+  <table width="100%" border="0" align="center">
     <tr>
       <td class="tdIntranet" height="10"></td>
     </tr>

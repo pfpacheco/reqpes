@@ -35,6 +35,7 @@
   SimpleDateFormat formatoData = new SimpleDateFormat("dd/MM/yyyy");
   Usuario usuario   = (Usuario) session.getAttribute("usuario");
   Requisicao        requisicao        = null;
+  String[][] requisicaoPesquisa = null;
   RequisicaoJornada requisicaoJornada = null;
   RequisicaoPerfil  requisicaoPerfil  = null;
   Iterator it = null;
@@ -65,6 +66,7 @@
 
   //-- Carregando as informações da requisição
   requisicao = requisicaoControl.getRequisicao(codRequisicao);
+  requisicaoPesquisa = requisicaoControl.getPesquisaRequisicao(codRequisicao);
   
   //-- Verificando instância da requisição 
   if(requisicao == null){
@@ -224,7 +226,7 @@
   <input type="HIDDEN" name="tipoedicao"        value="<%=tipoEdicao%>">    
   <input type="HIDDEN" name="indCargoAdministrativo" id="indCargoAdministrativo" value="N">
  
-  <table width="610" border="0" align="center" cellpadding="0" cellspacing="0">
+  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
       <td>
         <%-- DADOS DA ÚLTIMA REVISÃO --%>
@@ -233,147 +235,201 @@
               <jsp:param name="codRequisicao" value="<%=codRequisicao%>"/>
             </jsp:include>           
         <%}%>      
-          
-        <%-- DADOS DO SOLICITANTE (CODE COMBINATION) --%>
-        <table border="0" width="610" cellpadding="0" cellspacing="0">
-          <tr>
-            <td colspan="3" height="18" class="tdCabecalho" background="../../imagens/tit_item.gif">
-             <STRONG>&nbsp;&nbsp;DADOS DO SOLICITANTE</STRONG>
-            </td>
-          </tr>           
-          <tr>
-            <td colspan="2" height="10" class="tdIntranet2"></td>
-          </tr>                      
-          <tr>
-            <td height="25" width="20%" align="right" class="tdintranet2">
-              <strong>Empresa:&nbsp;</strong>
-            </td>
-            <td height="25" width="80%" align="left" class="tdintranet2">
-	          <select name="segmento1" id="idsegmento1" onchange="verificaSegmentos();" class="select" style="width: 450px;">
-		          <%
-		            it = comboCC1.iterator();
-		          	while (it.hasNext()) {
-		          		cc = (CentroCusto) it.next();
-		          		out.print("<option value=\""+ cc.getCodSegmento() +"\">"+ cc.getDscSegmento() +"</option>");
-		          	}	          
-		          %>
-	          </select>
-            </td>					  					
-          </tr>
-          <tr>
-            <td height="25" width="20%" align="right" class="tdintranet2">
-              <strong>Uniorg Emitente:&nbsp;</strong>
-            </td>
-            <td height="25" width="80%" align="left" class="tdintranet2">
-	          <select name="segmento2" id="idsegmento2" onchange="verificaSegmentos();" class="select" style="width: 450px;">
-		          <%
-		            it = comboCC2.iterator();
-		          	while (it.hasNext()) {
-		          		cc = (CentroCusto) it.next();
-		          		out.print("<option value=\""+ cc.getCodSegmento() +"\""+ (cc.getCodSegmento().equals(requisicao.getSegmento2()) ? " SELECTED": "") +">"+ cc.getDscSegmento() +"</option>");
-		          	}	          
-		          %>
-	          </select>
-            </td>					  					
-          </tr>           
-          <tr>
-            <td height="25" width="20%" align="right" class="tdintranet2">
-              <strong>Uniorg Destino:&nbsp;</strong>
-            </td>
-            <td height="25" width="80%" align="left" class="tdintranet2">
-	          <select name="segmento3" id="idsegmento3" onchange="getDadosUnidade(this.value, '0'); verificaSegmentos(); limpaCargoConfig();" class="select" style="width: 450px;">
-	          	  <option value="-1">SELECIONE</option>
-		          <%
-		            it = comboCC3.iterator();
-		          	while (it.hasNext()) {
-		          		cc = (CentroCusto) it.next();
-		          		out.print("<option value=\""+ cc.getCodSegmento() +"\""+ (cc.getCodSegmento().equals(requisicao.getSegmento3()) ? " SELECTED": "") +">"+ cc.getDscSegmento() +"</option>");
-		          	}	          
-		          %>
-	          </select>
-            </td>					  					
-          </tr>          
-          <tr>
-            <td height="25" width="20%" align="right" class="tdintranet2">
-              <strong>Área / Sub-área:&nbsp;</strong>
-            </td>
-            <td height="25" width="80%" align="left" class="tdintranet2">
-	          <select name="segmento4" id="idsegmento4" onchange="verificaSegmentos();" class="select" style="width: 450px;">
-	          	  <option value="-1">SELECIONE</option>
-		          <%
-		            it = comboCC4.iterator();
-		          	while (it.hasNext()) {
-		          		cc = (CentroCusto) it.next();
-		          		out.print("<option value=\""+ cc.getCodSegmento() +"\""+ (cc.getCodSegmento().equals(requisicao.getSegmento4()) ? " SELECTED": "") +">"+ cc.getDscSegmento() +"</option>");
-		          	}	          
-		          %>
-	          </select>
-            </td>
-          </tr>
-          <tr>
-            <td height="25" width="20%" align="right" class="tdintranet2">
-              <strong>Serviço / Produto:&nbsp;</strong>
-            </td>
-            <td height="25" width="80%" align="left" class="tdintranet2">
-	          <select name="segmento5" id="idsegmento5" onchange="verificaSegmentos();" class="select" style="width: 450px;">
-	          	  <option value="-1">SELECIONE</option>
-		          <%
-		            it = comboCC5.iterator();
-		          	while (it.hasNext()) {
-		          		cc = (CentroCusto) it.next();
-		          		out.print("<option value=\""+ cc.getCodSegmento() +"\""+ (cc.getCodSegmento().equals(requisicao.getSegmento5()) ? " SELECTED": "") +">"+ cc.getDscSegmento() +"</option>");
-		          	}	          
-		          %>
-	          </select>
-            </td>					  					
-          </tr>          
-          <tr>
-            <td height="25" width="20%" align="right" class="tdintranet2">
-              <strong>Especificação:&nbsp;</strong>
-            </td>
-            <td height="25" width="80%" align="left" class="tdintranet2">
-	          <select name="segmento6" id="idsegmento6" onchange="verificaSegmentos();" class="select" style="width: 450px;">
-	          	  <option value="-1">SELECIONE</option>
-		          <%
-		            it = comboCC6.iterator();
-		          	while (it.hasNext()) {
-		          		cc = (CentroCusto) it.next();
-		          		out.print("<option value=\""+ cc.getCodSegmento() +"\""+ (cc.getCodSegmento().equals(requisicao.getSegmento6()) ? " SELECTED": "") +">"+ cc.getDscSegmento() +"</option>");
-		          	}	          
-		          %>
-	          </select>
-            </td>					  					
-          </tr>          
-          <tr>
-            <td height="25" width="20%" align="right" class="tdintranet2">
-              <strong>Modalidade:&nbsp;</strong>
-            </td>
-            <td height="25" width="80%" align="left" class="tdintranet2">
-	          <select name="segmento7" id="idsegmento7" onchange="verificaSegmentos();" class="select" style="width: 450px;">
-	          	  <option value="-1">SELECIONE</option>
-		          <%
-		            it = comboCC7.iterator();
-		          	while (it.hasNext()) {
-		          		cc = (CentroCusto) it.next();
-		          		out.print("<option value=\""+ cc.getCodSegmento() +"\""+ (cc.getCodSegmento().equals(requisicao.getSegmento7()) ? " SELECTED": "") +">"+ cc.getDscSegmento() +"</option>");
-		          	}	          
-		          %>
-	          </select>
-            </td>					  					
-          </tr>          
-          <tr>
-            <td colspan="3" height="10" class="tdIntranet2"></td>
-          </tr>                      
-          <tr>
-            <td  colspan="2" height="3" class="tdCabecalho" background="../../imagens/fio_azul_end.gif"></td>
-          </tr>            
-        </table>        
+        
+        <% if (tipoEdicao==2) { %>
+            <table width="100%" border="0" cellpadding="0" cellspacing="1">
+              <tr>
+                <td colspan="3" height="18" align="center" class="tdCabecalho" background='<%= request.getContextPath()%>/imagens/tit_item.gif'>
+                 <STRONG>DADOS DA REQUISIÇÃO</STRONG>
+                </td>
+              </tr>           
+              <tr>
+                <td height="23" align="left" class="tdIntranet2" width="33%">
+                 <input type="hidden" id="codRequisicao" value="<%=requisicaoPesquisa[0][0]%>">
+                 &nbsp;<STRONG>Número RP</STRONG><br>&nbsp;<%=requisicaoPesquisa[0][0]%>
+                </td>
+                <td height="23" align="left" class="tdIntranet2" width="40%">
+                 &nbsp;<STRONG>Tipo <%=(isExibe)?"":"de recrutamento"%></STRONG><br>&nbsp;<%=(isExibe)? (requisicaoPesquisa[0][79]==null)?"":requisicaoPesquisa[0][79] : (requisicaoPesquisa[0][53]==null)?"":requisicaoPesquisa[0][53]%>
+                </td>                
+                <td height="23" align="left" class="tdIntranet2" width="27%">
+                 &nbsp;<STRONG>Data de criação</STRONG><br>&nbsp;<%=requisicaoPesquisa[0][31]%>
+                </td>                                
+              </tr>                  
+              <tr>
+                <td height="3" colspan="3" class="tdCabecalho" background='<%= request.getContextPath()%>/imagens/fio_azul_end.gif' ></td>
+              </tr>              
+            </table>
+            <br>
+            <table width="100%" border="0" cellpadding="0" cellspacing="1">
+              <tr>
+                <td colspan="4" height="18" align="center" class="tdCabecalho" background='<%= request.getContextPath()%>/imagens/tit_item.gif'>
+                 <STRONG>SOLICITANTE</STRONG>
+                </td>
+              </tr>  
+              <tr>
+                <td height="26" align="left" class="tdIntranet2" width="9%">
+                 &nbsp;<STRONG>Unidade</STRONG><br>&nbsp;<%=(requisicaoPesquisa[0][56]==null)?"":requisicaoPesquisa[0][56]%>
+                </td>
+                <td height="26" align="left" class="tdIntranet2" width="31%">
+                  <%if(requisicaoPesquisa[0][45]==null){%>
+                      &nbsp;<STRONG>UO/MA/SMA</STRONG><br>&nbsp;<%=requisicaoPesquisa[0][1].substring(0,requisicaoPesquisa[0][1].length()-1)%>&nbsp;|&nbsp;<%=(requisicaoPesquisa[0][6]==null)?"":requisicaoPesquisa[0][6]%>&nbsp;|&nbsp;<%=(requisicaoPesquisa[0][7]==null)?"":requisicaoPesquisa[0][7]%>
+                  <%}else{%>
+                      &nbsp;<STRONG>Centro de custo</STRONG><br>&nbsp;<%=requisicaoPesquisa[0][46]+"."+requisicaoPesquisa[0][47]+"."+requisicaoPesquisa[0][48]+"."+requisicaoPesquisa[0][49]+"."+requisicaoPesquisa[0][50]+"."+requisicaoPesquisa[0][51]+"."+requisicaoPesquisa[0][52]%>
+                  <%}%>
+                </td>                
+                <td height="26" align="left" class="tdIntranet2" width="45%">
+                 &nbsp;<STRONG>Nome superior imediato</STRONG><br>&nbsp;<%=(requisicaoPesquisa[0][11]==null)?"":requisicaoPesquisa[0][11]%>
+                </td>
+                <td height="26" align="left" class="tdIntranet2" width="15%">
+                 &nbsp;<STRONG>Telefone</STRONG><br>&nbsp;<%=(requisicaoPesquisa[0][12]==null)?"":requisicaoPesquisa[0][12]%>
+                </td>                
+              </tr>    
+              <tr>
+                <td height="3" colspan="4" class="tdCabecalho" background='<%= request.getContextPath()%>/imagens/fio_azul_end.gif' ></td>
+              </tr>                
+            </table>
+        <%} else {%>
+            <%-- DADOS DO SOLICITANTE (CODE COMBINATION) --%>
+            <table border="0" width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td colspan="3" height="18" class="tdCabecalho" background="../../imagens/tit_item.gif">
+                 <STRONG>&nbsp;&nbsp;DADOS DO SOLICITANTE</STRONG>
+                </td>
+              </tr>           
+              <tr>
+                <td colspan="2" height="10" class="tdIntranet2"></td>
+              </tr>                      
+              <tr>
+                <td height="25" width="20%" align="right" class="tdintranet2">
+                  <strong>Empresa:&nbsp;</strong>
+                </td>
+                <td height="25" width="80%" align="left" class="tdintranet2">
+    	          <select name="segmento1" id="idsegmento1" onchange="verificaSegmentos();" class="select" style="width: 450px;">
+    		          <%
+    		            it = comboCC1.iterator();
+    		          	while (it.hasNext()) {
+    		          		cc = (CentroCusto) it.next();
+    		          		out.print("<option value=\""+ cc.getCodSegmento() +"\">"+ cc.getDscSegmento() +"</option>");
+    		          	}	          
+    		          %>
+    	          </select>
+                </td>					  					
+              </tr>
+              <tr>
+                <td height="25" width="20%" align="right" class="tdintranet2">
+                  <strong>Uniorg Emitente:&nbsp;</strong>
+                </td>
+                <td height="25" width="80%" align="left" class="tdintranet2">
+    	          <select name="segmento2" id="idsegmento2" onchange="verificaSegmentos();" class="select" style="width: 450px;">
+    		          <%
+    		            it = comboCC2.iterator();
+    		          	while (it.hasNext()) {
+    		          		cc = (CentroCusto) it.next();
+    		          		out.print("<option value=\""+ cc.getCodSegmento() +"\""+ (cc.getCodSegmento().equals(requisicao.getSegmento2()) ? " SELECTED": "") +">"+ cc.getDscSegmento() +"</option>");
+    		          	}	          
+    		          %>
+    	          </select>
+                </td>					  					
+              </tr>           
+              <tr>
+                <td height="25" width="20%" align="right" class="tdintranet2">
+                  <strong>Uniorg Destino:&nbsp;</strong>
+                </td>
+                <td height="25" width="80%" align="left" class="tdintranet2">
+    	          <select name="segmento3" id="idsegmento3" onchange="getDadosUnidade(this.value, '0'); verificaSegmentos(); limpaCargoConfig();" class="select" style="width: 450px;">
+    	          	  <option value="-1">SELECIONE</option>
+    		          <%
+    		            it = comboCC3.iterator();
+    		          	while (it.hasNext()) {
+    		          		cc = (CentroCusto) it.next();
+    		          		out.print("<option value=\""+ cc.getCodSegmento() +"\""+ (cc.getCodSegmento().equals(requisicao.getSegmento3()) ? " SELECTED": "") +">"+ cc.getDscSegmento() +"</option>");
+    		          	}	          
+    		          %>
+    	          </select>
+                </td>					  					
+              </tr>          
+              <tr>
+                <td height="25" width="20%" align="right" class="tdintranet2">
+                  <strong>Área / Sub-área:&nbsp;</strong>
+                </td>
+                <td height="25" width="80%" align="left" class="tdintranet2">
+    	          <select name="segmento4" id="idsegmento4" onchange="verificaSegmentos();" class="select" style="width: 450px;">
+    	          	  <option value="-1">SELECIONE</option>
+    		          <%
+    		            it = comboCC4.iterator();
+    		          	while (it.hasNext()) {
+    		          		cc = (CentroCusto) it.next();
+    		          		out.print("<option value=\""+ cc.getCodSegmento() +"\""+ (cc.getCodSegmento().equals(requisicao.getSegmento4()) ? " SELECTED": "") +">"+ cc.getDscSegmento() +"</option>");
+    		          	}	          
+    		          %>
+    	          </select>
+                </td>
+              </tr>
+              <tr>
+                <td height="25" width="20%" align="right" class="tdintranet2">
+                  <strong>Serviço / Produto:&nbsp;</strong>
+                </td>
+                <td height="25" width="80%" align="left" class="tdintranet2">
+    	          <select name="segmento5" id="idsegmento5" onchange="verificaSegmentos();" class="select" style="width: 450px;">
+    	          	  <option value="-1">SELECIONE</option>
+    		          <%
+    		            it = comboCC5.iterator();
+    		          	while (it.hasNext()) {
+    		          		cc = (CentroCusto) it.next();
+    		          		out.print("<option value=\""+ cc.getCodSegmento() +"\""+ (cc.getCodSegmento().equals(requisicao.getSegmento5()) ? " SELECTED": "") +">"+ cc.getDscSegmento() +"</option>");
+    		          	}	          
+    		          %>
+    	          </select>
+                </td>					  					
+              </tr>          
+              <tr>
+                <td height="25" width="20%" align="right" class="tdintranet2">
+                  <strong>Especificação:&nbsp;</strong>
+                </td>
+                <td height="25" width="80%" align="left" class="tdintranet2">
+    	          <select name="segmento6" id="idsegmento6" onchange="verificaSegmentos();" class="select" style="width: 450px;">
+    	          	  <option value="-1">SELECIONE</option>
+    		          <%
+    		            it = comboCC6.iterator();
+    		          	while (it.hasNext()) {
+    		          		cc = (CentroCusto) it.next();
+    		          		out.print("<option value=\""+ cc.getCodSegmento() +"\""+ (cc.getCodSegmento().equals(requisicao.getSegmento6()) ? " SELECTED": "") +">"+ cc.getDscSegmento() +"</option>");
+    		          	}	          
+    		          %>
+    	          </select>
+                </td>					  					
+              </tr>          
+              <tr>
+                <td height="25" width="20%" align="right" class="tdintranet2">
+                  <strong>Modalidade:&nbsp;</strong>
+                </td>
+                <td height="25" width="80%" align="left" class="tdintranet2">
+    	          <select name="segmento7" id="idsegmento7" onchange="verificaSegmentos();" class="select" style="width: 450px;">
+    	          	  <option value="-1">SELECIONE</option>
+    		          <%
+    		            it = comboCC7.iterator();
+    		          	while (it.hasNext()) {
+    		          		cc = (CentroCusto) it.next();
+    		          		out.print("<option value=\""+ cc.getCodSegmento() +"\""+ (cc.getCodSegmento().equals(requisicao.getSegmento7()) ? " SELECTED": "") +">"+ cc.getDscSegmento() +"</option>");
+    		          	}	          
+    		          %>
+    	          </select>
+                </td>					  					
+              </tr>          
+              <tr>
+                <td colspan="3" height="10" class="tdIntranet2"></td>
+              </tr>                      
+              <tr>
+                <td  colspan="2" height="3" class="tdCabecalho" background="../../imagens/fio_azul_end.gif"></td>
+              </tr>            
+            </table> 
+        <%}%>
         <br>
         
         <%-- DADOS RESTANTES DA RP --%>
         <div id="divDados" style="display:none;">
-	        <%-- DADOS DA UNIDADE --%>
-	        <table border="0" width="610" cellpadding="0" cellspacing="0">
+            <%-- DADOS DA UNIDADE --%>
+	        <table border="0" width="100%" cellpadding="0" cellspacing="0">
 	          <tr>
 	            <td colspan="3" height="18" class="tdCabecalho" background="../../imagens/tit_item.gif">
 	             <STRONG>&nbsp;&nbsp;DADOS DA UNIDADE</STRONG>            
@@ -431,7 +487,7 @@
 	        <br>
 	        
 	        <%-- DADOS DA REQUISIÇÃO --%>
-	        <table border="0" width="610" cellpadding="0" cellspacing="0">
+	        <table border="0" width="100%" cellpadding="0" cellspacing="0">
 	          <tr>
 	            <td colspan="4"  height="18" class="tdCabecalho" background="../../imagens/tit_item.gif">
 	             <STRONG>&nbsp;&nbsp;DADOS DA REQUISIÇÃO</STRONG>
@@ -648,7 +704,7 @@
 	            </td>
 	          </tr>          
 	          </table>
-	          <table border="0" width="610" cellpadding="0" cellspacing="0">
+	          <table border="0" width="100%" cellpadding="0" cellspacing="0">
 	          <tr>
 	            <td height="25" align="right" class="tdintranet2" width="32%">
 	              <strong>Local de trabalho:&nbsp;</strong>
@@ -769,7 +825,7 @@
 	        <br>        
 	        
 	        <%-- HORÁRIO DE TRABALHO --%>
-	        <table border="0" width="610" cellpadding="0" cellspacing="0">
+	        <table border="0" width="100%" cellpadding="0" cellspacing="0">
 	          <tr>
 	            <td colspan="2" height="18" class="tdCabecalho" background="../../imagens/tit_item.gif">
 	             <STRONG>&nbsp;&nbsp;HORÁRIO DE TRABALHO</STRONG>
@@ -779,7 +835,7 @@
 	            <td colspan="2">
 	              <%-- ESCALA --%>
 	              <div id="divHorarioEscala">
-	                <table border="0" width="610" cellpadding="0" cellspacing="0">
+	                <table border="0" width="100%" cellpadding="0" cellspacing="0">
 	                  <tr>
 	                    <td align="left" class="tdintranet2">
 	                      <br>
@@ -932,7 +988,7 @@
 	              
 	              <%-- GRADE DE DIGITAÇÃO --%>
 	              <div id="divHorarioGrade" style="visibility: 'hidden'; display: 'none';">
-	                <table border="0" width="610" cellpadding="0" cellspacing="0">
+	                <table border="0" width="100%" cellpadding="0" cellspacing="0">
 	                  <tr>
 	                    <td colspan="10" class="tdintranet2">&nbsp;</td>
 	                  </tr>
@@ -1064,7 +1120,7 @@
 	        <br>        
 	        
 	        <%-- PERFIL DO CANDIDATO --%>
-	        <table border="0" width="610" cellpadding="0" cellspacing="0">
+	        <table border="0" width="100%" cellpadding="0" cellspacing="0">
 	          <tr>
 	            <td colspan="3" height="18" class="tdCabecalho" background="../../imagens/tit_item.gif">
 	             <STRONG>&nbsp;&nbsp;PERFIL DO CANDIDATO</STRONG>
@@ -1299,7 +1355,7 @@
 	        <br>
 	        
 	        <%-- BOTÕES DE ENVIO --%>
-	        <table border="0" width="610" cellpadding="0" cellspacing="0">     
+	        <table border="0" width="100%" cellpadding="0" cellspacing="0">     
 	          <tr>
 	            <td colspan="2" height="3" class="tdCabecalho" background="../../imagens/fio_azul_end.gif"></td>
 	          </tr>             

@@ -36,7 +36,7 @@
 			<tr valign="top">
 				<td align="center" width="100%" height="100%"><!---// //---><!--- INICIO TESTEIRA ---><!---// //--->
  			<!---// INICIO CONTEUDO //--->
- 	  <table width="620" border="0" align="center" cellpadding="0" cellspacing="0">
+ 	  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">
          <tr>
            <td valign="middle" align="left">
              <jsp:include page="menu.jsp"/>

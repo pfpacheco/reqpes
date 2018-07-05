@@ -211,10 +211,10 @@
 <form name="frmRequisicao" action="index.jsp" method="POST" >
   <input type="HIDDEN" name="numeroDaPagina" value="<%=numeroDaPagina%>"/>
   <input type="HIDDEN" name="qtdPorPagina" value="<%=qtdPorPagina%>"/>
-  <table width="610" border="0" align="center" cellpadding="0" cellspacing="0">     
+  <table width="90%" border="0" align="center" cellpadding="0" cellspacing="0">     
     <tr>
       <td>
-        <table border="0" width="610" cellpadding="0" cellspacing="0">
+        <table border="0" width="100%" cellpadding="0" cellspacing="0">
           <tr>
             <td colspan="2"  height="18" class="tdCabecalho" background='<%= request.getContextPath()%>/imagens/tit_item.gif' >
              <STRONG>&nbsp;&nbsp;APROVAÇÃO DE REQUISIÇÕES</STRONG>
@@ -272,7 +272,7 @@
         <%=(isPerfilADM)?"<br>":""%>
    
         <%-- IMPRESSÃO DOS VALORES --%>       
-        <table border="0" cellpadding="0" cellspacing="0" width="610" >
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" >
         <%if(requisicao != null && requisicao.length > 0){
            if(!isPerfilADM){%>
               <tr>

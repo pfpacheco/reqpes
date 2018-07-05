@@ -471,6 +471,8 @@ BEGIN
               WHERE REQUISICAO_SQ=P_IN_REQUISICAO.REQUISICAO_SQ AND STATUS<>'alterou' ORDER BY DT_ENVIO DESC) 
               WHERE ROWNUM=1;
               
+              insert into debug values(V_NIVEL_HISTORICO);
+              
               --insert into debug values (P_IN_REQUISICAO.USUARIO_SQ);
        
               INSERT INTO HISTORICO_REQUISICAO(
@@ -483,7 +485,7 @@ BEGIN
                 ,V_SQ_USUARIO
                 ,'alterou'
                 ,V_UNIDADE_USUARIO
-                ,V_NIVEL_HISTORICO);
+                ,V_NIVEL_HISTORICO);                       
     
            --  ROTINA QUE ATUALIZA O HISTORICO DO PERFIL
 
@@ -1811,7 +1813,7 @@ BEGIN
             VALUES
               (P_IN_REQUISICAO_REVISAO.REQUISICAO_SQ
               ,F_GET_UO_REQUISICAO(P_IN_REQUISICAO_REVISAO.REQUISICAO_SQ)
-              ,SYSDATE
+              ,SYSDATE + INTERVAL '1' MINUTE
               ,P_IN_USUARIO
               ,'revisou'
               ,F_GET_UO_USUARIO_SQ(P_IN_USUARIO)
@@ -1828,7 +1830,7 @@ BEGIN
             VALUES
               (P_IN_REQUISICAO_REVISAO.REQUISICAO_SQ
               ,F_GET_UO_REQUISICAO(P_IN_REQUISICAO_REVISAO.REQUISICAO_SQ)
-              ,SYSDATE + 1/1440/60 -- Diferenca de 1 minuto
+              ,SYSDATE + INTERVAL '2' MINUTE --Diferenca de 2 minuto
               ,P_IN_USUARIO
               ,'homologou'
               ,F_GET_UO_USUARIO_SQ(P_IN_USUARIO)
@@ -1847,7 +1849,7 @@ BEGIN
             VALUES
               (P_IN_REQUISICAO_REVISAO.REQUISICAO_SQ
               ,F_GET_UO_REQUISICAO(P_IN_REQUISICAO_REVISAO.REQUISICAO_SQ)
-              ,SYSDATE
+              ,SYSDATE + INTERVAL '1' MINUTE
               ,P_IN_USUARIO
               ,'revisou'
               ,F_GET_UO_USUARIO_SQ(P_IN_USUARIO)
@@ -1866,6 +1868,9 @@ BEGIN
         NULL;
 
       END IF;
+      
+      
+      insert into debug values('revisao');
 
     EXCEPTION
       WHEN NO_DATA_FOUND THEN
