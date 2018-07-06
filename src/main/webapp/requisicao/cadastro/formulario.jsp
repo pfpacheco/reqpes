@@ -1230,8 +1230,11 @@
                     </td>               
                   </tr>              
                   <tr>
-                    <td height="3" colspan="4" class="tdCabecalho" background='<%= request.getContextPath()%>/imagens/fio_azul_end.gif' ></td>
-                  </tr>              
+    	            <td colspan="2" height="10" class="tdIntranet2"></td>
+    	          </tr>                             
+    	          <tr>
+    	            <td colspan="2" height="3" class="tdCabecalho" background="../../imagens/fio_azul_end.gif"></td>
+    	          </tr>              
                 </table>
             <%} else {%>
     	        <table border="0" width="100%" cellpadding="0" cellspacing="0">
