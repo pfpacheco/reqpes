@@ -1335,27 +1335,37 @@
 	          </tr>                      
 	        </table>              
             <%} else {%>       
-<!--        PERFIL AP E B, SO CONSULTA -->           
-            <table border="0" width="100%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td colspan="3" height="18" class="tdCabecalho" background="../../imagens/tit_item.gif">
-                 <STRONG>&nbsp;&nbsp;PERFIL DO CANDIDATO</STRONG>
-                </td>
-              </tr>           
-              <tr>
+<!--        PERFIL AP E B, SO CONSULTA -->
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+	          <tr>
+	            <td colspan="3" height="18" class="tdCabecalho" background="../../imagens/tit_item.gif">
+	             <STRONG>&nbsp;&nbsp;PERFIL DO CANDIDATO</STRONG>
+	            </td>
+	          </tr>           
+	          <tr>
                 <td colspan="2" height="10" class="tdIntranet2"></td>
               </tr>
               <tr>
                 <td colspan="4" height="28" align="left" class="tdIntranet2">
                   &nbsp;<STRONG>Área</STRONG><br>&nbsp;<%=(requisicaoPesquisa[0][70]==null)?"":requisicaoPesquisa[0][70]%>
                 </td>               
-              </tr>
+              </tr> 
               <tr>
                 <td colspan="4" height="28" align="left" class="tdIntranet2">
                   &nbsp;<STRONG>Função</STRONG><br>&nbsp;<%=(requisicaoPesquisa[0][71] == null) ? "" : requisicaoPesquisa[0][71]%> 
                 </td>
               </tr>
+              <!--  mantida essa linha pois por algum motivo se tirar não funciona o preenchimento do combo id calendario -->
               <tr>
+	            <td class="tdintranet2">
+	              <div id="divBtnAddFuncao" style="display:none;">
+		              <a href="javascript: addFuncao();" title="Adicionar outra função">
+		              	<img src="../../imagens/add.png" border="0" align="top"/>
+		              </a>
+	              </div>
+	            </td>
+	          </tr>
+	          <tr>
                 <td colspan="4" height="28" align="left" class="tdIntranet2">
                   &nbsp;<STRONG>Nível hierárquico</STRONG><br>&nbsp;<%=(requisicaoPesquisa[0][72]==null)?"":requisicaoPesquisa[0][72]%>
                 </td>
@@ -1376,7 +1386,7 @@
                     <%=(requisicaoPesquisa[0][74]==null)?"":requisicaoPesquisa[0][74]%>                        
                   </div>
                 </td>               
-              </tr>                    
+              </tr> 
               <tr>
                 <td colspan="4" height="28" align="left" class="tdIntranet2">
                   <div align="justify" style="padding-left:5px; padding-right:5px;">
@@ -1422,9 +1432,9 @@
               </tr>                             
               <tr>
                 <td colspan="2" height="3" class="tdCabecalho" background="../../imagens/fio_azul_end.gif"></td>
-              </tr>              
-            </table>      
-            <%}%>
+              </tr>                                                                 
+	        </table>           
+	        <%}%>
 	        <br>
 	        
 	        <%-- BOTÕES DE ENVIO --%>
