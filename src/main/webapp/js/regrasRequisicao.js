@@ -4,7 +4,7 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
 
 	//------------------------------------------------------------------------------
       // Função que realiza a validação das regras dos campos
-      function validaRegras(){
+      function validaRegras(apb){
         var retorno = false;
         
         // Funcionário substituído
@@ -115,16 +115,19 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
         }
         
         // Valida o campo Função no Perfil da RP
-    	if(document.getElementById('indTipoHorario').value == 'P'){
-			if(document.frmRequisicao.codFuncao[0].value == '0'){
-				alert("Selecione a Função!");
-				document.frmRequisicao.codFuncao[0].focus();
-				return false;
-			}
-    	}else{
-    		if(!decode(document.frmRequisicao.codFuncao,"Selecione a Função!",0,"",null))
-    			return false;
-    	}
+        if(!apb){
+        	if(document.getElementById('indTipoHorario').value == 'P'){
+    			if(document.frmRequisicao.codFuncao[0].value == '0'){
+    				alert("Selecione a Função!");
+    				document.frmRequisicao.codFuncao[0].focus();
+    				return false;
+    			}
+        	}else{
+        		if(!decode(document.frmRequisicao.codFuncao,"Selecione a Função!",0,"",null))
+        			return false;
+        	}
+        }
+    	
     	
     	// Valida o IDCodeCombination
     	if(document.getElementById('idCodeCombination').value == '0'){
@@ -138,14 +141,21 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
 
   //------------------------------------------------------------------------------
       // Função que realiza a validação dos campos
-      function submete(){
+      function submete(apb){
+    	  
+    	if(apb === undefined){
+    		apb = false;
+    	}  
+    	  
         var validacaoCampos = false;            
         var objetoAjax  = createXMLHTTP();          
         var parametros  = "P_COD_UNIDADE=" + document.getElementById('idcodUnidade').value;
             parametros += "&P_COD_CARGO=" + document.getElementById('codCargo').value;
             parametros += "&P_COTA_CARGO=" + document.getElementById('cotaCargo').value;
             parametros += "&P_COD_TAB_SALARIAL=" + ((document.getElementById('indTipoHorario').value == 'M')? 7 : 0);
-            parametros += "&P_SEGMENTO4=" + document.getElementById('idsegmento4').value;
+            
+            if(!apb)
+            	parametros += "&P_SEGMENTO4=" + document.getElementById('idsegmento4').value;
             
             //--validando prazo
             if(document.frmRequisicao.indTipoContratacao.value > 1){
@@ -156,25 +166,27 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
 			//-- Validando qtd de caracteres dos campos textarea
 			if (!limitarCaracteres(document.frmRequisicao.dscMotivoSolicitacao,document.frmRequisicao.qtdMotivoSolicitacao,2000,"Justificativa"))
             	return;
-            
-            if (!limitarCaracteres(document.frmRequisicao.dscAtividadesCargo,document.frmRequisicao.qtdDscAtividadesCargo,4000,"Principais atividades do cargo"))
-            	return;
-            
-            if (!limitarCaracteres(document.frmRequisicao.descricaoFormacao,document.frmRequisicao.qtdFormacao,4000,"Escolaridade mínima"))
-            	return;
-            
-            if (!limitarCaracteres(document.frmRequisicao.dscExperiencia,document.frmRequisicao.qtdExperiencia,4000,"Experiência profissional"))
-            	return;
-            
-            if (!limitarCaracteres(document.frmRequisicao.dscConhecimentos,document.frmRequisicao.qtdConhecimentos,4000,"Conhecimentos específicos"))
-            	return;
-            
-            if (!limitarCaracteres(document.frmRequisicao.outrasCarateristica,document.frmRequisicao.qtdOutrasCaracteristicas,4000,"Competências"))
-            	return;
-            
-            if (!limitarCaracteres(document.frmRequisicao.comentarios,document.frmRequisicao.qtdComentarios,2000,"Observações"))
-            	return;
 			
+			if(!apb){
+				if (!limitarCaracteres(document.frmRequisicao.dscAtividadesCargo,document.frmRequisicao.qtdDscAtividadesCargo,4000,"Principais atividades do cargo"))
+	            	return;
+	            
+	            if (!limitarCaracteres(document.frmRequisicao.descricaoFormacao,document.frmRequisicao.qtdFormacao,4000,"Escolaridade mínima"))
+	            	return;
+	            
+	            if (!limitarCaracteres(document.frmRequisicao.dscExperiencia,document.frmRequisicao.qtdExperiencia,4000,"Experiência profissional"))
+	            	return;
+	            
+	            if (!limitarCaracteres(document.frmRequisicao.dscConhecimentos,document.frmRequisicao.qtdConhecimentos,4000,"Conhecimentos específicos"))
+	            	return;
+	            
+	            if (!limitarCaracteres(document.frmRequisicao.outrasCarateristica,document.frmRequisicao.qtdOutrasCaracteristicas,4000,"Competências"))
+	            	return;
+	            
+	            if (!limitarCaracteres(document.frmRequisicao.comentarios,document.frmRequisicao.qtdComentarios,2000,"Observações"))
+	            	return;
+			}
+            
             //-- setando o destino o metodo  			  
             objetoAjax.open("post", "ajax/validaIN15.jsp", true);		  
             objetoAjax.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");		  
@@ -190,14 +202,19 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
                   return false;
                 }else{                  
                   //-- Realizando validação em campos obrigatórios
-                  if(decode(document.frmRequisicao.segmento1,"Selecione o segmento Empresa!",-1,"",null))
-                    if(decode(document.frmRequisicao.segmento2,"Selecione o segmento Uniorg Emitente!",-1,"",null))
-                      if(decode(document.frmRequisicao.segmento3,"Selecione o segmento Uniorg Destino!",-1,"",null))
-                        if(decode(document.frmRequisicao.segmento4,"Selecione o segmento área / Sub-área!",-1,"",null))
-                          if(decode(document.frmRequisicao.segmento5,"Selecione o segmento Serviço / Produto!",-1,"",null))
-                            if(decode(document.frmRequisicao.segmento6,"Selecione o segmento Especificação!",-1,"",null))
-                              if(decode(document.frmRequisicao.segmento7,"Selecione o segmento Modalidade!",-1,"",null))                            	
-	                            if(decode(document.frmRequisicao.nomUnidade,"Informe os dados da unidade!",0,"",null))
+                  if(!apb){
+                	  if(decode(document.frmRequisicao.segmento1,"Selecione o segmento Empresa!",-1,"",null))
+                          if(decode(document.frmRequisicao.segmento2,"Selecione o segmento Uniorg Emitente!",-1,"",null))
+                            if(decode(document.frmRequisicao.segmento3,"Selecione o segmento Uniorg Destino!",-1,"",null))
+                              if(decode(document.frmRequisicao.segmento4,"Selecione o segmento área / Sub-área!",-1,"",null))
+                                if(decode(document.frmRequisicao.segmento5,"Selecione o segmento Serviço / Produto!",-1,"",null))
+                                  if(decode(document.frmRequisicao.segmento6,"Selecione o segmento Especificação!",-1,"",null))
+                                    if(decode(document.frmRequisicao.segmento7,"Selecione o segmento Modalidade!",-1,"",null))
+                                    	if(decode(document.frmRequisicao.nomUnidade,"Informe os dados da unidade!",0,"",null))
+                                    		null;
+                  }
+                                             	
+	                            
 	                              if(decode(document.frmRequisicao.codRecrutamento,"Selecione a tipo de recrutamento!",0,"",null))
 	                                if(decode(document.frmRequisicao.codCargo,"Selecione o cargo!",0,"",null))
 	                                  if(decode(document.frmRequisicao.cotaCargo,"Informe a cota salarial!",'',"",null))
@@ -217,19 +234,26 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
 	                                              if(decode(document.frmRequisicao.indLocalTrabalho,"Selecione o local de trabalho!",0,"",null))                                        
 	                                                if(decode(document.frmRequisicao.indViagem,"Selecione o tipo de viagem!",0,"",null))
 	                                                  if(validarRadio(document.frmRequisicao.indSupervisao,"Informe a supervisão de funcionários!"))
-	                                                    if(decode(document.frmRequisicao.codArea,"Selecione a área!",0,"",null))
-	                                                      if(decode(document.frmRequisicao.codNivelHierarquia,"Selecione o nível hierárquico!",0,"",null))
-	                                                        if(decode(document.frmRequisicao.dscAtividadesCargo,"Informe as principais atividades do cargo!",0,"",null))
-	                                                          if(decode(document.frmRequisicao.descricaoFormacao,"Informe a escolaridade mínima!",0,"",null))
-	                                                            if(decode(document.frmRequisicao.dscExperiencia,"Informe a experiência profissional!",0,"",null))
-	                                                              if(decode(document.frmRequisicao.dscConhecimentos,"Informe os conhecimentos específicos!",0,"",null))
-	                                                                if(decode(document.frmRequisicao.outrasCarateristica,"Informe as competências!",0,"",null)){
-	                                                                  validacaoCampos = true;
-	                                                                }
+	                                                	  //se estiver no modo edição do ap&b, encerra a validação aqui.
+	                                                	  if(apb)
+	                                                		  validacaoCampos = true;
+	                                            
+	                                            		if(!apb){
+	                                            			if(decode(document.frmRequisicao.codArea,"Selecione a área!",0,"",null))
+	  	                                                      if(decode(document.frmRequisicao.codNivelHierarquia,"Selecione o nível hierárquico!",0,"",null))
+	  	                                                        if(decode(document.frmRequisicao.dscAtividadesCargo,"Informe as principais atividades do cargo!",0,"",null))
+	  	                                                          if(decode(document.frmRequisicao.descricaoFormacao,"Informe a escolaridade mínima!",0,"",null))
+	  	                                                            if(decode(document.frmRequisicao.dscExperiencia,"Informe a experiência profissional!",0,"",null))
+	  	                                                              if(decode(document.frmRequisicao.dscConhecimentos,"Informe os conhecimentos específicos!",0,"",null))
+	  	                                                                if(decode(document.frmRequisicao.outrasCarateristica,"Informe as competências!",0,"",null)){
+	  	                                                                  validacaoCampos = true;
+	  	                                                                }
+	                                            		}
+	                                                    
 	                                            }
                                             
                     //-- Enviando as informações
-                    if(validacaoCampos && validaRegras()){
+                    if(validacaoCampos && validaRegras(apb)){
                        //-- validação da carga horária do cargo com a escala para os PROFESSORES
 	                   if(document.getElementById('indTipoHorario').value == 'P'){
 						    //-- setando os parametros 

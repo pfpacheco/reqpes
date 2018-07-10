@@ -20,8 +20,8 @@ public class RequisicaoJornadaControl{
       return requisicaoJornadaDAO.gravaRequisicaoJornada(requisicaoJornada);
    }
 
-   public int alteraRequisicaoJornada(RequisicaoJornada requisicaoJornada) throws RequisicaoPessoalException{
-      return requisicaoJornadaDAO.alteraRequisicaoJornada(requisicaoJornada);
+   public int alteraRequisicaoJornada(RequisicaoJornada requisicaoJornada, Integer chapa) throws RequisicaoPessoalException{
+      return requisicaoJornadaDAO.alteraRequisicaoJornada(requisicaoJornada, chapa);
    }
 
    public RequisicaoJornada getRequisicaoJornada(int idRequisicao) throws RequisicaoPessoalException{

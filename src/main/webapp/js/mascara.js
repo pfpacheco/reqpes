@@ -27,14 +27,14 @@ function popUP(url, nome, settings){
  		//Verifica a quantidade de digitos informada esta correta.
  		if (strdata.length != 10){
  			alert("Formato da data não é válido.\nFormato correto: dd/mm/aaaa.");
- 			data.focus();
- 			return false;
+ 			setTimeout(function(){data.focus();},300);
+ 			return false; 			
  		}
  		//Verifica máscara da data
  		if ("/" != strdata.substr(2,1) || "/" != strdata.substr(5,1)){
  			alert("Formato da data não é válido.\nFormato correto: dd/mm/aaaa.");
- 			data.focus();
- 			return false;
+ 			setTimeout(function(){data.focus();},300);
+ 			return false; 			
  		}
  		dia = strdata.substr(0,2);
  		mes = strdata.substr(3,2);
@@ -42,13 +42,13 @@ function popUP(url, nome, settings){
  		//Verifica o dia
  		if (isNaN(dia) || dia > 31 || dia < 1){
  			alert("Formato do dia não é válido.");
- 			data.focus();
+ 			setTimeout(function(){data.focus();},300);
  			return false;
  		}
  		if (mes == 4 || mes == 6 || mes == 9 || mes == 11){
  			if (dia == "31"){
  				alert("O mês informado não possui 31 dias.");
- 				data.focus();
+ 				setTimeout(function(){data.focus();},300);
  				return false;
  			}
  		}
@@ -57,13 +57,13 @@ function popUP(url, nome, settings){
  			if (bissexto == 0){
  				if (dia > 29){
  					alert("O mês informado possui somente 29 dias.");
- 					data.focus();
+ 					setTimeout(function(){data.focus();},300);
  					return false;
  				}
  			}else{
  				if (dia > 28){
  					alert("O mês informado possui somente 28 dias.");
- 					data.focus();
+ 					setTimeout(function(){data.focus();},300);
  					return false;
  				}
  			}
@@ -71,17 +71,18 @@ function popUP(url, nome, settings){
  	//Verifica o mês
  		if (isNaN(mes) || mes > 12 || mes < 1){
  			alert("Formato do mês não é válido.");
- 			data.focus();
+ 			setTimeout(function(){data.focus();},300);
  			return false;
  		}
  		//Verifica o ano
  		if (isNaN(ano)){
  			alert("Formato do ano não é válido.");
- 			data.focus();
+ 			setTimeout(function(){data.focus();},300);
  			return false;
  		}
  	}
-  return true;
+  
+ 	return true;
  }
  
  function Verifica_Data_Mes(data, obrigatorio){

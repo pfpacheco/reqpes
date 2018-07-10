@@ -8,7 +8,7 @@ CREATE OR REPLACE PACKAGE REQUISICAO_PKG IS
 
   PROCEDURE SP_DML_REQUISICAO_PERFIL(P_IN_DML IN NUMBER,P_IN_REQUISICAO_PERFIL IN OUT REQUISICAO_PERFIL%ROWTYPE, P_IN_LIST_FUNCAO IN VARCHAR2, P_IN_GRAVA_HISTORICO_CHAPA IN NUMBER, P_IN_SO_PERFIL IN NUMBER);
 
-  PROCEDURE SP_DML_REQUISICAO_JORNADA(P_IN_DML IN NUMBER,P_IN_REQUISICAO_JORNADA IN OUT REQUISICAO_JORNADA%ROWTYPE);
+  PROCEDURE SP_DML_REQUISICAO_JORNADA(P_IN_DML IN NUMBER,P_IN_REQUISICAO_JORNADA IN OUT REQUISICAO_JORNADA%ROWTYPE, P_IN_CHAPA IN NUMBER);
 
   PROCEDURE SP_DML_USUARIO_AVISO(P_IN_DML IN NUMBER,P_IN_USUARIO_AVISO IN OUT USUARIO_AVISO%ROWTYPE,P_IN_USUARIO IN VARCHAR2);
 
@@ -146,6 +146,7 @@ BEGIN
       IF (P_IN_REQUISICAO.COD_RECRUTAMENTO = 0) THEN
         P_IN_REQUISICAO.COD_RECRUTAMENTO := NULL;
       END IF;
+      
 
       -- ############# VERIFICANDO O TIPO DE TRANSACÃO   ################# --
       -- ############# SE 0 FAZ INSERT   ################# --
@@ -262,7 +263,7 @@ BEGIN
           ,P_IN_REQUISICAO.COD_SEGMENTO5
           ,P_IN_REQUISICAO.COD_SEGMENTO6
           ,P_IN_REQUISICAO.COD_SEGMENTO7);
-
+        
         -----------------------------------------------------
         -- Notificando os homologadores da GEP
         -- Acão: Gravar / Alterar
@@ -303,7 +304,6 @@ BEGIN
         -----------------------------------------------------
         TIPO_TRANSACAO := 'UPDATE';
         -----------------------------------------------------
-
 
         -- captura dados da requisição antes da alteração
         SELECT REQUISICAO_SQ
@@ -470,10 +470,6 @@ BEGIN
              SELECT COD_UNIDADE,NIVEL FROM HISTORICO_REQUISICAO 
               WHERE REQUISICAO_SQ=P_IN_REQUISICAO.REQUISICAO_SQ AND STATUS<>'alterou' ORDER BY DT_ENVIO DESC) 
               WHERE ROWNUM=1;
-              
-              insert into debug values(V_NIVEL_HISTORICO);
-              
-              --insert into debug values (P_IN_REQUISICAO.USUARIO_SQ);
        
               INSERT INTO HISTORICO_REQUISICAO(
                      REQUISICAO_SQ, COD_UNIDADE, DT_ENVIO, DT_HOMOLOGACAO, USUARIO_SQ, STATUS, UNIDADE_ATUAL_USUARIO, NIVEL)
@@ -509,8 +505,6 @@ BEGIN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Tipo de recrutamento', V_ANTES,V_DEPOIS);
            END IF;   
-          
-
 
            IF P_IN_REQUISICAO.CLASSIFICACAO_FUNCIONAL != V_CLASSIFICACAO_FUNCIONAL THEN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT CLFU_DES FROM CLASSIFICACAO_FUNCIONAL WHERE CLFU_COD=' || V_CLASSIFICACAO_FUNCIONAL);
@@ -626,10 +620,7 @@ BEGIN
            END IF;   
 */
 
-           IF P_IN_REQUISICAO.OBS != V_OBS  THEN
-             
-           insert into debug values('P_IN_REQUISICAO.OBS' || P_IN_REQUISICAO.OBS);
-           insert into debug values('V_OBS' || V_OBS);
+           IF P_IN_REQUISICAO.OBS != V_OBS  THEN          
             insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Observações', V_OBS,P_IN_REQUISICAO.OBS);
            END IF;   
@@ -757,9 +748,9 @@ BEGIN
               (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Code Combination', V_ID_CODE_COMBINATION,P_IN_REQUISICAO.ID_CODE_COMBINATION);
            END IF;  
 
-           IF P_IN_REQUISICAO.IND_TIPO_REQUISICAO != V_IND_TIPO_REQUISICAO THEN
+           IF P_IN_REQUISICAO.IND_TIPO_REQUISICAO != V_IND_TIPO_REQUISICAO THEN              
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-              (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Tipo Requisição', V_IND_TIPO_REQUISICAO,P_IN_REQUISICAO.IND_TIPO_REQUISICAO);
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Tipo Requisição', decode(V_IND_TIPO_REQUISICAO,'A','Admissão','Transferência'), decode(P_IN_REQUISICAO.IND_TIPO_REQUISICAO,'A','Admissão','Transferência'));
            END IF;   
 
 --           IF P_IN_REQUISICAO.COD_STATUS != V_COD_STATUS THEN
@@ -775,8 +766,8 @@ BEGIN
            IF P_IN_REQUISICAO.VERSAO_SISTEMA != V_VERSAO_SISTEMA  THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Versão do Sistema', V_VERSAO_SISTEMA,P_IN_REQUISICAO.VERSAO_SISTEMA);
-           END IF;   
-
+           END IF; 
+           
         -- ############# SE -1 FAZ DELETE   ################# --
       ELSE
         -----------------------------------------------------
@@ -1050,8 +1041,9 @@ END SP_DML_REQUISICAO_PERFIL;
 
 
 --################################ INICIO DA PROCEDURE SP_DML_REQUISICAO_JORNADA #######################
-PROCEDURE SP_DML_REQUISICAO_JORNADA(P_IN_DML IN NUMBER,P_IN_REQUISICAO_JORNADA IN OUT REQUISICAO_JORNADA%ROWTYPE) IS
+PROCEDURE SP_DML_REQUISICAO_JORNADA(P_IN_DML IN NUMBER,P_IN_REQUISICAO_JORNADA IN OUT REQUISICAO_JORNADA%ROWTYPE, P_IN_CHAPA IN NUMBER) IS
  TIPO_TRANSACAO VARCHAR2(50);
+ V_COD_ESCALA REQUISICAO_JORNADA.COD_ESCALA%TYPE;
 BEGIN
     BEGIN
       -- ############# VERIFICANDO O TIPO DE TRANSAÇÃO    ################# --
@@ -1203,6 +1195,17 @@ BEGIN
         -----------------------------------------------------
         TIPO_TRANSACAO := 'UPDATE';
         -----------------------------------------------------
+        
+        SELECT DISTINCT(T.COD_ESCALA)
+          INTO V_COD_ESCALA
+          FROM REQUISICAO_JORNADA T
+         WHERE T.REQUISICAO_SQ = P_IN_REQUISICAO_JORNADA.REQUISICAO_SQ;
+        
+        IF V_COD_ESCALA  != P_IN_REQUISICAO_JORNADA.COD_ESCALA THEN
+          insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
+          (P_IN_REQUISICAO_JORNADA.REQUISICAO_SQ, P_IN_CHAPA, SYSDATE, 'Código de escala', V_COD_ESCALA,P_IN_REQUISICAO_JORNADA.REQUISICAO_SQ);
+        END IF;                           
+        
         UPDATE REQUISICAO_JORNADA
         SET    COD_ESCALA       = P_IN_REQUISICAO_JORNADA.COD_ESCALA
               ,IND_TIPO_HORARIO = P_IN_REQUISICAO_JORNADA.IND_TIPO_HORARIO

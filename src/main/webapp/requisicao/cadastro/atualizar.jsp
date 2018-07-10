@@ -34,6 +34,7 @@
 	RequisicaoControl requisicaoControl = new RequisicaoControl();
 	RequisicaoAprovacaoControl requisicaoAprovacaoControl = new RequisicaoAprovacaoControl();
 	SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
+	
 
 	//-- Parâmetros de página
 	int codRequisicao = (request.getParameter("codRequisicao") == null)
@@ -48,7 +49,7 @@
 
 	//---------------------------------------------------------------------------------------------------------------
 	//-- Setando o Bean "Requisicao"
-	Requisicao requisicao = new Requisicao();
+	Requisicao requisicao = requisicaoControl.getRequisicao(codRequisicao);
 	requisicao.setTipoedicao(request.getParameter("tipoedicao") == null
 			? 0
 			: Integer.parseInt(request.getParameter("tipoedicao")));
@@ -57,12 +58,16 @@
 	requisicao.setCodCargo(Integer.parseInt(request.getParameter("codCargo")));
 	requisicao.setCotaCargo(Integer.parseInt(request.getParameter("cotaCargo")));
 	requisicao.setIndTipoContratacao(request.getParameter("indTipoContratacao"));
-	requisicao.setNomSuperior(request.getParameter("nomSuperior"));
-	requisicao.setTelUnidade(request.getParameter("telUnidade"));
+	
+	if(requisicao.getTipoedicao() != 2){
+		requisicao.setNomSuperior(request.getParameter("nomSuperior"));
+		requisicao.setTelUnidade(request.getParameter("telUnidade"));
+		requisicao.setComentarios(request.getParameter("comentarios"));
+	}
+
 	requisicao.setJornadaTrabalho(Double.parseDouble(request.getParameter("jornadaTrabalho")));
 	requisicao.setIndLocalTrabalho(request.getParameter("indLocalTrabalho"));
 	requisicao.setCodRPPara(request.getParameter("codRPPara"));
-	requisicao.setComentarios(request.getParameter("comentarios"));
 	requisicao.setIndSupervisao(request.getParameter("indSupervisao"));
 	requisicao.setNumFuncionariosSupervisao(request.getParameter("numFuncionariosSupervisao") == null
 			? 0
@@ -83,14 +88,18 @@
 					? 0
 					: Integer.parseInt(request.getParameter("idSubstitutoHist")));
 	requisicao.setIndStatus(Integer.parseInt(request.getParameter("indStatus")));
-	requisicao.setSegmento1(request.getParameter("segmento1"));
-	requisicao.setSegmento2(request.getParameter("segmento2"));
-	requisicao.setSegmento3(request.getParameter("segmento3"));
-	requisicao.setSegmento4(request.getParameter("segmento4"));
-	requisicao.setSegmento5(request.getParameter("segmento5"));
-	requisicao.setSegmento6(request.getParameter("segmento6"));
-	requisicao.setSegmento7(request.getParameter("segmento7"));
-	requisicao.setCodUODestino(request.getParameter("codUODestino"));
+	
+	if(requisicao.getTipoedicao() != 2){
+		requisicao.setSegmento1(request.getParameter("segmento1"));
+		requisicao.setSegmento2(request.getParameter("segmento2"));
+		requisicao.setSegmento3(request.getParameter("segmento3"));
+		requisicao.setSegmento4(request.getParameter("segmento4"));
+		requisicao.setSegmento5(request.getParameter("segmento5"));
+		requisicao.setSegmento6(request.getParameter("segmento6"));
+		requisicao.setSegmento7(request.getParameter("segmento7"));
+		requisicao.setCodUODestino(request.getParameter("codUODestino"));
+	}
+	
 	requisicao.setNivelWorkflow(Integer.parseInt(request.getParameter("nivelWorkflow")));
 	requisicao.setCodRecrutamento(Integer.parseInt(request.getParameter("codRecrutamento")));
 	requisicao.setDscRecrutamento(request.getParameter("dscRecrutamento"));
@@ -184,20 +193,25 @@
 		}
 
 		// setando as funções adicionais para os professores
-		if (request.getParameterValues("codFuncao").length > 1) {
-			StringBuffer funcaoExtra = new StringBuffer();
-			for (int i = 1; i < request.getParameterValues("codFuncao").length; i++) {
-				funcaoExtra.append("," + request.getParameterValues("codFuncao")[i]);
+		//só faz caso não seja edição apb
+		if(requisicao.getTipoedicao() != 2){
+			if (request.getParameterValues("codFuncao").length > 1) {
+				StringBuffer funcaoExtra = new StringBuffer();
+				for (int i = 1; i < request.getParameterValues("codFuncao").length; i++) {
+					funcaoExtra.append("," + request.getParameterValues("codFuncao")[i]);
+				}
+				requisicaoPerfil.setListFuncao(funcaoExtra.toString().substring(1, funcaoExtra.length()));
+			} else {
+				requisicaoPerfil.setListFuncao(null);
 			}
-			requisicaoPerfil.setListFuncao(funcaoExtra.toString().substring(1, funcaoExtra.length()));
-		} else {
-			requisicaoPerfil.setListFuncao(null);
 		}
 
 		int[] chapas = null;
 
-		retorno = new RequisicaoJornadaControl().alteraRequisicaoJornada(requisicaoJornada);
-		retorno = new RequisicaoPerfilControl().alteraRequisicaoPerfil(requisicaoPerfil, 0, usuario.getChapa());
+		retorno = new RequisicaoJornadaControl().alteraRequisicaoJornada(requisicaoJornada, usuario.getChapa());
+		
+		if(requisicao.getTipoedicao() != 2) //não é alteração ap e b
+			retorno = new RequisicaoPerfilControl().alteraRequisicaoPerfil(requisicaoPerfil, 0, usuario.getChapa());
 		
 
 		//-- alterando o status na revisão

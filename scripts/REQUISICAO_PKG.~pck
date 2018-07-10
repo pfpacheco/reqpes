@@ -471,7 +471,7 @@ BEGIN
               WHERE REQUISICAO_SQ=P_IN_REQUISICAO.REQUISICAO_SQ AND STATUS<>'alterou' ORDER BY DT_ENVIO DESC) 
               WHERE ROWNUM=1;
               
-              --insert into debug values(V_NIVEL_HISTORICO);
+              insert into debug values(V_NIVEL_HISTORICO);
               
               --insert into debug values (P_IN_REQUISICAO.USUARIO_SQ);
        
@@ -483,7 +483,7 @@ BEGIN
                 ,P_DATA_HORA
                 ,NULL
                 ,V_SQ_USUARIO
-                ,v_nivel_historico
+                ,'alterou'
                 ,V_UNIDADE_USUARIO
                 ,V_NIVEL_HISTORICO);                       
     

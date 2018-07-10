@@ -125,12 +125,12 @@
 %>
 
 <br>
-<script language="JavaScript" src="../../js/formulario.js" type="text/javascript" charset="utf-8"></script> 
-<script language="JavaScript" src="../../js/mascara.js"    type="text/javascript" charset="utf-8"></script>
-<script language="JavaScript" src="../../js/ajaxItens.js"  type="text/javascript" charset="utf-8"></script>
-<script language="JavaScript" src="../../js/regrasRequisicao.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/formulario.js" type="text/javascript" charset="UTF-8"></script> 
+<script src="../../js/mascara.js"    type="text/javascript" charset="UTF-8"></script>
+<script src="../../js/ajaxItens.js"  type="text/javascript" charset="UTF-8"></script>
+<script src="../../js/regrasRequisicao.js" type="text/javascript" charset="UTF-8"></script>
 
-<script language="javaScript">
+<script>
   //------------------------------------------------------------------------------
     // Função que verifica se exibe os campos de funcionário substituído    
     function exibeFuncionarioSubstituido(codigo, tipo){
@@ -1444,7 +1444,11 @@
 	          </tr>             
 	          <tr>
 	            <td align="right" class="tdIntranet2" colspan="2" height="30">
-	              <input type="button" name="btnSubmete" class="botaoIntranet" value="<%=altBotao%>" onclick="submete();">&nbsp;
+	              <%if(tipoEdicao !=2){%>
+	              	<input type="button" name="btnSubmete" class="botaoIntranet" value="<%=altBotao%>" onclick="submete();">&nbsp;
+	              <%} else {%>
+	              	<input type="button" name="btnSubmete" class="botaoIntranet" value="<%=altBotao%>" onclick="submete(true);">&nbsp;
+	              <%}%>
 	              <input type="button" name="btnVoltar"  class="botaoIntranet" value="   Voltar   "  onclick="window.history.back();">
 	              &nbsp;&nbsp;&nbsp;
 	            </td>

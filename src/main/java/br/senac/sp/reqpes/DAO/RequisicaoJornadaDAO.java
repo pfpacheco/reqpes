@@ -106,7 +106,7 @@ public class RequisicaoJornadaDAO implements InterfaceDataBase{
                                                      ,P_IN_HR_DOMINGO_SAIDA4   IN VARCHAR2) IS
    */
    
-   private int dmlRequisicaoJornada(int tipoDML, RequisicaoJornada requisicaoJornada)throws RequisicaoPessoalException{    
+   private int dmlRequisicaoJornada(int tipoDML, RequisicaoJornada requisicaoJornada, Integer chapa)throws RequisicaoPessoalException{    
      int sucesso = 1;     
      Transacao transacao = new Transacao(DATA_BASE_NAME);
      String tipoTransacao = "";
@@ -132,10 +132,11 @@ public class RequisicaoJornadaDAO implements InterfaceDataBase{
         stmt.setString(3,requisicaoJornada.getCodEscala());
         stmt.setInt(4,requisicaoJornada.getCodCalendario());      
         stmt.setString(5,requisicaoJornada.getIndTipoHorario());
-        int idx = 6;
+        stmt.setInt(6,chapa);
+        int idx = 7;
         
         if(requisicaoJornada.getCodEscala() == null || requisicaoJornada.getCodEscala().equals("")){
-        	parametros.append("\n6, <Grade Horária>");
+        	parametros.append("\n7, <Grade Horária>");
         	Horarios[] h = requisicaoJornada.getHorarios();
         	for(int i=0; i < h.length; i++){
 	        	stmt.setString(idx++, h[i].getEntrada());
@@ -148,8 +149,8 @@ public class RequisicaoJornadaDAO implements InterfaceDataBase{
 	        	stmt.setString(idx++, h[i].getSaidaExtra());
         	}
         }else{
-        	parametros.append("\n6, <Escala Timekeeper>");
-        	while(idx <= 61 /*N° de parâmetros da procedure*/){
+        	parametros.append("\n7, <Escala Timekeeper>");
+        	while(idx <= 62 /*N° de parâmetros da procedure*/){
 	        	stmt.setNull(idx++, OracleTypes.VARCHAR);
         	}
         }
@@ -186,7 +187,7 @@ public class RequisicaoJornadaDAO implements InterfaceDataBase{
    * @procedure: SP_DML_REQUISICAO_JORNADA
   */   
   public int gravaRequisicaoJornada(RequisicaoJornada requisicaoJornada)throws RequisicaoPessoalException{
-    return this.dmlRequisicaoJornada(0, requisicaoJornada);
+    return this.dmlRequisicaoJornada(0, requisicaoJornada, null);
   }
 
 
@@ -196,8 +197,8 @@ public class RequisicaoJornadaDAO implements InterfaceDataBase{
    * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
    * @procedure: SP_DML_REQUISICAO_JORNADA
   */
-  public int alteraRequisicaoJornada(RequisicaoJornada requisicaoJornada)throws RequisicaoPessoalException{
-    return this.dmlRequisicaoJornada(1, requisicaoJornada);
+  public int alteraRequisicaoJornada(RequisicaoJornada requisicaoJornada, Integer chapa)throws RequisicaoPessoalException{
+    return this.dmlRequisicaoJornada(1, requisicaoJornada, chapa);
   }
 
 
