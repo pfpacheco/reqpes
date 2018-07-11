@@ -236,7 +236,7 @@
             </jsp:include>           
         <%}%>      
         
-        <% if (tipoEdicao==2) { %>
+        <% if (tipoEdicao==2 || tipoEdicao == 1) { %>
             <table width="100%" border="0" cellpadding="0" cellspacing="1">
               <tr>
                 <td colspan="3" height="18" align="center" class="tdCabecalho" background='<%= request.getContextPath()%>/imagens/tit_item.gif'>
@@ -430,7 +430,7 @@
         <div id="divDados" style="display:none;">
             <%-- DADOS DA UNIDADE --%>
 	        <table border="0" width="100%" cellpadding="0" cellspacing="0">
-            <%if(tipoEdicao != 2) {%>
+            <%if(tipoEdicao != 2 && tipoEdicao != 1) {%>
 	          <tr>
 	            <td colspan="3" height="18" class="tdCabecalho" background="../../imagens/tit_item.gif">
 	             <STRONG>&nbsp;&nbsp;DADOS DA UNIDADE</STRONG>            

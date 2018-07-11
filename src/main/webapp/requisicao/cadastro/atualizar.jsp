@@ -60,8 +60,6 @@
 	requisicao.setIndTipoContratacao(request.getParameter("indTipoContratacao"));
 	
 	if(requisicao.getTipoedicao() != 2){
-		requisicao.setNomSuperior(request.getParameter("nomSuperior"));
-		requisicao.setTelUnidade(request.getParameter("telUnidade"));
 		requisicao.setComentarios(request.getParameter("comentarios"));
 	}
 
@@ -89,7 +87,9 @@
 					: Integer.parseInt(request.getParameter("idSubstitutoHist")));
 	requisicao.setIndStatus(Integer.parseInt(request.getParameter("indStatus")));
 	
-	if(requisicao.getTipoedicao() != 2){
+	if(requisicao.getTipoedicao() != 2 && requisicao.getTipoedicao() != 1){
+		requisicao.setNomSuperior(request.getParameter("nomSuperior"));
+		requisicao.setTelUnidade(request.getParameter("telUnidade"));
 		requisicao.setSegmento1(request.getParameter("segmento1"));
 		requisicao.setSegmento2(request.getParameter("segmento2"));
 		requisicao.setSegmento3(request.getParameter("segmento3"));
