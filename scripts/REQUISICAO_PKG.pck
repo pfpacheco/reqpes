@@ -115,7 +115,6 @@ PROCEDURE SP_DML_REQUISICAO(P_IN_DML IN NUMBER,P_IN_REQUISICAO IN OUT REQUISICAO
  P_DATA_HORA                 DATE;
  V_ANTES                     NVARCHAR2(30000); 
  V_DEPOIS                    NVARCHAR2(30000); 
-
 BEGIN
     BEGIN
       P_DATA_HORA:=SYSDATE;
@@ -496,7 +495,7 @@ BEGIN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT DESCRICAO FROM VW_RHEV_TRANSFERENCIA_MOTIVO WHERE TRANSFERENCIA_MOTIVO_ID=' || V_MOTIVO_SOLICITACAO || ' AND IND_MOTIVO = "T"');
               V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT DESCRICAO FROM VW_RHEV_TRANSFERENCIA_MOTIVO WHERE TRANSFERENCIA_MOTIVO_ID=' || P_IN_REQUISICAO.MOTIVO_SOLICITACAO || '  AND IND_MOTIVO = "T"');
               INSERT INTO  historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-              (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Motivo da solicitação', V_DEPOIS,V_ANTES);
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Motivo da solicitação', V_ANTES, V_DEPOIS);
            END IF;   
 
            IF P_IN_REQUISICAO.COD_RECRUTAMENTO != V_COD_RECRUTAMENTO THEN
@@ -687,15 +686,17 @@ BEGIN
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Data Requisição', V_COD_RECRUTAMENTO,P_IN_REQUISICAO.COD_RECRUTAMENTO);
            END IF;   
 
-          IF P_IN_REQUISICAO.COD_AREA != V_COD_AREA  THEN
+           IF P_IN_REQUISICAO.COD_AREA != V_COD_AREA  THEN
             insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Cód. Area', V_COD_AREA,P_IN_REQUISICAO.COD_AREA);
            END IF;   
 
 
            IF P_IN_REQUISICAO.RAZAO_SUBSTITUICAO != V_RAZAO_SUBSTITUICAO THEN 
+              V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT DESCRICAO FROM VW_RHEV_TRANSFERENCIA_MOTIVO WHERE TRANSFERENCIA_MOTIVO_ID=' || V_RAZAO_SUBSTITUICAO || ' AND IND_MOTIVO = "T"');
+              V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT DESCRICAO FROM VW_RHEV_TRANSFERENCIA_MOTIVO WHERE TRANSFERENCIA_MOTIVO_ID=' || P_IN_REQUISICAO.RAZAO_SUBSTITUICAO || '  AND IND_MOTIVO = "T"');
             insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-                (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Motivo da solicitação', V_RAZAO_SUBSTITUICAO,P_IN_REQUISICAO.RAZAO_SUBSTITUICAO);
+                (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Motivo da solicitação', V_ANTES,V_DEPOIS);
            END IF;   
 
            IF P_IN_REQUISICAO.TIPO_INDICACAO != V_TIPO_INDICACAO THEN
@@ -719,8 +720,11 @@ BEGIN
            END IF;   
 
            IF P_IN_REQUISICAO.SUBSTITUIDO_ID_HIST != V_SUBSTITUIDO_ID_HIST THEN
+              SELECT F.NOME INTO V_ANTES FROM FUNCIONARIOS F WHERE F.ID = V_SUBSTITUIDO_ID_HIST;
+              SELECT F.NOME INTO V_DEPOIS FROM FUNCIONARIOS F WHERE F.ID = P_IN_REQUISICAO.SUBSTITUIDO_ID_HIST;           
+           
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-              (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Id Substituido', V_SUBSTITUIDO_ID_HIST,P_IN_REQUISICAO.SUBSTITUIDO_ID_HIST);
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Id Substituido', V_SUBSTITUIDO_ID_HIST || ' - ' || V_ANTES,P_IN_REQUISICAO.SUBSTITUIDO_ID_HIST || ' - ' || V_DEPOIS);
            END IF;   
 
            IF P_IN_REQUISICAO.TRANSFERENCIA_DATA != V_TRANSFERENCIA_DATA THEN
@@ -768,6 +772,16 @@ BEGIN
               (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Versão do Sistema', V_VERSAO_SISTEMA,P_IN_REQUISICAO.VERSAO_SISTEMA);
            END IF; 
            
+           IF P_IN_REQUISICAO.NM_INDICADO != V_NOME_INDICADO  THEN
+              insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Nome do indicado', V_NOME_INDICADO,P_IN_REQUISICAO.NM_INDICADO);
+           END IF;
+           
+           IF P_IN_REQUISICAO.ID_INDICADO != V_ID_INDICADO  THEN
+              insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, P_DATA_HORA, 'Id do indicado', V_ID_INDICADO,P_IN_REQUISICAO.ID_INDICADO);
+           END IF;
+
         -- ############# SE -1 FAZ DELETE   ################# --
       ELSE
         -----------------------------------------------------
@@ -1044,6 +1058,7 @@ END SP_DML_REQUISICAO_PERFIL;
 PROCEDURE SP_DML_REQUISICAO_JORNADA(P_IN_DML IN NUMBER,P_IN_REQUISICAO_JORNADA IN OUT REQUISICAO_JORNADA%ROWTYPE, P_IN_CHAPA IN NUMBER) IS
  TIPO_TRANSACAO VARCHAR2(50);
  V_COD_ESCALA REQUISICAO_JORNADA.COD_ESCALA%TYPE;
+ V_COD_USUARIO_SQ USUARIO.USUARIO_SQ%TYPE;
 BEGIN
     BEGIN
       -- ############# VERIFICANDO O TIPO DE TRANSAÇÃO    ################# --
@@ -1196,14 +1211,19 @@ BEGIN
         TIPO_TRANSACAO := 'UPDATE';
         -----------------------------------------------------
         
-        SELECT DISTINCT(T.COD_ESCALA)
+        SELECT DISTINCT (T.COD_ESCALA)
           INTO V_COD_ESCALA
           FROM REQUISICAO_JORNADA T
          WHERE T.REQUISICAO_SQ = P_IN_REQUISICAO_JORNADA.REQUISICAO_SQ;
+         
+         SELECT DISTINCT (T.USUARIO_SQ)
+           INTO V_COD_USUARIO_SQ
+           FROM USUARIO T
+          WHERE T.IDENTIFICACAO = P_IN_CHAPA;
         
         IF V_COD_ESCALA  != P_IN_REQUISICAO_JORNADA.COD_ESCALA THEN
           insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-          (P_IN_REQUISICAO_JORNADA.REQUISICAO_SQ, P_IN_CHAPA, SYSDATE, 'Código de escala', V_COD_ESCALA,P_IN_REQUISICAO_JORNADA.REQUISICAO_SQ);
+          (P_IN_REQUISICAO_JORNADA.REQUISICAO_SQ, V_COD_USUARIO_SQ, SYSDATE, 'Código de escala', V_COD_ESCALA,P_IN_REQUISICAO_JORNADA.COD_ESCALA);
         END IF;                           
         
         UPDATE REQUISICAO_JORNADA

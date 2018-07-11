@@ -230,12 +230,12 @@
 			listaEmails = requisicaoAprovacaoControl.getEmailsEnvolvidosWorkFlow(requisicao);
 
 			//-- envia email de alteração 
-			//if(requisicao.getTipoedicao()==1 || requisicao.getTipoedicao()==2){
-			//	RequisicaoMensagemControl.enviaMensagemAlteracao(usuario, requisicao, listaEmails);		
-			//}
+			if (requisicao.getTipoedicao()==2) {
+				RequisicaoMensagemControl.enviaMensagemAlteracao(usuario, requisicao);
+			}
+
 
 			if (requisicao.getTipoedicao() != 1 && requisicao.getTipoedicao() != 2) {
-
 				if (isPerfilGEP || isPerfilNEC) {
 					//-- Realiza a notificação apenas quando a RP foi encaminhada para o aprovador final
 					if (requisicaoAprovacaoControl.getNivelAprovacaoAtual(requisicao.getCodRequisicao()) == 4) {

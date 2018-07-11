@@ -69,6 +69,7 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 		StringBuffer parametros = new StringBuffer();
 		String tipoTransacao = "";
 		CallableStatement stmt = null;
+		RequisicaoDAO requisicaoDAO = new RequisicaoDAO();
 
 		switch (tipoDML) {
 		case 0:
@@ -151,213 +152,11 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 			if (tipoTransacao == "alterar") {
 
 				// envia o email
-
-				RequisicaoControl requisicaoControl = new RequisicaoControl();
-				Requisicao requisicao = requisicaoControl.getRequisicao(requisicaoPerfil.getCodRequisicao());
 				Usuario usuario = new Usuario();
 				usuario.setChapa(gravaHistoricoChapa[0]);
-
 				String[][] dadosUsuario = this.getUsuarioEmail(usuario.getChapa());
 				usuario.setEmail(dadosUsuario[0][0]);
-
-				String[][] dadosRequisicao = this.getRequisicaoDetalhes(requisicao, usuario.getChapa());
-				String[][] dadosAlterados = this.getRequisicaoAlteracao(requisicao);
-
-				StringBuffer corpo = new StringBuffer();
-
-				corpo.append("<head>");
-				corpo.append("    <title>Solicitação</title>");
-				corpo.append("    <meta http-equiv=expires content=\"Mon, 06 Jan 1990 00:00:01 GMT\">");
-				corpo.append("    <meta http-equiv=\"pragma\" content=\"no-cache\">");
-				corpo.append("    <META HTTP-EQUIV=\"CACHE-CONTROL\" CONTENT=\"NO-CACHE\">");
-				corpo.append("	<style>");
-				corpo.append(
-						"	   .tdCabecalho{font-family:verdana; color:#FFFFFF; font-size:10px; background-color:#6699CC; font-weight:normal; }");
-				corpo.append(
-						"     .tdintranet2{font-family:verdana; color:#000000; font-size:10px; background-color:#E7F3FF; }");
-				corpo.append(
-						"     .tdintranet {font-family:verdana; color:#000000; font-size:10px; background-color:#6699CC; }");
-				corpo.append(
-						"     .tdNormal   {font-family:verdana; color:#000000; font-size:10px; background-color:#FFFFFF; }");
-				corpo.append("		td.texto {");
-				corpo.append("			color: #000000;");
-				corpo.append("			font-family: Verdana, Arial, Helvetica, sans-serif;");
-				corpo.append("			font-size: 10px;");
-				corpo.append("			background-color: #FFFFFF;");
-				corpo.append("		}");
-				corpo.append("	</style>");
-				corpo.append("  </head>");
-				corpo.append(
-						"  <body bgcolor='#ffffff' bottommargin='0' topmargin='0' leftmargin='0' rightmargin='0' marginwidth='0' marginheight='0' >");
-				corpo.append("  <center><br> ");
-				corpo.append("     <table border='0' width='610' cellpadding='0' cellspacing='0'> ");
-				corpo.append("           <tr> ");
-				corpo.append("             <td colspan='2' height='18' class='tdCabecalho'> ");
-				corpo.append("              <STRONG>&nbsp;&nbsp;REQUISIÇÃO DE PESSOAL</STRONG> ");
-				corpo.append("             </td> ");
-				corpo.append("           </tr> ");
-				corpo.append("           <tr> ");
-				corpo.append("              <td height='25' width='5%' align='left' class='tdintranet2'> ");
-				corpo.append("              &nbsp;");
-				corpo.append("             </td> ");
-				corpo.append("              <td height='25' width='95%' align='left' class='tdintranet2'> ");
-
-				corpo.append("A Requisição de Pessoal N° " + dadosRequisicao[0][0]
-						+ " foi analisada e alterada pela Gerência de Pessoal.");
-				corpo.append("              </td> ");
-				corpo.append("           </tr>    ");
-				corpo.append("           <tr> ");
-				corpo.append("              <td height='25' width='5%' align='left' class='tdintranet2'> ");
-				corpo.append("              &nbsp;");
-				corpo.append("             </td> ");
-				corpo.append("              <td height='25' width='95%' align='left' class='tdintranet2'> ");
-				// -- LINK DE PRODUÇÃO
-				// corpo.append( "Para mais detalhes <a
-				// href='http://www.intranet.sp.senac.br/jsp/private/sistemaIntra.jsp?url=login/leRP.cfm?sncReqPes="+requisicao.getCodRequisicao()+"'>clique
-				// aqui</a> para visualizar os dados completos desta
-				// requisição.<br><br>");
-				corpo.append(
-						"Para mais detalhes <a href='http://www.intranet.sp.senac.br/intranet-frontend/sistemas-integrados/detalhes/7'>clique aqui</a> para visualizar os dados completos desta requisição.<br><br>");
-				// -- LINK DE HOMOLOGAÇÃO
-				// corpo.append( "Para mais detalhes <a
-				// href='http://www.intranet.sp.senac.br/jsp/private/sistemaIntra.jsp?url=login/leRPHOM.cfm?sncReqPes="+requisicao.getCodRequisicao()+"'>clique
-				// aqui</a> para visualizar os dados completos desta
-				// requisição.<br><br>");
-				corpo.append("              </td> ");
-				corpo.append("           </tr>    ");
-				corpo.append("           <tr> ");
-				corpo.append("              <td colspan='2'  height='3' class='tdIntranet'></td> ");
-				corpo.append("           </tr>    ");
-				corpo.append("     </table><br>");
-
-				corpo.append("     <table border='0' width='610' cellpadding='0' cellspacing='0'> ");
-				corpo.append("           <tr> ");
-				corpo.append("             <td colspan='3'  height='18' class='tdCabecalho'> ");
-				corpo.append("              <STRONG>&nbsp;&nbsp;DADOS DA REQUISIÇÃO</STRONG> ");
-				corpo.append("             </td> ");
-				corpo.append("           </tr> ");
-				corpo.append("               <tr> ");
-				corpo.append("                   <td colspan='2'  height='8' class='tdintranet2'></td> ");
-				corpo.append("               </tr>      ");
-				corpo.append("               <tr> ");
-				corpo.append("                 <td height='25' width='23%' align='right' class='tdintranet2'> ");
-				corpo.append("                   <STRONG>Número da RP:&nbsp;</STRONG> ");
-				corpo.append("                 </td> ");
-				corpo.append("                 <td class='tdintranet2' width='77%'> ");
-				corpo.append("                   " + dadosRequisicao[0][0]);
-				corpo.append("                 </td> ");
-				corpo.append("               </tr>    ");
-				corpo.append("               <tr> ");
-				corpo.append("                 <td height='25' width='23%' align='right' class='tdintranet2'> ");
-				corpo.append("                   <STRONG>Unidade solicitante:&nbsp;</STRONG> ");
-				corpo.append("                 </td> ");
-				corpo.append("                 <td class='tdintranet2' width='77%'> ");
-				corpo.append("                   " + dadosRequisicao[0][1]);
-				corpo.append("                 </td> ");
-				corpo.append("               </tr>    ");
-				corpo.append("               <tr> ");
-				corpo.append("                 <td height='25' width='23%' align='right' class='tdintranet2'> ");
-				corpo.append("                   <STRONG>Cargo:&nbsp;</STRONG> ");
-				corpo.append("                 </td> ");
-				corpo.append("                 <td class='tdintranet2' width='77%'> ");
-				corpo.append("                   " + dadosRequisicao[0][2]);
-				corpo.append("                 </td> ");
-				corpo.append("               </tr>    ");
-				corpo.append("               <tr> ");
-				corpo.append("                 <td height='25' width='23%' align='right' class='tdintranet2'> ");
-				corpo.append("                   <STRONG>Data da solicitação:&nbsp;</STRONG> ");
-				corpo.append("                 </td> ");
-				corpo.append("                 <td class='tdintranet2' width='77%'> ");
-				corpo.append("                   " + dadosRequisicao[0][3]);
-				corpo.append("                 </td> ");
-				corpo.append("               </tr>    ");
-
-				corpo.append("               <tr> ");
-				corpo.append("                 <td height='25' width='23%' align='right' class='tdintranet2'> ");
-				corpo.append("                   <STRONG>Centro de Custo:&nbsp;</STRONG> ");
-				corpo.append("                 </td> ");
-				corpo.append("                 <td class='tdintranet2' width='77%'> ");
-				corpo.append("                   " + dadosRequisicao[0][4]);
-				corpo.append("                 </td> ");
-				corpo.append("               </tr>    ");
-
-				corpo.append("               <tr> ");
-				corpo.append("                 <td height='25' width='23%' align='right' class='tdintranet2'> ");
-				corpo.append("                   <STRONG>Responsável pela alteração:&nbsp;</STRONG> ");
-				corpo.append("                 </td> ");
-				corpo.append("                 <td class='tdintranet2' width='77%'> ");
-				corpo.append("                   " + dadosRequisicao[0][5]);
-				corpo.append("                 </td> ");
-				corpo.append("               </tr>    ");
-
-				// corpo.append(" <tr> ");
-				// corpo.append(" <td height='25' width='23%' align='right'
-				// class='tdintranet2'> ");
-				// corpo.append(" <STRONG>Detalhes da alteração:&nbsp;</STRONG>
-				// ");
-				// corpo.append(" </td> ");
-				// corpo.append(" <td class='tdintranet2' width='77%'> ");
-				// corpo.append(" " + detalhes);
-				// corpo.append(" </td> ");
-				// corpo.append(" </tr> ");
-
-				corpo.append("               <tr> ");
-				corpo.append("                   <td colspan='2'  height='8' class='tdintranet2'></td> ");
-				corpo.append("               </tr>      ");
-				corpo.append("               <tr> ");
-				corpo.append("                 <td colspan='2'  height='3' class='tdIntranet'></td> ");
-				corpo.append("               </tr>    ");
-				corpo.append("           <tr> ");
-				corpo.append("              <td colspan='2'  height='3' class='tdIntranet'></td> ");
-				corpo.append("           </tr>    ");
-				corpo.append("     </table><br>");
-
-				corpo.append("     <table border='0' width='610' cellpadding='0' cellspacing='0'> ");
-				corpo.append("           <tr> ");
-				corpo.append("             <td colspan='3'  height='18' class='tdCabecalho'> ");
-				corpo.append("              <STRONG>&nbsp;&nbsp;DETALHES DA ALTERAÇÃO</STRONG> ");
-				corpo.append("             </td> ");
-				corpo.append("           </tr> ");
-
-				corpo.append("               <tr> ");
-				corpo.append("                   <td colspan='2'  height='8' class='tdintranet2'></td> ");
-				corpo.append("               </tr>      ");
-
-				for (int i = 0; i < dadosAlterados.length; i++) {
-					corpo.append("               <tr> ");
-					corpo.append("                 <td height='25' width='30%' align='right' class='tdintranet2'> ");
-					corpo.append("                   <STRONG>" + dadosAlterados[i][0] + ":&nbsp;</STRONG> ");
-					corpo.append("                 </td> ");
-					corpo.append("                 <td class='tdintranet2' width='70%'> ");
-					corpo.append("                   " + "<STRONG>de:</STRONG> " + dadosAlterados[i][1]
-							+ "                   " + "<br><STRONG>para:</STRONG> " + dadosAlterados[i][2]);
-					corpo.append("                 </td> ");
-					corpo.append("               </tr>    ");
-					corpo.append("               <tr> ");
-					corpo.append("                   <td colspan='2'  height='8' class='tdintranet2'></td> ");
-					corpo.append("               </tr>      ");
-
-				}
-				corpo.append("               <tr> ");
-				corpo.append("                   <td colspan='2'  height='8' class='tdintranet2'></td> ");
-				corpo.append("               </tr>      ");
-
-				corpo.append("               <tr> ");
-				corpo.append("                 <td colspan='2'  height='3' class='tdIntranet'></td> ");
-				corpo.append("               </tr>    ");
-
-				corpo.append("               <tr> ");
-				corpo.append("                 <td colspan='2' align='center' class='tdNormal'");
-				corpo.append(
-						"                    <br><br>Esta é uma mensagem automática, por favor não responda este e-mail.");
-				corpo.append("                 </td>");
-				corpo.append("               </tr>    ");
-				corpo.append("         </table>     ");
-
-				corpo.append(" </center><br><br> ");
-				corpo.append("</body>");
-
-				RequisicaoMensagemControl.enviaMensagemAlteracao(usuario, requisicao, corpo.toString());
+				RequisicaoMensagemControl.enviaMensagemAlteracao(usuario, requisicaoDAO.getRequisicao(requisicaoPerfil.getCodRequisicao()));
 			}
 
 		} catch (SQLException e) {
@@ -380,7 +179,7 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 		}
 		return sucesso;
 	}
-
+	
 	/**
 	 * Carrega o EMAIL do usuario
 	 */
@@ -391,7 +190,7 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 		// -- Query que retorna os tipos de escolaridades
 		sql.append("SELECT CAMPO,CONTEUDO_ANTERIOR,CONTEUDO_NOVO FROM "
 				+ " historico_perfil_campos WHERE REQUISICAO_SQ=" + requisicao.getCodRequisicao() + " AND "
-				+ " DT_ENVIO=(SELECT MAX(DT_ENVIO) FROM HISTORICO_REQUISICAO " + " WHERE REQUISICAO_SQ="
+				+ " CAST(DT_ENVIO AS DATE) =(SELECT MAX(DT_ENVIO) FROM HISTORICO_REQUISICAO " + " WHERE REQUISICAO_SQ="
 				+ requisicao.getCodRequisicao() + " AND STATUS='alterou')");
 
 		try {

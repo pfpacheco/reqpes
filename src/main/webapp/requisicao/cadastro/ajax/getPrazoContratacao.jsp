@@ -31,7 +31,7 @@
      sistemaParametro = sistemaParametroControl.getSistemaParametros(" WHERE SP.COD_SISTEMA="+Config.ID_SISTEMA+" AND SP.NOM_PARAMETRO = 'CONTRATACAO_PRAZO'");
   }else{
      //-- Caso a requisição já exista, realiza uma conta com as datas para adquirir o prazo da contratação
-     prazoContratacao = requisicaoControl.getMatriz(" SELECT TO_DATE('"+dataFim+"','dd/mm/yyyy') - TO_DATE('"+dataInicio+"', 'dd/mm/yyyy') AS PRAZO_CONTRATACAO FROM DUAL ");
+     prazoContratacao = requisicaoControl.getMatriz(" SELECT MONTHS_BETWEEN(TO_DATE('"+dataFim+"','dd/mm/yyyy'),TO_DATE('"+dataInicio+"', 'dd/mm/yyyy')) AS PRAZO_CONTRATACAO FROM DUAL ");
   }
 %>
 
