@@ -111,6 +111,10 @@
     transition: opacity 0s;
 }
 
+.tooltip .tooltiptext p{
+	white-space: pre;
+}
+
 /*.tooltip .tooltiptext::before {
     content: "";
     position: absolute;
