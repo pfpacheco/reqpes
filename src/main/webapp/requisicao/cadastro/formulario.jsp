@@ -274,7 +274,7 @@
                   <%if(requisicaoPesquisa[0][45]==null){%>
                       &nbsp;<STRONG>UO/MA/SMA</STRONG><br>&nbsp;<%=requisicaoPesquisa[0][1].substring(0,requisicaoPesquisa[0][1].length()-1)%>&nbsp;|&nbsp;<%=(requisicaoPesquisa[0][6]==null)?"":requisicaoPesquisa[0][6]%>&nbsp;|&nbsp;<%=(requisicaoPesquisa[0][7]==null)?"":requisicaoPesquisa[0][7]%>
                   <%}else{%>
-                      &nbsp;<STRONG>Centro de custo</STRONG><br>&nbsp;<%=requisicaoPesquisa[0][46]+"."+requisicaoPesquisa[0][47]+"."+requisicaoPesquisa[0][48]+"."+requisicaoPesquisa[0][49]+"."+requisicaoPesquisa[0][50]+"."+requisicaoPesquisa[0][51]+"."+requisicaoPesquisa[0][52]%>
+                      &nbsp;<STRONG id="cc">Centro de custo</STRONG><br>&nbsp;<%=requisicaoPesquisa[0][46]+"."+requisicaoPesquisa[0][47]+"."+requisicaoPesquisa[0][48]+"."+requisicaoPesquisa[0][49]+"."+requisicaoPesquisa[0][50]+"."+requisicaoPesquisa[0][51]+"."+requisicaoPesquisa[0][52]%>
                   <%}%>
                 </td>                
                 <td height="26" align="left" class="tdIntranet2" width="45%">
@@ -560,7 +560,7 @@
 	            </td>
 	            <td height="25" align="left" class="tdintranet2" colspan="3">
 	              <div id="divComboCargo">
-	                <select name="codCargo" id="codCargo" onchange="getJornadaTrabalho(this.value);" class="select" style="width: 386px;">
+	                <select name="codCargo" id="codCargo" onchange="getJornadaTrabalho(this.value, <%=tipoEdicao%>);" class="select" style="width: 386px;">
 	                  <option value="0">SELECIONE</option>                
 	                </select>
 	              </div>
@@ -590,7 +590,7 @@
 	              <STRONG>Cota:&nbsp;</STRONG>
 	            </td>
 	            <td class="tdintranet2" width="19%">
-	              <input class="input" size="3" name="cotaCargo" id="cotaCargo" onkeypress="return Bloqueia_Caracteres(event);" onchange="getSalarioPorCota(this.value);" value="<%=(String.valueOf(requisicao.getCodRequisicao()).equals("0"))?"":String.valueOf(requisicao.getCotaCargo())%>" maxlength="1" <% if (tipoEdicao!=2) {%> readonly <% } %>/>
+	              <input class="input" size="3" name="cotaCargo" id="cotaCargo" onkeypress="return Bloqueia_Caracteres(event);" onchange="getSalarioPorCota(this.value, <%=tipoEdicao%>);" value="<%=(String.valueOf(requisicao.getCodRequisicao()).equals("0"))?"":String.valueOf(requisicao.getCotaCargo())%>" maxlength="1" <% if (tipoEdicao < 1) {%> readonly <% } %>/>
 	              &nbsp;&nbsp;&nbsp;<strong>Salário:&nbsp;</strong>
 	            </td>
 	            <td class="tdintranet2" width="62%">
@@ -1444,10 +1444,10 @@
 	          </tr>             
 	          <tr>
 	            <td align="right" class="tdIntranet2" colspan="2" height="30">
-	              <%if(tipoEdicao !=2){%>
+	              <%if(tipoEdicao < 1){%>
 	              	<input type="button" name="btnSubmete" class="botaoIntranet" value="<%=altBotao%>" onclick="submete();">&nbsp;
 	              <%} else {%>
-	              	<input type="button" name="btnSubmete" class="botaoIntranet" value="<%=altBotao%>" onclick="submete(true);">&nbsp;
+	              	<input type="button" name="btnSubmete" class="botaoIntranet" value="<%=altBotao%>" onclick="submete(<%=tipoEdicao%>);">&nbsp;
 	              <%}%>
 	              <input type="button" name="btnVoltar"  class="botaoIntranet" value="   Voltar   "  onclick="window.history.back();">
 	              &nbsp;&nbsp;&nbsp;

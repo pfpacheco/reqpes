@@ -115,7 +115,7 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
         }
         
         // Valida o campo Função no Perfil da RP
-        if(!apb){
+        if(apb < 2){
         	if(document.getElementById('indTipoHorario').value == 'P'){
     			if(document.frmRequisicao.codFuncao[0].value == '0'){
     				alert("Selecione a Função!");
@@ -144,7 +144,7 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
       function submete(apb){
     	  
     	if(apb === undefined){
-    		apb = false;
+    		apb = 0;
     	}  
     	  
         var validacaoCampos = false;            
@@ -154,7 +154,7 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
             parametros += "&P_COTA_CARGO=" + document.getElementById('cotaCargo').value;
             parametros += "&P_COD_TAB_SALARIAL=" + ((document.getElementById('indTipoHorario').value == 'M')? 7 : 0);
             
-            if(!apb)
+            if(apb == 0)
             	parametros += "&P_SEGMENTO4=" + document.getElementById('idsegmento4').value;
             
             //--validando prazo
@@ -167,7 +167,7 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
 			if (!limitarCaracteres(document.frmRequisicao.dscMotivoSolicitacao,document.frmRequisicao.qtdMotivoSolicitacao,2000,"Justificativa"))
             	return;
 			
-			if(!apb){
+			if(apb < 2){
 				if (!limitarCaracteres(document.frmRequisicao.dscAtividadesCargo,document.frmRequisicao.qtdDscAtividadesCargo,4000,"Principais atividades do cargo"))
 	            	return;
 	            
@@ -202,7 +202,7 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
                   return false;
                 }else{                  
                   //-- Realizando validação em campos obrigatórios
-                  if(!apb){
+                  if(apb = 0){
                 	  if(decode(document.frmRequisicao.segmento1,"Selecione o segmento Empresa!",-1,"",null))
                           if(decode(document.frmRequisicao.segmento2,"Selecione o segmento Uniorg Emitente!",-1,"",null))
                             if(decode(document.frmRequisicao.segmento3,"Selecione o segmento Uniorg Destino!",-1,"",null))
@@ -235,10 +235,10 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
 	                                                if(decode(document.frmRequisicao.indViagem,"Selecione o tipo de viagem!",0,"",null))
 	                                                  if(validarRadio(document.frmRequisicao.indSupervisao,"Informe a supervisão de funcionários!"))
 	                                                	  //se estiver no modo edição do ap&b, encerra a validação aqui.
-	                                                	  if(apb)
+	                                                	  if(apb == 2)
 	                                                		  validacaoCampos = true;
 	                                            
-	                                            		if(!apb){
+	                                            		if(apb < 2){
 	                                            			if(decode(document.frmRequisicao.codArea,"Selecione a área!",0,"",null))
 	  	                                                      if(decode(document.frmRequisicao.codNivelHierarquia,"Selecione o nível hierárquico!",0,"",null))
 	  	                                                        if(decode(document.frmRequisicao.dscAtividadesCargo,"Informe as principais atividades do cargo!",0,"",null))
@@ -382,10 +382,15 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
     
   //-----------------------------------------------------------------------------------------------------------------------
       // Carregando o salário do cargo de acordo com a cota informada
-      function getSalarioPorCota(cota){
+      function getSalarioPorCota(cota, edicao){
         if(Trim(cota) != ''){
           if(document.frmRequisicao.codCargo.value != 0){
-            carregaSalarioPorCota(cota, document.frmRequisicao.segmento3.value, document.frmRequisicao.codCargo.value, 'divSalario'); 
+        	if(edicao > 0){
+        		var segmento3 = document.getElementById('cc').nextSibling.nextSibling.textContent.split('.')[2];
+        		carregaSalarioPorCota(cota, segmento3, document.frmRequisicao.codCargo.value, 'divSalario');
+        	} else {
+        		carregaSalarioPorCota(cota, document.frmRequisicao.segmento3.value, document.frmRequisicao.codCargo.value, 'divSalario');
+        	}
           }else{
             alert('Selecione o cargo!');
             document.frmRequisicao.codCargo.focus();
@@ -412,8 +417,13 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
   
   //-----------------------------------------------------------------------------------------------------------------------      
       // Carregando a jornada de trabalho do cargo selecionado      
-      function getJornadaTrabalho(codCargo){    
-        var codUnidade = document.frmRequisicao.segmento3.value;
+      function getJornadaTrabalho(codCargo, edicao){    
+    	  
+    	if(edicao < 1)
+    		var codUnidade = document.frmRequisicao.segmento3.value;
+    	else
+    		var segmento3 = document.getElementById('cc').nextSibling.nextSibling.textContent.split('.')[2];
+    	
         //-- limpando campos relacionados com o cargo selecionado
         document.getElementById('cotaCargo').value = '';
         document.getElementById('salario').value = '';
