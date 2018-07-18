@@ -418,6 +418,10 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
   //-----------------------------------------------------------------------------------------------------------------------      
       // Carregando a jornada de trabalho do cargo selecionado      
       function getJornadaTrabalho(codCargo, edicao){    
+    	 
+    	if(edicao === undefined){
+    		edicao = 0;
+      	} 
     	  
     	if(edicao < 1)
     		var codUnidade = document.frmRequisicao.segmento3.value;
@@ -594,12 +598,12 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
         // valida as horas
         if(hora >= 24){
           alert('Hora inválida!');
-          campo.focus();
+          setTimeout(function(){campo.focus();},300);
         }    
         // valida os minutos
         if(minuto >= 60){
           alert('Minuto inválido!');
-          campo.focus();
+          setTimeout(function(){campo.focus();},300);
         }  
         // complementa os valores
         switch(horario.length){
