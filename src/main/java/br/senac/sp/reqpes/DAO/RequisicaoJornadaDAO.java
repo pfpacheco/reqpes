@@ -132,7 +132,13 @@ public class RequisicaoJornadaDAO implements InterfaceDataBase{
         stmt.setString(3,requisicaoJornada.getCodEscala());
         stmt.setInt(4,requisicaoJornada.getCodCalendario());      
         stmt.setString(5,requisicaoJornada.getIndTipoHorario());
-        stmt.setInt(6,chapa);
+        
+        if (chapa == null)
+			stmt.setNull(6, OracleTypes.NULL);
+        else
+            stmt.setInt(6,chapa);
+		
+        
         int idx = 7;
         
         if(requisicaoJornada.getCodEscala() == null || requisicaoJornada.getCodEscala().equals("")){
