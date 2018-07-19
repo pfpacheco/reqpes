@@ -107,13 +107,14 @@
   
   
   //----------------------------------------------------------------------------------------------------------------
-  function carregaComboCargo(P_COD_UNIDADE, P_COD_CARGO){	 
+  function carregaComboCargo(P_COD_UNIDADE, P_COD_CARGO, tipoEdicao){	 
     //-- lendo o componente ajax
     var objetoAjax = createXMLHTTP();      
 
     //-- setando os parametros 
     var parametros   = "P_COD_UNIDADE="+ P_COD_UNIDADE;
         parametros  += "&P_COD_CARGO=" + P_COD_CARGO; 
+        parametros  += "&tipoEdicao=" + tipoEdicao;
   
     //-- setando o destino o metodo  			  
     objetoAjax.open("post", "ajax/getComboCargo.jsp", true);		  
@@ -670,7 +671,12 @@
   }
   
   //----------------------------------------------------------------------------------------------------------------
-  function verificaCargoUnidade(codUnidade, codCargo){	        
+  function verificaCargoUnidade(codUnidade, codCargo, tipoEdicao){	   
+	  
+	if(tipoEdicao === undefined){
+		tipoEdicao = 0;
+	}   
+	  	  
     //-- lendo o componente ajax
     var objetoAjax = createXMLHTTP();
     
@@ -687,8 +693,13 @@
     objetoAjax.onreadystatechange=function(){  
                                     if(objetoAjax.readyState == 4){
                                       var retorno   = Trim(objetoAjax.responseText);
-                                      var segmento4 = document.getElementById('idsegmento4').value;
-                                      var tipo      = (document.frmRequisicao.indCaraterExcecao[0].checked)?'N':'S';
+                                      
+                                      if(tipoEdicao > 0)
+                                    	var segmento4 = document.getElementById('cc').nextSibling.nextSibling.textContent.split('.')[3];
+                                      else
+                                        var segmento4 = document.getElementById('idsegmento4').value;
+                                      
+                                      var tipo = (document.frmRequisicao.indCaraterExcecao[0].checked)?'N':'S';
                                       
                                       //-- Validando exceção de cargo
                                         //-- Cargo: 8473 - ASSISTENTE TECNICO ADMINISTRATIVO I
@@ -698,12 +709,12 @@
                                           exibeOcultaDiv('divAreaAdministrativa', true);
                                           document.getElementById('indCargoAdministrativo').value = 'S';
                                         }else{
-                                          setCota((document.frmRequisicao.indCaraterExcecao[0].checked)?'N':'S');                                        
+                                          setCota((document.frmRequisicao.indCaraterExcecao[0].checked)?'N':'S', tipoEdicao);                                        
                                         }
                                       }else{
                                         exibeOcultaDiv('divAreaAdministrativa', false);
                                         document.getElementById('indCargoAdministrativo').value = 'N';                                      
-                                        setCota((document.frmRequisicao.indCaraterExcecao[0].checked)?'N':'S');
+                                        setCota((document.frmRequisicao.indCaraterExcecao[0].checked)?'N':'S', tipoEdicao);
                                       }
                                     }
                                   };

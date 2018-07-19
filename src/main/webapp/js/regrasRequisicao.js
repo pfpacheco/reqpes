@@ -439,7 +439,7 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
           // Carregando a jornada semanal (horas)    
           carregaHorasJornadaTrabalho(codCargo, codUnidade, 'divHorasJornadaTrabalho');
           // Seta atributo da unidade referente a unidade informada
-          verificaCargoUnidade(codUnidade, codCargo);
+          verificaCargoUnidade(codUnidade, codCargo, edicao);
         }else{
           document.frmRequisicao.codCargo.focus();
         }
@@ -1032,19 +1032,28 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
   //------------------------------------------------------------------------------
       //-- Seta a cota salarial de acordo com a Instrução 15 ou Regra de Exceção
       //-- Tipo (Caráter Exceção): (N)ão / (S)im
-      function setCota(tipo){        
+      function setCota(tipo, tipoEdicao){   
+    	  
+		if(tipoEdicao === undefined){
+		   tipoEdicao = 0;
+	    }    
+    	  
         var regra = false;
-                
-        //-- Valida os campos necessários para busca da cota
-        if(decode(document.frmRequisicao.segmento1,"Selecione o segmento Empresa!",-1,"",null))
-          if(decode(document.frmRequisicao.segmento2,"Selecione o segmento Uniorg Emitente!",-1,"",null))
-            if(decode(document.frmRequisicao.segmento3,"Selecione o segmento Uniorg Destino!",-1,"",null))
-              //-- Thiago 18/04/2011: a tabela de monitores não necessita mais de área-subárea
-              //if(decode(document.frmRequisicao.segmento4,"Selecione o segmento área / Sub-área!",-1,"",null))      
-                if(decode(document.frmRequisicao.codCargo,"Selecione o cargo!",0,"",null)){
-                  regra = true;
-                }
-      
+           
+        if(tipoEdicao > 0){
+        	regra = true;
+        } else {
+	        //-- Valida os campos necessários para busca da cota
+	        if(decode(document.frmRequisicao.segmento1,"Selecione o segmento Empresa!",-1,"",null))
+	          if(decode(document.frmRequisicao.segmento2,"Selecione o segmento Uniorg Emitente!",-1,"",null))
+	            if(decode(document.frmRequisicao.segmento3,"Selecione o segmento Uniorg Destino!",-1,"",null))
+	              //-- Thiago 18/04/2011: a tabela de monitores não necessita mais de área-subárea
+	              //if(decode(document.frmRequisicao.segmento4,"Selecione o segmento área / Sub-área!",-1,"",null))      
+	                if(decode(document.frmRequisicao.codCargo,"Selecione o cargo!",0,"",null)){
+	                  regra = true;
+	                }
+        }
+        
         if(regra){
           var segmento4  = '0'; //document.getElementById('idsegmento4').value;
           var codCargo   = document.getElementById('codCargo').value;
@@ -1352,7 +1361,7 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
     
   //---------------------------------------------------------------------------------
     //-- Carrega os dados do Gerente e Cargos da Unidade selecionada no Segmento três
-    function getDadosUnidade(codUnidade, codCargo){
+    function getDadosUnidade(codUnidade, codCargo, tipoEdicao){
 	    //-- Carregando os dados da unidade
 	    carregaDadosUnidade('divDadosAdicionaisUnidade', '', codUnidade);
 	    carregaDadosUnidade('divNomUnidade', 'nomUnidade', codUnidade);         
@@ -1360,5 +1369,5 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
 	    carregaDadosUnidade('divResponsavelUnidade', 'nomSuperior', codUnidade);
 	   
 	    //-- Carregando dados do cargo
-	    carregaComboCargo(codUnidade, codCargo);
+	    carregaComboCargo(codUnidade, codCargo, tipoEdicao);
     }   

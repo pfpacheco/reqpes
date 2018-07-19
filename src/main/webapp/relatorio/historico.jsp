@@ -104,7 +104,7 @@
     padding-right: 5px;
     z-index: 1;
     /* left: 20%; */
-    margin-left: -300px;
+    margin-left: -400px;
     /* margin-top: -250px; */
     margin-top: 8px;
     opacity: 0;

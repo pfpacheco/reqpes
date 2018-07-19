@@ -198,7 +198,7 @@
         exibeOcultaDiv('divExibeNumFuncionarios',true);
         document.frmRequisicao.numFuncionariosSupervisao.value = '<%=requisicao.getNumFuncionariosSupervisao()%>';
       }else{
-        exibeOcultaDiv('divExibeNumFuncionarios',false);
+    	document.getElementById('divExibeNumFuncionarios').style.visibility = 'hidden';
         document.frmRequisicao.numFuncionariosSupervisao.value = '0';
       }
     }
@@ -545,13 +545,13 @@
 	              <strong>Tipo de enquadramento:&nbsp;</strong>
 	            </td>
 	            <td height="25" align="left" class="tdintranet2" colspan="3">              
-	              <input type="radio" name="indCaraterExcecao" value="N" onclick="verificaCargoUnidade(document.getElementById('idcodUnidade').value, document.getElementById('codCargo').value);" <%=(requisicao.getIndCaraterExcecao().equals("N"))?" CHECKED":""%>>De acordo com a Instrução 04/2011
+	              <input type="radio" name="indCaraterExcecao" value="N" onclick="verificaCargoUnidade(document.getElementById('idcodUnidade').value, document.getElementById('codCargo').value, <%=tipoEdicao %>);" <%=(requisicao.getIndCaraterExcecao().equals("N"))?" CHECKED":""%>>De acordo com a Instrução 04/2011
 	            </td>
 	          </tr>
 	          <tr>
 	            <td height="25" align="right" class="tdintranet2"></td>
 	            <td height="25" align="left" class="tdintranet2" colspan="3">              
-	              <input type="radio" name="indCaraterExcecao" value="S" onclick="verificaCargoUnidade(document.getElementById('idcodUnidade').value, document.getElementById('codCargo').value);" <%=(requisicao.getIndCaraterExcecao().equals("S"))?" CHECKED":""%>>Em caráter de exceção
+	              <input type="radio" name="indCaraterExcecao" value="S" onclick="verificaCargoUnidade(document.getElementById('idcodUnidade').value, document.getElementById('codCargo').value, <%=tipoEdicao %>);" <%=(requisicao.getIndCaraterExcecao().equals("S"))?" CHECKED":""%>>Em caráter de exceção
 	            </td>	
 	          </tr>           
 	          <tr>
@@ -1474,7 +1474,7 @@
 	  exibeOcultaDiv('divDados', true);
 	  
       // Carrega os dados da unidade e cargo
-      getDadosUnidade('<%=requisicao.getSegmento3()%>', '<%=requisicao.getCodCargo()%>');
+      getDadosUnidade('<%=requisicao.getSegmento3()%>', '<%=requisicao.getCodCargo()%>', '<%=tipoEdicao%>');
               
       // Carrega os combos vinculados com o tipo de recrutamento
       configuraRP('<%=requisicao.getCodRecrutamento()%>');      

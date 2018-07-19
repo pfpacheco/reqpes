@@ -9,10 +9,13 @@
  
   //-- Resgatando objeto
   String[][] dadosCargo = new RequisicaoControl().getComboCargo(codUnidade);
+  
+  String tipoEdicao = (request.getParameter("tipoEdicao")==null)?"0":request.getParameter("tipoEdicao");
+  
 %>
 
 <%if(dadosCargo.length > 0){%>
-    <select name="codCargo" id="codCargo" onchange="getJornadaTrabalho(this.value);" class="select" style="width: 386px;">
+    <select name="codCargo" id="codCargo" onchange="getJornadaTrabalho(this.value,<%=tipoEdicao%>);" class="select" style="width: 386px;">
       <option value="0">SELECIONE</option>
       <%for(int i=0; i<dadosCargo.length; i++){%>
         <option value="<%=dadosCargo[i][0]%>" <%=(dadosCargo[i][0].equals(codCargoSelecionado))?" SELECTED":""%>><%=dadosCargo[i][2]%></option>
