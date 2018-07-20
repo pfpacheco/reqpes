@@ -599,7 +599,12 @@
   
   
   //----------------------------------------------------------------------------------------------------------------
-  function getCota(P_IND_EXCECAO, P_COD_UNIDADE, P_COD_CARGO, P_COD_TAB_SALARIAL, P_SEGMENTO4){	 
+  function getCota(P_IND_EXCECAO, P_COD_UNIDADE, P_COD_CARGO, P_COD_TAB_SALARIAL, P_SEGMENTO4, tipoEdicao){	 
+	  
+	if(tipoEdicao === undefined){
+		tipoEdicao = 0;
+  	}  
+	  
     //-- lendo o componente ajax
     var objetoAjax = createXMLHTTP();      
        
@@ -609,6 +614,7 @@
         parametros += "&P_COD_CARGO="        + P_COD_CARGO;
         parametros += "&P_COD_TAB_SALARIAL=" + P_COD_TAB_SALARIAL;
         parametros += "&P_SEGMENTO4="        + P_SEGMENTO4;
+        parametros += "&tipoEdicao="	     + tipoEdicao;
         
     //-- setando o destino o metodo  			  
     objetoAjax.open("post", "ajax/getCotaCargo.jsp", true);		  
@@ -635,7 +641,7 @@
                                        }else{
                                           cota.value = retorno;
                                           cota.setAttribute('readOnly','readOnly');
-                                          getSalarioPorCota(retorno);
+                                          getSalarioPorCota(retorno, tipoEdicao);
                                        }
                                     }
                                   };

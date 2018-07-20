@@ -202,7 +202,7 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
                   return false;
                 }else{                  
                   //-- Realizando validação em campos obrigatórios
-                  if(apb = 0){
+                  if(apb == 0){
                 	  if(decode(document.frmRequisicao.segmento1,"Selecione o segmento Empresa!",-1,"",null))
                           if(decode(document.frmRequisicao.segmento2,"Selecione o segmento Uniorg Emitente!",-1,"",null))
                             if(decode(document.frmRequisicao.segmento3,"Selecione o segmento Uniorg Destino!",-1,"",null))
@@ -383,6 +383,11 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
   //-----------------------------------------------------------------------------------------------------------------------
       // Carregando o salário do cargo de acordo com a cota informada
       function getSalarioPorCota(cota, edicao){
+    	  
+        if(edicao == undefined){
+        	edicao = 0;
+        }  	
+    	  
         if(Trim(cota) != ''){
           if(document.frmRequisicao.codCargo.value != 0){
         	if(edicao > 0){
@@ -1062,10 +1067,10 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
           //-- Verifica se o cargo informado é Monitor
           if(document.getElementById('indTipoHorario').value == 'M'){
             //-- TABELA 05 - MONITORES
-            getCota(tipo, codUnidade, codCargo, 7, segmento4);
+            getCota(tipo, codUnidade, codCargo, 7, segmento4, tipoEdicao);
           }else{          
             //-- Carregando cota
-            getCota(tipo, codUnidade, codCargo, 0, segmento4);
+            getCota(tipo, codUnidade, codCargo, 0, segmento4, tipoEdicao);
           }
           
         }else{
