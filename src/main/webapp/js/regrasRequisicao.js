@@ -439,6 +439,7 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
         document.getElementById('codEscala').value = '';
         document.getElementById('jornadaTrabalho').value = '';
         resetComboCalendario();
+        novaPesquisaEscala();
  
         if(document.frmRequisicao.codCargo.value != '0'){
           // Carregando a jornada semanal (horas)    
