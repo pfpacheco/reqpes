@@ -271,7 +271,7 @@
 
 <script language="javascript">
   if(<%=retorno%> > 0){
-	if(<%=requisicao.getTipoedicao()%> == 2){
+	if(<%=requisicao.getTipoedicao()%> >= 1){
 	  alert('Requisição alterada com sucesso!');
 	}
   	else if(<%=isPerfilHOM%> || <%=isPerfilGEP%>){

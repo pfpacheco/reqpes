@@ -75,6 +75,9 @@
                gerenteAtual = responsavelEstruturaControl.buscarUnidadeDestino(unidadeAPR.getVlrSistemaParametro()); //Retorno: 0-UO / 1-CHAPA
                dadosHistoricoAtual = requisicaoControl.getDadosUsuarioAtualHistorico(Integer.parseInt(gerenteAtual[1]));      
                break;
+     
+      case 5: perfil = "";
+		      break;
                
       default: perfil = "ADMINISTRATIVO";
                dadosHistoricoAtual = requisicaoControl.getDadosUsuarioAtualHistoricoPorUsuarioSq(Integer.parseInt(historico[0][10]));

@@ -156,6 +156,9 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
             
             if(apb == 0)
             	parametros += "&P_SEGMENTO4=" + document.getElementById('idsegmento4').value;
+            else 
+            	parametros += "&P_SEGMENTO4=" + document.getElementById('cc').nextSibling.nextSibling.textContent.split('.')[3]; 		
+            
             
             //--validando prazo
             if(document.frmRequisicao.indTipoContratacao.value > 1){
