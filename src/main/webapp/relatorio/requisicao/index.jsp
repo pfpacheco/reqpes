@@ -266,7 +266,7 @@
   }
   //--
   function requisicaoHistorico(parametro){
-    popUP('<%=request.getContextPath()%>/relatorio/historico.jsp?'+parametro,'link','toolbar=no,width=860,height=600,scrollbars=yes');
+    popUP('<%=request.getContextPath()%>/relatorio/historico.jsp?'+parametro,'link','toolbar=no,width=1200,height=600,scrollbars=yes');
   }    
   //--
   function buscarRequisicaoByUnidade(div, codUnidade){
