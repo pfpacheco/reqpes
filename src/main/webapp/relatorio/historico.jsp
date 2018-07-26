@@ -99,7 +99,7 @@
     visibility: hidden;
     background-color: #555;
     color: #fff;
-    min-width: 425px;
+    min-width: 700px;
     text-align: center;
     border-radius: 6px;
     padding-left: 5px;
@@ -107,7 +107,7 @@
     padding-right: 5px;
     z-index: 1;
     /* left: 20%; */
-    margin-left: -600px;
+    margin-left: -510px;
     /* margin-top: -250px; */
     margin-top: 8px;
     opacity: 0;
