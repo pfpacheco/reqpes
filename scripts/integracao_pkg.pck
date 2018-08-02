@@ -1,4 +1,4 @@
-CREATE OR REPLACE PACKAGE REQPES.INTEGRACAO_PKG IS
+CREATE OR REPLACE PACKAGE INTEGRACAO_PKG IS
   --=======================================================================================--
   -- Data: 17/01/2012
   -- Autor: Thiago Lima Coutinho
@@ -32,12 +32,15 @@ CREATE OR REPLACE PACKAGE REQPES.INTEGRACAO_PKG IS
   PROCEDURE SP_IN_LOG_EXPORTACAO(P_IN_REQUISICAO_SQ IN LOG_EXPORTACAO.REQUISICAO_SQ%TYPE
                                 ,P_IN_DSC_LOG       IN LOG_EXPORTACAO.DSC_LOG%TYPE
                                 ,P_IN_USER_LOG      IN LOG_EXPORTACAO.USER_LOG%TYPE);
+                                
+                                
+  PROCEDURE SP_NOTIFICA_INTEGRACAO_RHEV(P_IN_FUNCIONARIO IN FUNCIONARIOS%ROWTYPE);
+                                  
 END INTEGRACAO_PKG;
+
+ 
 /
-grant execute, debug on REQPES.INTEGRACAO_PKG to AN$RHEV;
-
-
-CREATE OR REPLACE PACKAGE BODY REQPES.INTEGRACAO_PKG IS
+CREATE OR REPLACE PACKAGE BODY INTEGRACAO_PKG IS
 
   /***************************************************************************************/
   /* INICIO DA PROCEDURE IN_FUNCIONARIOS                                                 */
@@ -76,7 +79,7 @@ CREATE OR REPLACE PACKAGE BODY REQPES.INTEGRACAO_PKG IS
 
           IF (P_OUT_SUCESSO > 0 AND P_OUT_MSG IS NULL) THEN
             -- Realiza a baixa da Requisição de Pessoal
-            SP_DML_REQUISICAO_BAIXA(0
+            /*SP_DML_REQUISICAO_BAIXA(0
                                    ,P_IN_REQUISICAO_SQ
                                    ,P_OUT_SUCESSO
                                    ,V_USUARIO_SQ);
@@ -84,7 +87,7 @@ CREATE OR REPLACE PACKAGE BODY REQPES.INTEGRACAO_PKG IS
             -- Notifica a baixa realizada
             SP_NOTIFICA_BAIXA(P_IN_REQUISICAO_SQ
                              ,P_IN_OUT_REG_FUNCIONARIOS
-                             ,1);
+                             ,1);*/
             
             -- Grava o sucesos no log de exportação                 
             SP_IN_LOG_EXPORTACAO(P_IN_REQUISICAO_SQ
@@ -106,11 +109,11 @@ CREATE OR REPLACE PACKAGE BODY REQPES.INTEGRACAO_PKG IS
                               ,P_OUT_MSG);
 
             -- Notifica a baixa realizada
-            IF (P_OUT_SUCESSO > 0) THEN
+            /*IF (P_OUT_SUCESSO > 0) THEN
               SP_NOTIFICA_BAIXA(P_IN_REQUISICAO_SQ
                                ,P_IN_OUT_REG_FUNCIONARIOS
                                ,2);
-            END IF;
+            END IF;*/
           ELSE
             P_OUT_SUCESSO := -1;
             P_OUT_MSG := 'ERRO NO TIPO DE RECRUTAMENTO/FUNCIONÁRIO: A RP EXIGE UM COLABORADOR EXTERNO';
@@ -131,18 +134,18 @@ CREATE OR REPLACE PACKAGE BODY REQPES.INTEGRACAO_PKG IS
                               ,P_OUT_MSG);
 
             -- Notifica a baixa realizada
-            IF (P_OUT_SUCESSO > 0) THEN
+            /*IF (P_OUT_SUCESSO > 0) THEN
               SP_NOTIFICA_BAIXA(P_IN_REQUISICAO_SQ
                                ,P_IN_OUT_REG_FUNCIONARIOS
                                ,2);
-            END IF;
+            END IF;*/
           ELSE
             -- Candidato INTERNO
             SP_VALIDA_DADOS_INTERNO(P_IN_OUT_REG_FUNCIONARIOS, P_IN_REQUISICAO_SQ, P_OUT_SUCESSO, P_OUT_MSG);
 
             IF (P_OUT_SUCESSO > 0 AND P_OUT_MSG IS NULL) THEN
               -- Realiza a baixa da Requisição de Pessoal
-              SP_DML_REQUISICAO_BAIXA(0
+             /* SP_DML_REQUISICAO_BAIXA(0
                                      ,P_IN_REQUISICAO_SQ
                                      ,P_OUT_SUCESSO
                                      ,V_USUARIO_SQ);
@@ -150,7 +153,7 @@ CREATE OR REPLACE PACKAGE BODY REQPES.INTEGRACAO_PKG IS
               -- Notifica a baixa realizada
               SP_NOTIFICA_BAIXA(P_IN_REQUISICAO_SQ
                                ,P_IN_OUT_REG_FUNCIONARIOS
-                               ,1);
+                               ,1);*/
                                
              -- Grava o sucesos no log de exportação                 
              SP_IN_LOG_EXPORTACAO(P_IN_REQUISICAO_SQ
@@ -160,6 +163,8 @@ CREATE OR REPLACE PACKAGE BODY REQPES.INTEGRACAO_PKG IS
           END IF;
         END IF;
       END IF;
+      
+      SP_NOTIFICA_INTEGRACAO_RHEV(P_IN_FUNCIONARIO => P_IN_OUT_REG_FUNCIONARIOS);
 
   EXCEPTION
     WHEN OTHERS THEN
@@ -413,10 +418,10 @@ CREATE OR REPLACE PACKAGE BODY REQPES.INTEGRACAO_PKG IS
                                 ,P_IN_USUARIO_LOG);
 
             -- Realiza a baixa da RP
-            SP_DML_REQUISICAO_BAIXA(0
+            /*SP_DML_REQUISICAO_BAIXA(0
                                    ,P_IN_REQUISICAO_SQ
                                    ,P_IN_OUT_REG_FUNCIONARIOS.ID
-                                   ,P_IN_USUARIO_SQ);
+                                   ,P_IN_USUARIO_SQ);*/
           ELSE
             -- Registrando log e retorno do erro
             P_OUT_SUCESSO := -1;
@@ -685,9 +690,9 @@ CREATE OR REPLACE PACKAGE BODY REQPES.INTEGRACAO_PKG IS
            P_OUT_MSG := 'ERRO NA BAIXA DA RP: FUNCIONÁRIO POSSUI DUPLO VÍNCULO, A BAIXA DEVE SER REALIZADA MANUALMENTE';
              
           -- Notifica que a baixa deve ser realizada manualmente
-          SP_NOTIFICA_BAIXA(P_IN_REQUISICAO_SQ
+          /*SP_NOTIFICA_BAIXA(P_IN_REQUISICAO_SQ
                            ,P_IN_OUT_REG_FUNCIONARIOS
-                           ,3);
+                           ,3);*/
                              
         ELSE
            P_OUT_SUCESSO := P_IN_OUT_REG_FUNCIONARIOS.ID;
@@ -695,7 +700,7 @@ CREATE OR REPLACE PACKAGE BODY REQPES.INTEGRACAO_PKG IS
         END IF;
       END IF;
     END IF;
-
+    
   EXCEPTION
     WHEN OTHERS THEN
       P_OUT_SUCESSO := -1;
@@ -722,9 +727,106 @@ CREATE OR REPLACE PACKAGE BODY REQPES.INTEGRACAO_PKG IS
       ,P_IN_USER_LOG);
 
   END SP_IN_LOG_EXPORTACAO;
+  
+  /***************************************************************************************/
+  /* NOTIFICA VIA EMAIL A INTEGRAÇÃO DO FUNCIONÁRIO                                      */
+  /***************************************************************************************/
+  
+  PROCEDURE SP_NOTIFICA_INTEGRACAO_RHEV(P_IN_FUNCIONARIO IN FUNCIONARIOS%ROWTYPE) IS
+    
+  V_TESTE        VARCHAR2(10);
+  V_EMAIL_TESTES VARCHAR2(500);
+  V_DESTINATARIO VARCHAR2(500):= 'gepcontratacoes@sp.senac.br';
+  V_BANCO_PROD   ADM_TI.BANCO_PROD;
+  V_CORPO        CLOB;
+  
+  BEGIN 
+    
+    V_BANCO_PROD := ADM_TI.BANCO_PROD();
+    IF (V_BANCO_PROD.V_PROD != 1) THEN
+       V_TESTE := ' TESTE';
+       V_DESTINATARIO := V_BANCO_PROD.EMAIL_TESTE(7);
+    END IF;          
+  
+    --------------------------------------------------------------------
+    -- MONTANDO O CORPO DO E-MAIL
+    --------------------------------------------------------------------
+    V_CORPO := '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">';
+    V_CORPO := V_CORPO || '<html xmlns="http://www.w3.org/1999/xhtml">';
+    V_CORPO := V_CORPO || '<head>';
+    V_CORPO := V_CORPO || '<title>DADOS DO CANDIDATO</title>';
+    V_CORPO := V_CORPO || '<meta http-equiv=expires content="Mon, 06 Jan 1990 00:00:01 GMT">';
+    V_CORPO := V_CORPO || '<meta http-equiv="pragma" content="no-cache">';
+    V_CORPO := V_CORPO || '<meta http-equiv="cache-control" content="no-cache">';
+    V_CORPO := V_CORPO || '<style type="text/css">';
+    V_CORPO := V_CORPO || '  td { font-size: 10px; font-family: Verdana; }';
+    V_CORPO := V_CORPO || '</style>';
+    V_CORPO := V_CORPO || '</head>';
+    V_CORPO := V_CORPO || '<body>';
+    V_CORPO := V_CORPO || '<table border="0" width="500" cellpadding="0" cellspacing="0" style="background-color: #E7F3FF;" align="center">';
+    V_CORPO := V_CORPO || '  <tr>';
+    V_CORPO := V_CORPO || '    <td style="background-color: #6699CC; text-transform: uppercase; padding: 3px; font-weight: bold; color: #fff; text-align: left;">';
+    V_CORPO := V_CORPO || '      DADOS DO CANDIDATO';
+    V_CORPO := V_CORPO || '    </td>';
+    V_CORPO := V_CORPO || '  </tr>';
+    V_CORPO := V_CORPO || '  <tr>';
+    V_CORPO := V_CORPO || '    <td style="padding: 20px;">  ';
+    V_CORPO := V_CORPO || '      <p>';
+    V_CORPO := V_CORPO || '        <table border="0" cellpadding="2" cellspacing="0" width="100%">';
+    V_CORPO := V_CORPO || '          <tr>';
+    V_CORPO := V_CORPO || '            <td width="30%"><b>Id:</b></td>';
+    V_CORPO := V_CORPO || '            <td>'|| P_IN_FUNCIONARIO.ID ||'</td>';
+    V_CORPO := V_CORPO || '          </tr>';
+    V_CORPO := V_CORPO || '          <tr>';
+    V_CORPO := V_CORPO || '            <td width="30%"><b>Nome:</b></td>';
+    V_CORPO := V_CORPO || '            <td>'|| P_IN_FUNCIONARIO.NOME ||'</td>';
+    V_CORPO := V_CORPO || '          </tr>';
+    V_CORPO := V_CORPO || '          <tr>';
+    V_CORPO := V_CORPO || '            <td width="30%"><b>Data de Nascimento:</b></td>';
+    V_CORPO := V_CORPO || '            <td>'|| TO_CHAR(P_IN_FUNCIONARIO.DATA_NASCIMENTO,'dd/mm/yyyy') ||'</td>';
+    V_CORPO := V_CORPO || '          </tr>';
+    V_CORPO := V_CORPO || '          <tr>';
+    V_CORPO := V_CORPO || '            <td width="30%"><b>CPF:</b></td>';
+    V_CORPO := V_CORPO || '            <td>'|| regexp_replace(LPAD(LPAD(TO_CHAR(P_IN_FUNCIONARIO.CIC_NRO),9,'0') || LPAD(TO_CHAR(P_IN_FUNCIONARIO.COMPLEMENTO_CIC_NRO),2,'0'), 11),'([0-9]{3})([0-9]{3})([0-9]{3})','\1.\2.\3-') || '</td>';
+    V_CORPO := V_CORPO || '          </tr>';
+    V_CORPO := V_CORPO || '          <tr>';
+    V_CORPO := V_CORPO || '            <td width="30%"><b>NIS:</b></td>';
+    V_CORPO := V_CORPO || '            <td>'|| P_IN_FUNCIONARIO.PIS_NRO ||'</td>';
+    V_CORPO := V_CORPO || '          </tr>';
+    V_CORPO := V_CORPO || '        </table>';
+    V_CORPO := V_CORPO || '      </p>';
+    V_CORPO := V_CORPO || '    </td>';
+    V_CORPO := V_CORPO || '  </tr>';
+    V_CORPO := V_CORPO || '  <tr>';
+    V_CORPO := V_CORPO || '    <td style="background-color: #E7F3FF;" height="3"></td>';
+    V_CORPO := V_CORPO || '  </tr>';
+    V_CORPO := V_CORPO || '  <tr>';
+    V_CORPO := V_CORPO || '    <td style="padding: 20px; text-align: center; background-color: #fff; border-top: solid 5px #6699CC;">';
+    V_CORPO := V_CORPO || '      Esta é uma mensagem automática, por favor não responda este e-mail.';
+    V_CORPO := V_CORPO || '    </td>';
+    V_CORPO := V_CORPO || '  </tr>';
+    V_CORPO := V_CORPO || '</table>';
+    V_CORPO := V_CORPO || '</body>';
+    V_CORPO := V_CORPO || '</html>';
+    
+    --------------------------------------------------------------------
+    -- ENVIANDO O E-MAIL
+    --------------------------------------------------------------------
+    ADM_TI.SP_SEND_MAIL(P_SUBJECT => 'Integração Banco de Talentos -> Rhevolution - Candidato cadastrado' || V_TESTE,
+                        P_MESSAGE => V_CORPO,
+                        P_FROM    => 'naoresponda@sp.senac.br',
+                        P_TO      => V_DESTINATARIO,
+                        P_HEAD    => 'N');
+                        
+  EXCEPTION
+    WHEN OTHERS THEN
+      ADM_TI.SP_SEND_MAIL(P_SUBJECT => 'Erro ao tentar notificar a Integração Banco de Talentos -> Rhevolution' || V_TESTE,
+                        P_MESSAGE => 'Ocorreu o erro ' || SQLERRM || ' ao tentar notificar a integração.',
+                        P_FROM    => 'naoresponda@sp.senac.br',
+                        P_TO      => 'ges_suporte@sp.senac.br',
+                        P_HEAD    => 'N');
+    
+  END SP_NOTIFICA_INTEGRACAO_RHEV;
 
 END INTEGRACAO_PKG;
 /
-grant execute, debug on REQPES.INTEGRACAO_PKG to AN$RHEV;
-
-
