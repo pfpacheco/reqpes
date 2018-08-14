@@ -5,6 +5,7 @@ import br.senac.sp.componente.Exception.AdmTIException;
 import br.senac.sp.componente.model.Usuario;
 //-- Classes do componente
 import br.senac.sp.reqpes.DAO.RequisicaoAprovacaoDAO;
+import br.senac.sp.reqpes.DAO.RequisicaoPerfilDAO;
 import br.senac.sp.reqpes.Exception.RequisicaoPessoalException;
 import br.senac.sp.reqpes.model.Requisicao;
 import br.senac.sp.reqpes.model.RequisicaoAprovacao;
@@ -12,6 +13,7 @@ import br.senac.sp.reqpes.model.RequisicaoAprovacao;
 public class RequisicaoAprovacaoControl {
 
 	RequisicaoAprovacaoDAO requisicaoAprovacaoDAO;
+	RequisicaoPerfilDAO requisicaoPerfilDAO;
 
 	public RequisicaoAprovacaoControl() {
 		requisicaoAprovacaoDAO = new RequisicaoAprovacaoDAO();
@@ -115,5 +117,9 @@ public class RequisicaoAprovacaoControl {
 
 	public int getNivelAprovacaoAtual(int codRequisicao) throws RequisicaoPessoalException {
 		return requisicaoAprovacaoDAO.getNivelAprovacaoAtual(codRequisicao);
+	}
+	
+	public int getUsuarioChapa(int usuario_sq) throws RequisicaoPessoalException {
+		return Integer.getInteger(requisicaoPerfilDAO.getUsuarioChapa(usuario_sq)[0][0]);
 	}
 }

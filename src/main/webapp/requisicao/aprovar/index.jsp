@@ -100,7 +100,6 @@
               if(idPerfilUsuario == Integer.parseInt(idPerfilGEP.getVlrSistemaParametro())){
                 //-- NIVEL 3 (HOMOLOGADOR AP&B)
                 isPerfilGEP = true;
-               // nivelWorkFlow = 3; original
                 nivelWorkFlow = 4;
 
                 
@@ -110,9 +109,8 @@
                 
               }else if(idPerfilUsuario == Integer.parseInt(idPerfilNEC.getVlrSistemaParametro())){
                       //-- NIVEL 4 (HOMOLOGADOR NEC)
-                      isPerfilNEC = true;
-                      //nivelWorkFlow = 4; original     
-                       nivelWorkFlow = 3;
+                      isPerfilNEC = true;    
+                      nivelWorkFlow = 3;
                       
                       //-- requisições solicitadas pelas unidades em que é responsável
                       requisicao = requisicaoAprovacaoControl.getRequisicoesParaHomologacaoNEC(usuario.getChapa());

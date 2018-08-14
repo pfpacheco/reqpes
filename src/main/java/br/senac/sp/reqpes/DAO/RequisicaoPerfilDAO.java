@@ -253,6 +253,27 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 		}
 		return retorno;
 	}
+	
+	/**
+	 * Carrega o EMAIL do usuario
+	 */
+	public String[][] getUsuarioChapa(int usuario_sq) throws RequisicaoPessoalException {
+		StringBuffer sql = new StringBuffer();
+		String[][] retorno = null;
+
+		// -- Query que retorna os tipos de escolaridades
+		sql.append(" SELECT E.IDENTIFICACAO ");
+		sql.append(" FROM   USUARIO E ");
+		sql.append(" WHERE E.USUARIO_SQ  = " + usuario_sq);
+
+		try {
+			retorno = manipulaDAO.getMatriz(sql.toString(), DATA_BASE_NAME);
+		} catch (Exception e) {
+			throw new RequisicaoPessoalException(
+					"getUsuario  \n -> Problemas na consulta  do usuario: \n\n " + sql.toString(), e.getMessage());
+		}
+		return retorno;
+	}
 
 	/**
 	 * @param requisicao
