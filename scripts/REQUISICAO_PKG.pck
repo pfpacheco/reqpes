@@ -49,6 +49,17 @@ CREATE OR REPLACE PACKAGE BODY REQUISICAO_PKG IS
   -- Author  : Thiago Lima Coutinho
   -- Created : 01/09/2008
   -- Purpose : Armazenar as regras de banco da aplicação de Requisição de Pessoal
+  
+  
+--################################ FUNCAO PARA LIMPAR CARACTERES #######################
+FUNCTION F_REMOVE_CARACTERES(P_TEXT VARCHAR2) RETURN VARCHAR2 IS
+BEGIN 
+  RETURN REPLACE(REPLACE(REPLACE(REPLACE(P_TEXT,Chr(34),''),Chr(10),''),Chr(13),''),Chr(32),'');
+EXCEPTION
+    WHEN OTHERS THEN
+      ROLLBACK;
+      RAISE_APPLICATION_ERROR(-20025, 'PROBLEMA AO REMOVER CARACTERES' || SQLERRM);    
+END F_REMOVE_CARACTERES;
 
 --################################ INICIO DA PROCEDURE SP_DML_REQUISICAO #######################
 PROCEDURE SP_DML_REQUISICAO(P_IN_DML IN NUMBER,P_IN_REQUISICAO IN OUT REQUISICAO%ROWTYPE,P_IN_USUARIO IN VARCHAR2,P_UO_DESTINO IN VARCHAR2,P_NIVEL  IN NUMBER,P_TIPO IN NUMBER) IS
@@ -936,12 +947,12 @@ BEGIN
         -- EM HOMOLOGAÇÃO, PORTANTO SE TORNA NECESSÁRIO CADASTRAR O HISTÓRICO
         IF P_IN_GRAVA_HISTORICO_CHAPA > 0 THEN
            
-           SELECT TRIM(COMENTARIOS),
-                  TRIM(OUTRAS_CARATERISTICA),
-                  TRIM(DSC_CONHECIMENTOS),
-                  TRIM(DSC_EXPERIENCIA),
-                  TRIM(DS_FORMACAO),
-                  TRIM(DSC_ATIVIDADES_CARGO),
+           SELECT COMENTARIOS,
+                  OUTRAS_CARATERISTICA,
+                  DSC_CONHECIMENTOS,
+                  DSC_EXPERIENCIA,
+                  DS_FORMACAO,
+                  DSC_ATIVIDADES_CARGO,
                   REQUISICAO_SQ,
                   RP.COD_AREA,
                   RP.COD_NIVEL_HIERARQUIA,
@@ -986,44 +997,44 @@ BEGIN
                   ,V_NIVEL_HIST);
               END IF;
        
-           --  ROTINA QUE ATUALIZA O HISTORICO DO PERFIL
-           
-           IF TRIM(P_IN_REQUISICAO_PERFIL.DSC_ATIVIDADES_CARGO) != V_DSC_ATIVIDADES_CARGO THEN
+           --  ROTINA QUE ATUALIZA O HISTORICO DO PERFIL          
+           --
+           IF F_REMOVE_CARACTERES(TRIM(P_IN_REQUISICAO_PERFIL.DSC_ATIVIDADES_CARGO)) != F_REMOVE_CARACTERES(TRIM(V_DSC_ATIVIDADES_CARGO)) THEN
               insert into historico_perfil_campos
                 (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo)
               values
                 (V_REQUISICAO_SQ, V_USUARIO_SQ, current_timestamp, 'Principais atividades do cargo', V_DSC_ATIVIDADES_CARGO,P_IN_REQUISICAO_PERFIL.DSC_ATIVIDADES_CARGO);
            END IF;
            
-           IF TRIM(P_IN_REQUISICAO_PERFIL.DS_FORMACAO) != V_DS_FORMACAO THEN
+           IF F_REMOVE_CARACTERES(TRIM(P_IN_REQUISICAO_PERFIL.DS_FORMACAO)) != F_REMOVE_CARACTERES(TRIM(V_DS_FORMACAO)) THEN
               insert into historico_perfil_campos
                 (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo)
               values
                 (V_REQUISICAO_SQ, V_USUARIO_SQ, current_timestamp, 'Escolaridade mínima', V_DS_FORMACAO,P_IN_REQUISICAO_PERFIL.DS_FORMACAO);
            END IF;
            
-           IF TRIM(P_IN_REQUISICAO_PERFIL.DSC_EXPERIENCIA) != V_DSC_EXPERIENCIA THEN
+           IF F_REMOVE_CARACTERES(TRIM(P_IN_REQUISICAO_PERFIL.DSC_EXPERIENCIA)) != F_REMOVE_CARACTERES(TRIM(V_DSC_EXPERIENCIA)) THEN
               insert into historico_perfil_campos
                 (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo)
               values
                 (V_REQUISICAO_SQ, V_USUARIO_SQ, current_timestamp, 'Experiência profissional', V_DSC_EXPERIENCIA,P_IN_REQUISICAO_PERFIL.DSC_EXPERIENCIA);
            END IF; 
            
-           IF TRIM(P_IN_REQUISICAO_PERFIL.DSC_CONHECIMENTOS) != V_DSC_CONHECIMENTOS THEN
+           IF F_REMOVE_CARACTERES(TRIM(P_IN_REQUISICAO_PERFIL.DSC_CONHECIMENTOS)) != F_REMOVE_CARACTERES(TRIM(V_DSC_CONHECIMENTOS)) THEN
               insert into historico_perfil_campos
                 (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo)
               values
                 (V_REQUISICAO_SQ, V_USUARIO_SQ, current_timestamp, 'Conhecimentos específicos', V_DSC_CONHECIMENTOS,P_IN_REQUISICAO_PERFIL.DSC_CONHECIMENTOS);
            END IF;
            
-           IF TRIM(P_IN_REQUISICAO_PERFIL.OUTRAS_CARATERISTICA) != V_OUTRAS_CARATERISTICA THEN
+           IF F_REMOVE_CARACTERES(TRIM(P_IN_REQUISICAO_PERFIL.OUTRAS_CARATERISTICA)) != F_REMOVE_CARACTERES(TRIM(V_OUTRAS_CARATERISTICA)) THEN
               insert into historico_perfil_campos
                 (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo)
               values
                 (V_REQUISICAO_SQ, V_USUARIO_SQ, current_timestamp, 'Competências', V_OUTRAS_CARATERISTICA,P_IN_REQUISICAO_PERFIL.OUTRAS_CARATERISTICA);
            END IF; 
 
-           if trim(p_in_requisicao_perfil.comentarios) != v_comentarios then                      
+           if F_REMOVE_CARACTERES(trim(p_in_requisicao_perfil.comentarios)) != F_REMOVE_CARACTERES(TRIM(v_comentarios)) then
               insert into historico_perfil_campos
                 (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo)
               values
@@ -1983,6 +1994,9 @@ PROCEDURE SP_DML_REQUISICAO_HOMOLOGACAO(P_IN_TIPO IN VARCHAR2, P_IN_REQUISICAO I
  TIPO_TRANSACAO VARCHAR2(50);
  V_NIVEL        NUMBER := P_IN_REQUISICAO.NIVEL;
  V_QTD          NUMBER := 0;
+ V_CHAPA        INTEGER;
+ V_USUARIO_SQ   INTEGER;
+ V_PERFIL       INTEGER;
  
 BEGIN
     BEGIN
@@ -2020,6 +2034,31 @@ BEGIN
            V_NIVEL := 4;        
         END IF;                                  
 */  
+        --VERIFICA O CRIADOR DA REQUISICAO
+        SELECT R.USUARIO_SQ
+          INTO V_USUARIO_SQ
+          FROM REQPES.REQUISICAO R
+         WHERE R.REQUISICAO_SQ = P_IN_REQUISICAO.REQUISICAO_SQ; 
+         
+        --VERIFICA O SOLICITANTE 
+        SELECT U.IDENTIFICACAO
+          INTO V_CHAPA
+          FROM REQPES.USUARIO U
+         WHERE U.USUARIO_SQ = V_USUARIO_SQ;
+               
+        --VERIFICA O PERFIL DO SOLICITANTE
+        SELECT PU.COD_SISTEMA_PERFIL
+          INTO V_PERFIL
+          FROM ADM_TI.MV_SISTEMA_PERFIL_USUARIO PU,
+               ADM_TI.MV_SISTEMA_PERFIL SP
+         WHERE PU.IDENTIFICACAO = V_CHAPA
+           AND PU.COD_SISTEMA_PERFIL = SP.COD_SISTEMA_PERFIL
+           AND SP.COD_SISTEMA = 7;
+           
+        --SER O CRIADOR FOR AP&B, E O APROVADOR FOR NEC, PULA O AP&B
+        IF(V_PERFIL = 91 AND V_NIVEL = 3) THEN
+           V_NIVEL := V_NIVEL + 1;
+        END IF;
 
       -----------------------------------------------------
         -- GRAVANDO NO HISTORICO
