@@ -3,6 +3,7 @@ CREATE OR REPLACE PROCEDURE REQPES.SP_DML_REQUISICAO_JORNADA(P_IN_DML           
                                                      ,P_IN_COD_ESCALA          IN VARCHAR2
                                                      ,P_IN_ID_CALENDARIO       IN NUMBER
                                                      ,P_IN_IND_TIPO_HORARIO    IN VARCHAR2
+                                                     ,P_IN_CHAPA               IN NUMBER
                                                      --
                                                      ,P_IN_HR_SEGUNDA_ENTRADA1 IN VARCHAR2
                                                      ,P_IN_HR_SEGUNDA_SAIDA1   IN VARCHAR2
@@ -270,7 +271,7 @@ BEGIN
     END IF;
   END IF;
 
-  REQUISICAO_PKG.SP_DML_REQUISICAO_JORNADA(P_IN_DML, REG_REQUISICAO_JORNADA);
+  REQUISICAO_PKG.SP_DML_REQUISICAO_JORNADA(P_IN_DML, REG_REQUISICAO_JORNADA, P_IN_CHAPA);
   -------------------------------------------------------------------------------
 END SP_DML_REQUISICAO_JORNADA;
 /

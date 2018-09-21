@@ -1,7 +1,7 @@
 create sequence REQPES.SEQ_REQUISICAO
 minvalue 1
 maxvalue 999999999999999999999999999
-start with 37376
+start with 37436
 increment by 1
 nocache;
 

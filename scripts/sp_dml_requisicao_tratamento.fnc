@@ -2,7 +2,7 @@ CREATE OR REPLACE FUNCTION REQPES.SP_DML_REQUISICAO_TRATAMENTO(COMANDO_SQL IN NV
     RETORNO    NVARCHAR2(30000);  
     v_cursor   SYS_REFCURSOR;  
     v_valor    nvarchar2(30000);
-     p_query_string  VARCHAR2(100);
+     p_query_string  VARCHAR2(30000);
   BEGIN
    v_valor:='Vazio';
     p_query_string:=REPLACE(COMANDO_SQL,'"',CHR(39));
