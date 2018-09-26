@@ -276,14 +276,14 @@
                   <td height="23" align="center" class="tdIntranet" width="30%">
                    <STRONG>Perfil</STRONG>
                   </td>
-                  <td height="23" align="center" class="tdIntranet" width="60%">
-                   <STRONG>Usuário</STRONG>
-                  </td>
+<!--                   <td height="23" align="center" class="tdIntranet" width="60%"> -->
+<!--                    <STRONG>Usuário</STRONG> -->
+<!--                   </td> -->
                 </tr>
                 <tr>
                   <td height="23" align="center" class="tdIntranet2" width="10%"><%=dadosHistoricoAtual[0][0]%></td>
                   <td height="23" align="center" class="tdIntranet2" width="30%"><%=perfil%></td>
-                  <td height="23" align="center" class="tdIntranet2" width="60%">&nbsp;<%=perfil!="ADMINISTRATIVO"?dadosHistoricoAtual[0][1]:""%></td>
+<%--                   <td height="23" align="center" class="tdIntranet2" width="60%">&nbsp;<%=perfil!="ADMINISTRATIVO"?dadosHistoricoAtual[0][1]:""%></td> --%>
                 </tr>    
                 <tr>
                   <td height="3" colspan="3" class="tdCabecalho" background='<%= request.getContextPath()%>/imagens/fio_azul_end.gif' ></td>

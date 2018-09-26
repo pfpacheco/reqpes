@@ -30,6 +30,7 @@
     SistemaParametro idPerfilHOM = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,"ID_PERFIL_HOM_UO");
     SistemaParametro idPerfilGEP = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,"ID_PERFIL_HOM_GEP");
     SistemaParametro idPerfilNEC = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,"ID_PERFIL_HOM_NEC");
+    SistemaParametro idPerfilAPR = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,"ID_PERFIL_APR_GEP");
     
     //-- Parametros de página
     String indTipoHorarioSel = (request.getParameter("indTipoHorarioSel")==null)?"E":request.getParameter("indTipoHorarioSel");
@@ -99,7 +100,8 @@
   
   //---------------------------------------------------------------------------------------------------------------    
     //-- caso seja o homologador de unidade (GERENTE) que esteja criando a RP (sobe 1 nível no WorkFlow)
-    if(perfilUsuario == Integer.parseInt(idPerfilHOM.getVlrSistemaParametro())){
+    if(perfilUsuario == Integer.parseInt(idPerfilHOM.getVlrSistemaParametro())|| 
+       perfilUsuario == Integer.parseInt(idPerfilAPR.getVlrSistemaParametro())){
       requisicao.setIndStatus(2); 
       requisicao.setNivelWorkflow(2); // HOMOLOGAÇÃO NEC
 
