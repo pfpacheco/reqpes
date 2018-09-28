@@ -1356,15 +1356,15 @@
                 </td>
               </tr>
               <!--  mantida essa linha pois por algum motivo se tirar não funciona o preenchimento do combo id calendario -->
-              <tr>
-	            <td class="tdintranet2">
-	              <div id="divBtnAddFuncao" style="display:none;">
-		              <a href="javascript: addFuncao();" title="Adicionar outra função">
-		              	<img src="../../imagens/add.png" border="0" align="top"/>
-		              </a>
-	              </div>
-	            </td>
-	          </tr>
+<!--               <tr> -->
+<!-- 	            <td class="tdintranet2"> -->
+<!-- 	              <div id="divBtnAddFuncao" style="display:none;"> -->
+<!-- 		              <a href="javascript: addFuncao();" title="Adicionar outra função"> -->
+<!-- 		              	<img src="../../imagens/add.png" border="0" align="top"/> -->
+<!-- 		              </a> -->
+<!-- 	              </div> -->
+<!-- 	            </td> -->
+<!-- 	          </tr> -->
 	          <tr>
                 <td colspan="4" height="28" align="left" class="tdIntranet2">
                   &nbsp;<STRONG>Nível hierárquico</STRONG><br>&nbsp;<%=(requisicaoPesquisa[0][72]==null)?"":requisicaoPesquisa[0][72]%>
