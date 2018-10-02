@@ -1288,6 +1288,34 @@ public class RequisicaoDAO implements InterfaceDataBase {
 		}
 		return retorno;
 	}
+	
+	/**
+	 * @param chapa
+	 * @return String[]
+	 * @throws RequisicaoPessoalException
+	 * @coments Retorna os dados do usuário atual no histórico da requisição
+	 */
+	public int getDadosUsuarioCriador(int requisicao_sq) throws RequisicaoPessoalException {
+		StringBuffer sql = new StringBuffer();
+		String[][] retorno = null;
+
+		sql.append(" SELECT u.identificacao                                    		 ");
+		sql.append("   FROM reqpes.usuario u                                         ");
+		sql.append("  WHERE u.usuario_sq = (SELECT r.usuario_sq                      ");
+		sql.append("                          FROM historico_requisicao r            ");
+		sql.append("                         WHERE r.requisicao_sq = " + requisicao_sq);
+		sql.append("                           AND r.status = 'criou')               ");
+		
+		try {
+			retorno = manipulaDAO.getMatriz(sql.toString(), DATA_BASE_NAME);
+		} catch (Exception e) {
+			throw new RequisicaoPessoalException(
+					"getDadosUsuarioAtualHistorico  \n -> Problemas na consulta de getDadosUsuarioAtualHistorico: \n\n "
+							+ sql.toString(),
+					e.getMessage());
+		}
+		return Integer.valueOf(retorno[0][0]);
+	}
 
 	/**
 	 * @param codUnidade

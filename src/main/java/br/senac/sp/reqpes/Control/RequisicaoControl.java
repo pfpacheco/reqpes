@@ -155,6 +155,10 @@ public class RequisicaoControl {
 	public String[][] getDadosUsuarioAtualHistorico(String codUnidade) throws RequisicaoPessoalException {
 		return requisicaoDAO.getDadosUsuarioAtualHistorico(codUnidade);
 	}
+	
+	public int getDadosUsuarioCriador(int requisicao_sq) throws RequisicaoPessoalException {
+		return requisicaoDAO.getDadosUsuarioCriador(requisicao_sq);
+	}
 
 	public BigDecimal validaHorarioTrabalho(String horaEntrada, String horaSaida) throws RequisicaoPessoalException {
 		return requisicaoDAO.validaHorarioTrabalho(horaEntrada, horaSaida);

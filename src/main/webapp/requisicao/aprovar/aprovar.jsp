@@ -1,6 +1,11 @@
+<%@page import="br.senac.sp.componente.model.SistemaPerfil"%>
+<%@page import="br.senac.sp.componente.control.SistemaPerfilControl"%>
+<%@page import="br.senac.sp.componente.model.SistemaPerfilUsuario"%>
+<%@page import="br.senac.sp.componente.control.UsuarioControl"%>
 <%  session.setAttribute("root","../../"); %>
 <%@ page errorPage="../../error/error.jsp" %>
 <%@ page import="br.senac.sp.reqpes.model.*" %>
+<%@ page import="br.senac.sp.componente.model.Unidade" %>
 <%@ page import="br.senac.sp.reqpes.Control.*" %>
 <%@ page import="br.senac.sp.reqpes.Interface.*" %>
 <%@ page import="br.senac.sp.componente.model.Usuario" %>
@@ -37,10 +42,47 @@
     int idPerfilNEC = Integer.parseInt((sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,"ID_PERFIL_HOM_NEC").getVlrSistemaParametro()));
     String indEnviarEmails = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,"IND_ENVIAR_EMAILS").getVlrSistemaParametro();
     String[] listaEmails = null;
+    ResponsavelEstrutura responsavelEstrutura = null;
+    ResponsavelEstruturaControl responsavelEstruturaControl = new ResponsavelEstruturaControl(); 
+    SistemaParametro     idPerfilHOM          = null;
     
     //-- Resgatando os dados completos da requisição
     Requisicao requisicaoDados = requisicaoControl.getRequisicao(requisicaoAprovacao.getCodRequisicao());
-
+    
+    //-- resgata o criador da requisicao
+    int numUsuaarioSq = requisicaoControl.getDadosUsuarioCriador(requisicaoDados.getCodRequisicao());
+    Usuario criador = new UsuarioControl().getUsuario(numUsuaarioSq);
+    SistemaPerfil sp = new SistemaPerfilControl().getSistemaPerfilByUsuarioSistema(criador.getChapa(),Config.ID_SISTEMA);
+    criador.setSistemaPerfil(sp);
+    
+    if(criador != null){       
+        //------------ REGRA DE PERFIL EXCLUSIVA DO SISTEMA REQUISICAO -------------                 
+          //-- Carregando objeto da Responsável Estrutura através do usuário passado
+          responsavelEstrutura = responsavelEstruturaControl.getResponsavelEstrutura(criador);
+          
+          //-- Setando o perfil do usuário de acordo com o WorkFlow da RESPONSAVEL_ESTRUTURA
+          SistemaPerfil sistemaPerfilWorkFlow = new SistemaPerfil();           
+          sistemaPerfilWorkFlow.setCodSistemaPerfil(responsavelEstrutura.getCodPerfilUsuario());
+          criador.setSistemaPerfil(sistemaPerfilWorkFlow);           
+          
+          //-- Carregando o parâmetro de perfil de HOMOLOGADOR UO (GERENTE)
+          idPerfilHOM = sistemaParametroControl.getSistemaParametroPorSistemaNome(Config.ID_SISTEMA,"ID_PERFIL_HOM_UO");
+          
+          //-- Setando as unidades de acesso caso o usuário seja GERENTE
+          if(Integer.parseInt(idPerfilHOM.getVlrSistemaParametro()) == responsavelEstrutura.getCodPerfilUsuario()){
+            Unidade[] unidades = responsavelEstrutura.getUnidades();
+            criador.setUnidades(unidades);
+          }
+        //---------------------------------------------------------------------------         
+      }
+    
+    int idPerfilCriador = criador.getSistemaPerfil().getCodSistemaPerfil();
+    int idPerfilUsuario = usuario.getSistemaPerfil().getCodSistemaPerfil();
+    
+    if(idPerfilUsuario == idPerfilNEC && idPerfilCriador == idPerfilGEP){
+    	requisicaoAprovacao.setNivelWorkFlow(4);
+    }
+    
     //-- Verifica se a homologação está sendo feita pelo APROVADOR FINAL
     if(usuario.getSistemaPerfil().getCodSistemaPerfil() == idPerfilAPR){
     
