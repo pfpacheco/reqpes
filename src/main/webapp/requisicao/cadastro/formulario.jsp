@@ -125,9 +125,9 @@
 %>
 
 <br>
-<script src="../../js/formulario.js" type="text/javascript" charset="UTF-8"></script> 
-<script src="../../js/mascara.js"    type="text/javascript" charset="UTF-8"></script>
-<script src="../../js/ajaxItens.js"  type="text/javascript" charset="UTF-8"></script>
+<script src="../../js/formulario.js" type="text/javascript" charset="utf-8"></script> 
+<script src="../../js/mascara.js"    type="text/javascript" charset="utf-8"></script>
+<script src="../../js/ajaxItens.js"  type="text/javascript" charset="utf-8"></script>
 <script src="../../js/regrasRequisicao.js" type="text/javascript" charset="UTF-8"></script>
 
 <script>
@@ -1524,12 +1524,12 @@
       } 
       
       
-      document.frmRequisicao.dscAtividadesCargo.onkeyup();
-      document.frmRequisicao.descricaoFormacao.onkeyup();
-      document.frmRequisicao.dscExperiencia.onkeyup();
-      document.frmRequisicao.dscConhecimentos.onkeyup();
-      document.frmRequisicao.outrasCarateristica.onkeyup();
-      document.frmRequisicao.comentarios.onkeyup();
+      document.frmRequisicao.dscAtividadesCargo == undefined ?'':document.frmRequisicao.dscAtividadesCargo.onkeyup();
+      document.frmRequisicao.descricaoFormacao == undefined ?'':document.frmRequisicao.descricaoFormacao.onkeyup();
+      document.frmRequisicao.dscExperiencia == undefined ?'':document.frmRequisicao.dscExperiencia.onkeyup();
+      document.frmRequisicao.dscConhecimentos == undefined ?'':document.frmRequisicao.dscConhecimentos.onkeyup();
+      document.frmRequisicao.outrasCarateristica == undefined ?'':document.frmRequisicao.outrasCarateristica.onkeyup();
+      document.frmRequisicao.comentarios == undefined ?'':document.frmRequisicao.comentarios.onkeyup();
       
   <%}%> 
  

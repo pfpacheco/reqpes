@@ -45,7 +45,7 @@
   requisicoesParaEstorno = requisicaoEstornoControl.getRequisicoesParaEstorno(where);
 %>
 
-<script language="JavaScript" src="<%=request.getContextPath()%>/js/mascara.js"    type="text/javascript"></script> 
+<script language="JavaScript" src="<%=request.getContextPath()%>/js/mascara.js" charset="utf-8"    type="text/javascript"></script> 
 <script language="JavaScript" src="<%=request.getContextPath()%>/js/regrasRequisicao.js" type="text/javascript" charset="utf-8"></script>
 <script language="javaScript">
   //--

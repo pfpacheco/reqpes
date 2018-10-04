@@ -928,7 +928,7 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
       
   //------------------------------------------------------------------------------                  
       //-- Configura a exibição da área de pesquisa de horários
-      function exibePesquisaEscala(isExibe){       
+      function exibePesquisaEscala(isExibe){   
         if(isExibe){                  
           exibeOcultaDiv('divEscala',false);
           exibeOcultaDiv('divPesquisaEscala',false);
@@ -1314,7 +1314,10 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
     	}else{
     		exibeOcultaDiv('divHorarioEscala',true);
     		exibeOcultaDiv('divHorarioGrade',false);
-    		document.getElementById('divBtnAddFuncao').style.display = 'none';
+    		
+    		var btn = document.getElementById('divBtnAddFuncao');
+    		if (btn != null)
+    			document.getElementById('divBtnAddFuncao').style.display = 'none';
     	}
     }
     

@@ -28,8 +28,8 @@
 %>
 
 <br>
-<script language="JavaScript" src="../../../js/formulario.js" type="text/javascript"></script> 
-<script language="JavaScript" src="../../../js/mascara.js"    type="text/javascript"></script> 
+<script language="JavaScript" src="../../../js/formulario.js" charset="utf-8" type="text/javascript"></script> 
+<script language="JavaScript" src="../../../js/mascara.js"    charset="utf-8" type="text/javascript"></script> 
 
 <script language="javaScript">
   function cadastrar(){

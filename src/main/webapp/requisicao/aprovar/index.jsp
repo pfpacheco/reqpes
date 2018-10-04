@@ -134,7 +134,7 @@
               }
 %>
 
-<script language="JavaScript" src="<%=request.getContextPath()%>/js/mascara.js" type="text/javascript"></script> 
+<script language="JavaScript" src="<%=request.getContextPath()%>/js/mascara.js" charset="utf-8" type="text/javascript"></script> 
 <script language="javaScript">
   //--
   function requisicaoDados(parametro){

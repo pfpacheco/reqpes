@@ -98,7 +98,8 @@
     //-- setando a função
     objetoAjax.onreadystatechange=function(){  
                                     if(objetoAjax.readyState == 4){
-                                      document.getElementById(P_DIV).innerHTML = objetoAjax.responseText;
+                                      if(document.getElementById(P_DIV) != null)
+                                    	  document.getElementById(P_DIV).innerHTML = objetoAjax.responseText;
                                     }
                                   };
     // -- setando o parametros para o AJAX
