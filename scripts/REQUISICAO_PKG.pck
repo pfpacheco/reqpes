@@ -601,12 +601,12 @@ BEGIN
 
            IF P_IN_REQUISICAO.FONE_UNIDADE != V_FONE_UNIDADE THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Telefone', V_FONE_UNIDADE,P_IN_REQUISICAO.FONE_UNIDADE);
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Telefone', DECODE(V_FONE_UNIDADE,NULL,'Nenhum',V_FONE_UNIDADE) ,P_IN_REQUISICAO.FONE_UNIDADE);
            END IF;   
 
            IF P_IN_REQUISICAO.JORNADA_TRABALHO != V_JORNADA_TRABALHO  THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Carga horária semanal', V_JORNADA_TRABALHO,P_IN_REQUISICAO.JORNADA_TRABALHO);
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Carga horária semanal', DECODE(V_JORNADA_TRABALHO,NULL,'Nenhum',V_JORNADA_TRABALHO) ,P_IN_REQUISICAO.JORNADA_TRABALHO);
            END IF;   
 
            IF P_IN_REQUISICAO.LOCAL_TRABALHO != V_LOCAL_TRABALHO  THEN
@@ -637,13 +637,13 @@ BEGIN
            END IF;   
 
            IF P_IN_REQUISICAO.NR_FUNCIONARIO != V_NR_FUNCIONARIO THEN
-            insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Nº de funcionários', V_NR_FUNCIONARIO,P_IN_REQUISICAO.NR_FUNCIONARIO);
+              insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
+                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Nº de funcionários', DECODE(V_NR_FUNCIONARIO,NULL,'Nenhum',V_NR_FUNCIONARIO),P_IN_REQUISICAO.NR_FUNCIONARIO);
            END IF;   
 
            IF P_IN_REQUISICAO.DS_TAREFA != V_DS_TAREFA THEN
-            insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Descrição da tarefa', V_DS_TAREFA,P_IN_REQUISICAO.DS_TAREFA);
+              insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
+                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Descrição da tarefa', DECODE(V_DS_TAREFA,NULL,'Nenhum',V_DS_TAREFA) ,P_IN_REQUISICAO.DS_TAREFA);
            END IF;   
 
            IF P_IN_REQUISICAO.VIAGEM != V_VIAGEM  THEN
@@ -664,13 +664,13 @@ BEGIN
 
 
            IF P_IN_REQUISICAO.SALARIO != V_SALARIO THEN
-            insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
+              insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Salário', V_SALARIO,P_IN_REQUISICAO.SALARIO);
            END IF;     
 
            IF P_IN_REQUISICAO.NM_INDICADO != V_NM_INDICADO THEN
-            insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Nome indicado', V_NM_INDICADO,P_IN_REQUISICAO.NM_INDICADO);
+              insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
+                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Nome indicado', DECODE(V_NM_INDICADO,NULL,'Nenhum',V_NM_INDICADO) ,P_IN_REQUISICAO.NM_INDICADO);
            END IF; 
            
            IF P_IN_REQUISICAO.TP_CONTRATACAO != V_TP_CONTRATACAO THEN
@@ -713,7 +713,7 @@ BEGIN
 
            IF P_IN_REQUISICAO.DT_REQUISICAO != V_DT_REQUISICAO THEN
             insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Data Requisição', V_COD_RECRUTAMENTO,P_IN_REQUISICAO.COD_RECRUTAMENTO);
+                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Data Requisição', V_DT_REQUISICAO,P_IN_REQUISICAO.DT_REQUISICAO);
            END IF;   
 
            IF P_IN_REQUISICAO.COD_AREA != V_COD_AREA  THEN
@@ -726,27 +726,27 @@ BEGIN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT DESCRICAO FROM VW_RHEV_TRANSFERENCIA_MOTIVO WHERE TRANSFERENCIA_MOTIVO_ID=' || NVL(V_RAZAO_SUBSTITUICAO,0) || ' AND IND_MOTIVO = "T"');
               V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT DESCRICAO FROM VW_RHEV_TRANSFERENCIA_MOTIVO WHERE TRANSFERENCIA_MOTIVO_ID=' || P_IN_REQUISICAO.RAZAO_SUBSTITUICAO || '  AND IND_MOTIVO = "T"');
             insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Motivo da solicitação', DECODE(V_ANTES,'Vazio','NENHUM',V_ANTES),V_DEPOIS);
+                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Motivo da solicitação', DECODE(V_ANTES,'Vazio','Nenhum',V_ANTES),V_DEPOIS);
            END IF;   
 
            IF P_IN_REQUISICAO.TIPO_INDICACAO != V_TIPO_INDICACAO THEN
             insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Tipo Indicação', V_TIPO_INDICACAO,P_IN_REQUISICAO.TIPO_INDICACAO);
+                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Tipo Indicação', DECODE(V_TIPO_INDICACAO ,NULL,'Nenhum',V_TIPO_INDICACAO) ,P_IN_REQUISICAO.TIPO_INDICACAO);
            END IF;   
 
            IF P_IN_REQUISICAO.NOME_INDICADO != V_NOME_INDICADO THEN
             insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Nome Indicado', V_NOME_INDICADO,P_IN_REQUISICAO.NOME_INDICADO);
+                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Nome Indicado', DECODE(V_NOME_INDICADO ,NULL,'Nenhum',V_NOME_INDICADO),P_IN_REQUISICAO.NOME_INDICADO);
            END IF;   
 
            IF P_IN_REQUISICAO.DS_MOTIVO_SOLICITACAO != V_DS_MOTIVO_SOLICITACAO THEN
             INSERT INTO historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-                    (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Justificativa', V_DS_MOTIVO_SOLICITACAO,P_IN_REQUISICAO.DS_MOTIVO_SOLICITACAO);
+                    (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Justificativa', DECODE(V_DS_MOTIVO_SOLICITACAO ,NULL,'Nenhum',V_DS_MOTIVO_SOLICITACAO),P_IN_REQUISICAO.DS_MOTIVO_SOLICITACAO);
            END IF; 
              
            IF P_IN_REQUISICAO.ID_INDICADO != V_ID_INDICADO THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-                  (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Indicado', V_ID_INDICADO,P_IN_REQUISICAO.ID_INDICADO);
+                  (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Indicado', DECODE(V_ID_INDICADO ,NULL,'Nenhum',V_DS_MOTIVO_SOLICITACAO),P_IN_REQUISICAO.ID_INDICADO);
            END IF;   
   
            IF P_IN_REQUISICAO.SUBSTITUIDO_ID_HIST != NVL(V_SUBSTITUIDO_ID_HIST,0) THEN
@@ -754,7 +754,7 @@ BEGIN
               IF NVL(V_SUBSTITUIDO_ID_HIST,0) > 0 THEN
                  SELECT F.NOME INTO V_ANTES FROM FUNCIONARIOS F WHERE F.ID = V_SUBSTITUIDO_ID_HIST;  
               ELSE
-                 V_ANTES:= 'NENHUM';
+                 V_ANTES:= 'Nenhum';
               END IF;
            
               SELECT F.NOME INTO V_DEPOIS FROM FUNCIONARIOS F WHERE F.ID = P_IN_REQUISICAO.SUBSTITUIDO_ID_HIST;           
@@ -765,30 +765,30 @@ BEGIN
 
            IF P_IN_REQUISICAO.TRANSFERENCIA_DATA != NVL(V_TRANSFERENCIA_DATA,TO_DATE('01/01/1900','DD/MM/YYYY')) THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Previsão de transferência', V_TRANSFERENCIA_DATA,P_IN_REQUISICAO.TRANSFERENCIA_DATA);
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Previsão de transferência', DECODE(V_TRANSFERENCIA_DATA,NULL,'Nenhum',V_TRANSFERENCIA_DATA) ,P_IN_REQUISICAO.TRANSFERENCIA_DATA);
            END IF; 
              
-           IF P_IN_REQUISICAO.IND_CARTA_CONVTE != V_IND_CARTA_CONVTE THEN
+           IF P_IN_REQUISICAO.IND_CARTA_CONVTE != NVL(V_IND_CARTA_CONVTE,'X') THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Ind. Carta Convite', V_IND_CARTA_CONVTE,P_IN_REQUISICAO.IND_CARTA_CONVTE);
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Ind. Carta Convite', DECODE(V_IND_CARTA_CONVTE,NULL,'Nenhum',V_IND_CARTA_CONVTE),P_IN_REQUISICAO.IND_CARTA_CONVTE);
            END IF;   
 
-           IF P_IN_REQUISICAO.IND_EX_CARTA_CONVTE != V_IND_EX_CARTA_CONVTE THEN
+           IF P_IN_REQUISICAO.IND_EX_CARTA_CONVTE != NVL(V_IND_EX_CARTA_CONVTE,'X') THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Carta Convite', V_IND_EX_CARTA_CONVTE,P_IN_REQUISICAO.IND_EX_CARTA_CONVTE);
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Carta Convite', DECODE(V_IND_EX_CARTA_CONVTE,NULL,'Nenhum',V_IND_EX_CARTA_CONVTE),P_IN_REQUISICAO.IND_EX_CARTA_CONVTE);
            END IF;   
 
-           IF P_IN_REQUISICAO.IND_EX_FUNCIONARIO != V_IND_EX_FUNCIONARIO THEN
+           IF P_IN_REQUISICAO.IND_EX_FUNCIONARIO != NVL(V_IND_EX_FUNCIONARIO,'X') THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Ex Funcionário', V_IND_EX_FUNCIONARIO,P_IN_REQUISICAO.IND_EX_FUNCIONARIO);
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Ex Funcionário', DECODE(V_IND_EX_FUNCIONARIO,NULL,'Nenhum',V_IND_EX_FUNCIONARIO),P_IN_REQUISICAO.IND_EX_FUNCIONARIO);
            END IF;   
 
-           IF P_IN_REQUISICAO.ID_CODE_COMBINATION != V_ID_CODE_COMBINATION THEN
+           IF P_IN_REQUISICAO.ID_CODE_COMBINATION != NVL(V_ID_CODE_COMBINATION,0) THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Code Combination', V_ID_CODE_COMBINATION,P_IN_REQUISICAO.ID_CODE_COMBINATION);
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Code Combination', DECODE(V_ID_CODE_COMBINATION,NULL,'Nenhum',V_ID_CODE_COMBINATION),P_IN_REQUISICAO.ID_CODE_COMBINATION);
            END IF;  
 
-           IF P_IN_REQUISICAO.IND_TIPO_REQUISICAO != V_IND_TIPO_REQUISICAO THEN              
+           IF P_IN_REQUISICAO.IND_TIPO_REQUISICAO != NVL(V_IND_TIPO_REQUISICAO,'X') THEN              
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Tipo Requisição', decode(V_IND_TIPO_REQUISICAO,'A','Admissão','Transferência'), decode(P_IN_REQUISICAO.IND_TIPO_REQUISICAO,'A','Admissão','Transferência'));
            END IF;   
@@ -798,26 +798,26 @@ BEGIN
 --              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Cód. Status', V_COD_STATUS,P_IN_REQUISICAO.COD_STATUS);
 --           END IF;   
 
-           IF P_IN_REQUISICAO.IND_CARATER_EXCECAO != V_IND_CARATER_EXCECAO THEN
+           IF P_IN_REQUISICAO.IND_CARATER_EXCECAO != NVL(V_IND_CARATER_EXCECAO,'X') THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Tipo de enquadramento', 
                DECODE(V_IND_CARATER_EXCECAO,'N','De acordo com a Instrução 04/2011','em caráter de exceção'),
                DECODE(P_IN_REQUISICAO.IND_CARATER_EXCECAO,'N','De acordo com a Instrução 04/2011','em caráter de exceção'));
            END IF;   
 
-           IF P_IN_REQUISICAO.VERSAO_SISTEMA != V_VERSAO_SISTEMA  THEN
+           IF P_IN_REQUISICAO.VERSAO_SISTEMA != NVL(V_VERSAO_SISTEMA,'X')  THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Versão do Sistema', V_VERSAO_SISTEMA,P_IN_REQUISICAO.VERSAO_SISTEMA);
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Versão do Sistema', DECODE(V_VERSAO_SISTEMA,NULL,'Nenhum',V_VERSAO_SISTEMA),P_IN_REQUISICAO.VERSAO_SISTEMA);
            END IF; 
            
-           IF P_IN_REQUISICAO.NM_INDICADO != NVL(V_NOME_INDICADO,'1')  THEN
+           IF P_IN_REQUISICAO.NM_INDICADO != NVL(V_NOME_INDICADO,'X')  THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Nome do indicado', V_NOME_INDICADO,P_IN_REQUISICAO.NM_INDICADO);
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Nome do indicado', DECODE(V_NOME_INDICADO,NULL,'Nenhum',V_NOME_INDICADO),P_IN_REQUISICAO.NM_INDICADO);
            END IF;
            
-           IF P_IN_REQUISICAO.ID_INDICADO != NVL(V_ID_INDICADO,'1')  THEN
+           IF P_IN_REQUISICAO.ID_INDICADO != NVL(V_ID_INDICADO,0)  THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Id do indicado', V_ID_INDICADO,P_IN_REQUISICAO.ID_INDICADO);
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Id do indicado', DECODE(V_ID_INDICADO,NULL,'Nenhum',V_ID_INDICADO),P_IN_REQUISICAO.ID_INDICADO);
            END IF;
 
         -- ############# SE -1 FAZ DELETE   ################# --
