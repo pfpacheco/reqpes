@@ -115,7 +115,7 @@
 }
 
 .tooltip .tooltiptext p{
-	white-space: pre;
+	/*white-space: pre;*/
 }
 
 /*.tooltip .tooltiptext::before {
