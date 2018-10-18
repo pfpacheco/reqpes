@@ -81,7 +81,7 @@
 	<META NAME="WT.cg_n" CONTENT="Sistemas Pessoal" />
 	<META NAME="WT.cg_s" CONTENT="Requisição de Pessoal"/>	
 	<!-- FIM :: META TAGS PERSONALIZADAS WEBTRENDS -->
-	
+	<meta http-equiv="X-UA-Compatible" content="IE=9" />
     <meta http-equiv=expires content="Mon, 06 Jan 1990 00:00:01 GMT">
     <meta http-equiv="pragma" content="no-cache">
     <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
