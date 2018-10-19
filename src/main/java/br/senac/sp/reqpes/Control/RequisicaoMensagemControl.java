@@ -219,7 +219,7 @@ public class RequisicaoMensagemControl {
 		corpo.append("              <td height='25' width='95%' align='left' class='tdintranet2'> ");
 
 		corpo.append("A Requisição de Pessoal N° " + dadosRequisicao[0][0]
-				+ " foi analisada e alterada pela Gerência de Pessoal.");
+				+ " foi analisada e alterada.");
 		corpo.append("              </td> ");
 		corpo.append("           </tr>    ");
 		corpo.append("           <tr> ");
@@ -399,7 +399,7 @@ public class RequisicaoMensagemControl {
 			listaEmails = requisicaoAprovacaoControl.getEmailsEnvolvidosWorkFlow(requisicao);
 
 			String assunto = "A Requisição Pessoal n° " + requisicao.getCodRequisicao()
-					+ " foi analisada e alterada pela Gerência de Pessoal.";
+					+ " foi analisada e alterada.";
 
 			String mensagem = geraCorpoEmailAlteracao(requisicao.getCodRequisicao(), usuario.getChapa());
 

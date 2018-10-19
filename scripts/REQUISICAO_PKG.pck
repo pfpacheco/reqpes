@@ -1697,7 +1697,7 @@ BEGIN
                      (SELECT MAX(H1.DT_ENVIO) ATUAL
                        FROM   HISTORICO_REQUISICAO H1
                        WHERE  H1.REQUISICAO_SQ = H.REQUISICAO_SQ
-                       AND    H1.NIVEL = 2
+                       AND    H1.NIVEL = 3
                        AND    H1.STATUS NOT IN ('estornou', 'estorno revisão')) -- WORKFLOW NÍVEL 2: APROVAÇÃO DO GERENTE => HOMOLOGADOR GEP - AP&B
     
               AND    DECODE(H.STATUS,'criou','ABERTA'
