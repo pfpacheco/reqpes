@@ -597,7 +597,7 @@ public class RequisicaoAprovacaoDAO implements InterfaceDataBase {
 		sql.append(" SELECT DISTINCT EMAIL FROM (");
 		sql.append(" SELECT EMAIL FROM USUARIO WHERE USUARIO_SQ  IN (");
 		sql.append(" SELECT USUARIO_SQ FROM HISTORICO_REQUISICAO WHERE REQUISICAO_SQ=" + requisicao.getCodRequisicao()
-				+ ")");
+				+ "  AND NIVEL <> 5)");
 		sql.append(" UNION");
 		sql.append(" SELECT E_MAIL FROM FUNCIONARIO_COMPLEMENTO");
 		sql.append(" WHERE ID_FUNCIONARIO IN");
