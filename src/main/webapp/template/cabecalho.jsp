@@ -75,18 +75,18 @@
   <jsp:param  name="sub" value="<%=Config.NOME_SISTEMA%>" />
 </jsp:include> 
 
-<html>
+<!DOCTYPE html>
   <head>
 	<!-- INICIO :: META TAGS PERSONALIZADAS WEBTRENDS -->	
 	<META NAME="WT.cg_n" CONTENT="Sistemas Pessoal" />
 	<META NAME="WT.cg_s" CONTENT="Requisição de Pessoal"/>	
 	<!-- FIM :: META TAGS PERSONALIZADAS WEBTRENDS -->
-	<meta http-equiv="X-UA-Compatible" content="IE=9" />
-    <meta http-equiv=expires content="Mon, 06 Jan 1990 00:00:01 GMT">
+	<meta http-equiv=expires content="Mon, 06 Jan 1990 00:00:01 GMT">
     <meta http-equiv="pragma" content="no-cache">
     <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
     <link rel="STYLESHEET" type="text/css" href="<%=request.getContextPath()%>/css/stylesheet.css" />
     <title><%=Config.NOME_SISTEMA%></title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   </head>
   
   <script language="javaScript">  
