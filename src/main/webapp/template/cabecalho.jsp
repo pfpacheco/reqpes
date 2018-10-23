@@ -75,7 +75,7 @@
   <jsp:param  name="sub" value="<%=Config.NOME_SISTEMA%>" />
 </jsp:include> 
 
-<!DOCTYPE html>
+<html>
   <head>
 	<!-- INICIO :: META TAGS PERSONALIZADAS WEBTRENDS -->	
 	<META NAME="WT.cg_n" CONTENT="Sistemas Pessoal" />
@@ -86,7 +86,6 @@
     <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
     <link rel="STYLESHEET" type="text/css" href="<%=request.getContextPath()%>/css/stylesheet.css" />
     <title><%=Config.NOME_SISTEMA%></title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   </head>
   
   <script language="javaScript">  
