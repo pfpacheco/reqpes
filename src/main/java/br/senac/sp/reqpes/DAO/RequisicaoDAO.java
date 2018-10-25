@@ -771,13 +771,14 @@ public class RequisicaoDAO implements InterfaceDataBase {
 		if (tipo == null) {
 			sql.append(" AND UO.CODIGO NOT IN ('SA', 'SO', 'SD', 'SU') ");
 		}
-
+		
 		if (tipo == null) {
 			sql.append(" ORDER BY UO.CODIGO ");
 		} else {
 			if (tipo.equals("C")) {
 				sql.append(" ORDER BY UO.CODIGO ");
 			} else {
+				sql.append(" AND UO.SIGLA IS NOT NULL ");
 				sql.append(" ORDER BY UO.SIGLA ");
 			}
 		}
