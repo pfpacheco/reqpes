@@ -587,21 +587,21 @@
                     <td height="25"  align="right" class="tdintranet2">
                       <strong>UO:&nbsp;</strong>
                     </td>
-                    <td height="25" align="left" class="tdintranet2">
-                        <select name="unidadeCodigo" id="unidadeCodigo" class="select" style="width: 206px;" onchange="desabilitaSup(this.value, 'UO');">
-                          <option value="0">SELECIONE</option>
-                          <%for(int i=0; i<comboUnidadeCodigo.length; i++){%>
-                            <option value="<%=comboUnidadeCodigo[i][0]%>" <%=(comboUnidadeCodigo[i][0].equals(unidadeCodigo))?" SELECTED":""%> ><%=comboUnidadeCodigo[i][0]%></option>
-                          <%}%>
-                        </select>
-                        &nbsp; ou &nbsp;
-                        <select name="unidadeSigla" id="unidadeSigla" class="select" style="width: 206px;" onchange="desabilitaSup(this.value, 'SG');">
-                          <option value="0">SELECIONE</option>
-                          <%for(int i=0; i<comboUnidadeSigla.length; i++){%>
-                            <option value="<%=comboUnidadeSigla[i][0]%>" <%=(comboUnidadeSigla[i][0].equals(unidadeSigla))?" SELECTED":""%> ><%=comboUnidadeSigla[i][0]%></option>
-                          <%}%>
-                        </select>
-                    </td>					  					
+<!--                     <td height="25" align="left" class="tdintranet2"> -->
+<!--                         <select name="unidadeCodigo" id="unidadeCodigo" class="select" style="width: 206px;" onchange="desabilitaSup(this.value, 'UO');"> -->
+<!--                           <option value="0">SELECIONE</option> -->
+<%--                           <%for(int i=0; i<comboUnidadeCodigo.length; i++){%> --%>
+<%--                             <option value="<%=comboUnidadeCodigo[i][0]%>" <%=(comboUnidadeCodigo[i][0].equals(unidadeCodigo))?" SELECTED":""%> ><%=comboUnidadeCodigo[i][0]%></option> --%>
+<%--                           <%}%> --%>
+<!--                         </select> -->
+<!--                         &nbsp; ou &nbsp; -->
+<!--                         <select name="unidadeSigla" id="unidadeSigla" class="select" style="width: 206px;" onchange="desabilitaSup(this.value, 'SG');"> -->
+<!--                           <option value="0">SELECIONE</option> -->
+<%--                           <%for(int i=0; i<comboUnidadeSigla.length; i++){%> --%>
+<%--                             <option value="<%=comboUnidadeSigla[i][0]%>" <%=(comboUnidadeSigla[i][0].equals(unidadeSigla))?" SELECTED":""%> ><%=comboUnidadeSigla[i][0]%></option> --%>
+<%--                           <%}%> --%>
+<!--                         </select> -->
+<!--                     </td>					  					 -->
                   </tr>                                         
                 </table>
               </div>              
