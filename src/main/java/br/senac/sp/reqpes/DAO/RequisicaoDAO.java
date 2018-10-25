@@ -760,7 +760,7 @@ public class RequisicaoDAO implements InterfaceDataBase {
 			if (tipo.equals("C")) {
 				sql.append(" UO.CODIGO ");
 			} else {
-				sql.append(" UO.SIGLA ");
+				sql.append(" NVL(UO.SIGLA, UO.CODIGO || ' - SIGLA NÃO ENCONTRADA') ");
 			}
 		}
 
@@ -778,7 +778,7 @@ public class RequisicaoDAO implements InterfaceDataBase {
 			if (tipo.equals("C")) {
 				sql.append(" ORDER BY UO.CODIGO ");
 			} else {
-				sql.append(" AND UO.SIGLA IS NOT NULL ");
+				//sql.append(" AND UO.SIGLA IS NOT NULL ");
 				sql.append(" ORDER BY UO.SIGLA ");
 			}
 		}
