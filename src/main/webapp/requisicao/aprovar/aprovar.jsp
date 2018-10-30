@@ -178,6 +178,5 @@
   if(<%=retorno%> > 0){
     alert('Aprovação realizada com sucesso!');
   }
-  window.location = "<%=request.getContextPath()%>
-	/requisicao/aprovar/index.jsp";
+  window.location = "<%=request.getContextPath()%>/requisicao/aprovar/index.jsp";
 </script>
