@@ -1,6 +1,9 @@
 package br.senac.sp.reqpes.util;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
 
@@ -83,6 +86,19 @@ public class Email {
 
 		InternetAddress remetente = new InternetAddress(getRemetente());
 		InternetAddress destinatario = new InternetAddress(getPara());
+		
+		List<String> emailsFiltrados = new ArrayList<String>();
+		for (String e : paraVarios) {
+			if (!emailsFiltrados.contains(e)) {
+				emailsFiltrados.add(e.replace("NAO-ENVIA", ""));
+			} 
+		}
+		
+		paraVarios = Arrays.copyOf(paraVarios, emailsFiltrados.size());
+
+		for (String email : emailsFiltrados) {
+			paraVarios[emailsFiltrados.indexOf(email)] = email;
+		}
 
 		message.setFrom(remetente);
 		message.setRecipient(Message.RecipientType.TO, destinatario);
@@ -141,7 +157,19 @@ public class Email {
 		String ambiente = PropertyResourceBundle.getBundle("properties.main").getString("ambiente");
 		String seriaEnviado = "";
 		SistemaParametroControl sistemaParametroControl = new SistemaParametroControl();
+		
+		List<String> emailsFiltrados = new ArrayList<String>();
+		for (String e : paraVarios) {
+			if (!emailsFiltrados.contains(e)) {
+				emailsFiltrados.add(e.replace("NAO-ENVIA", ""));
+			} 
+		}
+		
+		paraVarios = Arrays.copyOf(paraVarios, emailsFiltrados.size());
 
+		for (String email : emailsFiltrados) {
+			paraVarios[emailsFiltrados.indexOf(email)] = email;
+		}
 
 		Properties mailProps = new Properties();
 
