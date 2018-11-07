@@ -19,12 +19,12 @@
     RequisicaoPerfil requisicaoPerfil = new RequisicaoPerfil();
     requisicaoPerfil = requisicaoPerfilControl.getRequisicaoPerfil(codRequisicao);
     
-    requisicaoPerfil.setDscAtividadesCargo(request.getParameter("dscAtividadesCargo"));
-    requisicaoPerfil.setDescricaoFormacao(request.getParameter("descricaoFormacao"));
-    requisicaoPerfil.setDscExperiencia(request.getParameter("dscExperiencia"));
-    requisicaoPerfil.setDscConhecimentos(request.getParameter("dscConhecimentos"));
-    requisicaoPerfil.setOutrasCarateristica(request.getParameter("outrasCarateristica"));
-    requisicaoPerfil.setComentarios(request.getParameter("comentarios"));
+    requisicaoPerfil.setDscAtividadesCargo(new String(request.getParameter("dscAtividadesCargo").getBytes(),"ISO-8859-1"));
+    requisicaoPerfil.setDescricaoFormacao(new String(request.getParameter("descricaoFormacao").getBytes(),"ISO-8859-1"));
+    requisicaoPerfil.setDscExperiencia(new String(request.getParameter("dscExperiencia").getBytes(),"ISO-8859-1"));
+    requisicaoPerfil.setDscConhecimentos(new String(request.getParameter("dscConhecimentos").getBytes(),"ISO-8859-1"));
+    requisicaoPerfil.setOutrasCarateristica(new String(request.getParameter("outrasCarateristica").getBytes(),"ISO-8859-1"));
+    requisicaoPerfil.setComentarios(new String(request.getParameter("comentarios").getBytes(),"ISO-8859-1"));
      
     int retorno = 0;
     String erro = "";
