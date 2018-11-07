@@ -113,8 +113,14 @@
 				listEmail.add(listaEmails[i]);
 			}
 
+			//emails avisp
+			listaEmails = usuarioAvisoEmailControl.getEmailsUsuariosAviso(requisicaoDados.getCodCargo());
+			
+			for (int i = 0; i < listaEmails.length; i++) {
+				listEmail.add(listaEmails[i]);
+			}
+			
 			//-- Resgatando e-mails dos usuarios cadastrados da AP&B
-			//  listaEmails = usuarioAvisoEmailControl.getEmailsUsuariosAviso(requisicaoDados.getCodCargo());
 			listaEmails = new RequisicaoAprovacaoControl().getEmailsHomologadoresGEP();
 
 			for (int i = 0; i < listaEmails.length; i++) {
