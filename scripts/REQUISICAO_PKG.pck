@@ -1,4 +1,4 @@
-CREATE OR REPLACE PACKAGE REQUISICAO_PKG IS
+CREATE OR REPLACE PACKAGE REQPES.REQUISICAO_PKG IS
 
   -- Author  : Thiago Lima Coutinho
   -- Created : 01/09/2008
@@ -21,101 +21,101 @@ CREATE OR REPLACE PACKAGE REQUISICAO_PKG IS
   PROCEDURE SP_DML_REQUISICAO_HOMOLOGACAO(P_IN_TIPO IN VARCHAR2,P_IN_REQUISICAO IN HISTORICO_REQUISICAO%ROWTYPE,P_IN_USUARIO IN VARCHAR2,P_IN_DSC_MOTIVO IN VARCHAR2);
 
   PROCEDURE SP_DML_SUBSTITUICAO_GERENTE(P_IN_DML IN VARCHAR2,P_IN_SUBSTITUICAO IN RESPONSAVEL_ESTRUTURA%ROWTYPE,P_IN_TEOR_COD IN VARCHAR2);
-  
+
   PROCEDURE SP_DML_TABELA_SALARIAL(P_IN_DML IN NUMBER,P_IN_TABELA_SALARIAL IN OUT TABELA_SALARIAL%ROWTYPE, P_IN_USUARIO IN VARCHAR2);
-  
+
   PROCEDURE SP_DML_TAB_SALARIAL_ATRIBUICAO(P_IN_DML IN NUMBER, P_IN_TAB_SALARIAL_ATRIBUICAO IN OUT TABELA_SALARIAL_ATRIBUICAO%ROWTYPE);
-  
+
   PROCEDURE SP_DML_INSTRUCAO(P_IN_DML IN NUMBER,P_IN_INSTRUCAO IN OUT INSTRUCAO%ROWTYPE, P_IN_USUARIO IN VARCHAR2);
-  
+
   PROCEDURE SP_DML_INSTRUCAO_ATRIBUICAO(P_IN_DML IN NUMBER, P_IN_INSTRUCAO_ATRIBUICAO IN OUT INSTRUCAO_ATRIBUICAO%ROWTYPE);
 
   PROCEDURE SP_DML_GRUPO_NEC(P_IN_DML IN NUMBER, P_IN_GRUPO_NEC IN OUT GRUPO_NEC%ROWTYPE, P_IN_USUARIO IN VARCHAR2);
-  
+
   PROCEDURE SP_DML_GRUPO_NEC_UNIDADES(P_IN_DML IN NUMBER, P_IN_GRUPO_NEC_UNIDADES IN OUT GRUPO_NEC_UNIDADES%ROWTYPE);
-  
+
   PROCEDURE SP_DML_GRUPO_NEC_USUARIOS(P_IN_DML IN NUMBER, P_IN_GRUPO_NEC_USUARIOS IN OUT GRUPO_NEC_USUARIOS%ROWTYPE, P_IN_USUARIO IN VARCHAR2);
 
   PROCEDURE SP_DML_CARGO_ADM_COORD(P_IN_DML IN NUMBER, P_IN_UO_CARGO_ADM_COORD IN UO_CARGO_ADM_COORD%ROWTYPE, P_IN_USUARIO IN VARCHAR2);
-  
+
   PROCEDURE SP_DML_TIPO_AVISO(P_IN_DML IN NUMBER, P_IN_TIPO_AVISO IN OUT TIPO_AVISO%ROWTYPE, P_IN_USUARIO IN VARCHAR2);
 
   PROCEDURE SP_REQUISICAO_PERFIL_FUNCAO(P_REQUISICAO_SQ IN REQUISICAO.REQUISICAO_SQ%TYPE, P_LIST_FUNCAO IN VARCHAR2);
 
 END REQUISICAO_PKG;
 /
-CREATE OR REPLACE PACKAGE BODY REQUISICAO_PKG IS
+CREATE OR REPLACE PACKAGE BODY REQPES.REQUISICAO_PKG IS
 
   -- Author  : Thiago Lima Coutinho
   -- Created : 01/09/2008
   -- Purpose : Armazenar as regras de banco da aplicação de Requisição de Pessoal
-  
-  
+
+
 --################################ FUNCAO PARA LIMPAR CARACTERES #######################
 FUNCTION F_REMOVE_CARACTERES(P_TEXT VARCHAR2) RETURN VARCHAR2 IS
-BEGIN 
+BEGIN
   RETURN REPLACE(REPLACE(REPLACE(REPLACE(P_TEXT,Chr(34),''),Chr(10),''),Chr(13),''),Chr(32),'');
 EXCEPTION
     WHEN OTHERS THEN
       ROLLBACK;
-      RAISE_APPLICATION_ERROR(-20025, 'PROBLEMA AO REMOVER CARACTERES' || SQLERRM);    
+      RAISE_APPLICATION_ERROR(-20025, 'PROBLEMA AO REMOVER CARACTERES' || SQLERRM);
 END F_REMOVE_CARACTERES;
 
 --################################ INICIO DA PROCEDURE SP_DML_REQUISICAO #######################
 PROCEDURE SP_DML_REQUISICAO(P_IN_DML IN NUMBER,P_IN_REQUISICAO IN OUT REQUISICAO%ROWTYPE,P_IN_USUARIO IN VARCHAR2,P_UO_DESTINO IN VARCHAR2,P_NIVEL  IN NUMBER,P_TIPO IN NUMBER) IS
  TIPO_TRANSACAO VARCHAR2(50);
  V_RPS_SUBST    VARCHAR2(250);
- 
+
  V_REQUISICAO_SQ             REQUISICAO.REQUISICAO_SQ%TYPE;
- V_COD_UNIDADE               REQUISICAO.COD_UNIDADE%TYPE; 
- V_USUARIO_SQ                REQUISICAO.USUARIO_SQ%TYPE; 
- V_CARGO_SQ                  REQUISICAO.CARGO_SQ%TYPE; 
- V_COD_MA                    REQUISICAO.COD_MA%TYPE; 
+ V_COD_UNIDADE               REQUISICAO.COD_UNIDADE%TYPE;
+ V_USUARIO_SQ                REQUISICAO.USUARIO_SQ%TYPE;
+ V_CARGO_SQ                  REQUISICAO.CARGO_SQ%TYPE;
+ V_COD_MA                    REQUISICAO.COD_MA%TYPE;
  V_COD_SMA                   REQUISICAO.COD_SMA%TYPE;
- V_COTA                      REQUISICAO.COTA%TYPE; 
- V_TP_CONTRATACAO            REQUISICAO.TP_CONTRATACAO%TYPE; 
- V_NM_SUPERIOR               REQUISICAO.NM_SUPERIOR%TYPE; 
- V_FONE_UNIDADE              REQUISICAO.FONE_UNIDADE%TYPE; 
- V_JORNADA_TRABALHO          REQUISICAO.JORNADA_TRABALHO%TYPE; 
- V_LOCAL_TRABALHO            REQUISICAO.LOCAL_TRABALHO%TYPE; 
- V_MOTIVO_SOLICITACAO        REQUISICAO.MOTIVO_SOLICITACAO%TYPE; 
- V_OBS                       REQUISICAO.OBS%TYPE; 
- V_SUPERVISAO                REQUISICAO.SUPERVISAO%TYPE; 
- V_NR_FUNCIONARIO            REQUISICAO.NR_FUNCIONARIO%TYPE; 
- V_DS_TAREFA                 REQUISICAO.DS_TAREFA%TYPE; 
- V_VIAGEM                    REQUISICAO.VIAGEM%TYPE; 
- V_SALARIO                   REQUISICAO.SALARIO%TYPE; 
- V_OUTRO_LOCAL               REQUISICAO.OUTRO_LOCAL%TYPE; 
- V_NM_INDICADO               REQUISICAO.NM_INDICADO%TYPE; 
- V_INICIO_CONTRATACAO        REQUISICAO.INICIO_CONTRATACAO%TYPE; 
+ V_COTA                      REQUISICAO.COTA%TYPE;
+ V_TP_CONTRATACAO            REQUISICAO.TP_CONTRATACAO%TYPE;
+ V_NM_SUPERIOR               REQUISICAO.NM_SUPERIOR%TYPE;
+ V_FONE_UNIDADE              REQUISICAO.FONE_UNIDADE%TYPE;
+ V_JORNADA_TRABALHO          REQUISICAO.JORNADA_TRABALHO%TYPE;
+ V_LOCAL_TRABALHO            REQUISICAO.LOCAL_TRABALHO%TYPE;
+ V_MOTIVO_SOLICITACAO        REQUISICAO.MOTIVO_SOLICITACAO%TYPE;
+ V_OBS                       REQUISICAO.OBS%TYPE;
+ V_SUPERVISAO                REQUISICAO.SUPERVISAO%TYPE;
+ V_NR_FUNCIONARIO            REQUISICAO.NR_FUNCIONARIO%TYPE;
+ V_DS_TAREFA                 REQUISICAO.DS_TAREFA%TYPE;
+ V_VIAGEM                    REQUISICAO.VIAGEM%TYPE;
+ V_SALARIO                   REQUISICAO.SALARIO%TYPE;
+ V_OUTRO_LOCAL               REQUISICAO.OUTRO_LOCAL%TYPE;
+ V_NM_INDICADO               REQUISICAO.NM_INDICADO%TYPE;
+ V_INICIO_CONTRATACAO        REQUISICAO.INICIO_CONTRATACAO%TYPE;
  V_FIM_CONTRATACAO           REQUISICAO.FIM_CONTRATACAO%TYPE;
- V_COD_RECRUTAMENTO          REQUISICAO.COD_RECRUTAMENTO%TYPE; 
- V_DT_REQUISICAO             REQUISICAO.DT_REQUISICAO%TYPE; 
- V_COD_AREA                  REQUISICAO.COD_AREA%TYPE; 
- V_RAZAO_SUBSTITUICAO        REQUISICAO.RAZAO_SUBSTITUICAO%TYPE; 
- V_TIPO_INDICACAO            REQUISICAO.TIPO_INDICACAO%TYPE; 
- V_NOME_INDICADO             REQUISICAO.NOME_INDICADO%TYPE; 
- V_DS_MOTIVO_SOLICITACAO     REQUISICAO.DS_MOTIVO_SOLICITACAO%TYPE; 
- V_CLASSIFICACAO_FUNCIONAL   REQUISICAO.CLASSIFICACAO_FUNCIONAL%TYPE; 
- V_ID_INDICADO               REQUISICAO.ID_INDICADO%TYPE; 
- V_SUBSTITUIDO_ID_HIST       REQUISICAO.SUBSTITUIDO_ID_HIST%TYPE; 
- V_TRANSFERENCIA_DATA        REQUISICAO.TRANSFERENCIA_DATA%TYPE; 
- V_IND_CARTA_CONVTE          REQUISICAO.IND_CARTA_CONVTE%TYPE; 
- V_IND_EX_CARTA_CONVTE       REQUISICAO.IND_EX_CARTA_CONVTE%TYPE; 
- V_IND_EX_FUNCIONARIO        REQUISICAO.IND_EX_FUNCIONARIO%TYPE; 
- V_ID_CODE_COMBINATION       REQUISICAO.ID_CODE_COMBINATION%TYPE; 
- V_IND_TIPO_REQUISICAO       REQUISICAO.IND_TIPO_REQUISICAO%TYPE; 
- V_COD_STATUS                REQUISICAO.COD_STATUS%TYPE; 
- V_DSC_RECRUTAMENTO          REQUISICAO.DSC_RECRUTAMENTO%TYPE; 
- V_IND_CARATER_EXCECAO       REQUISICAO.IND_CARATER_EXCECAO%TYPE; 
- V_VERSAO_SISTEMA            REQUISICAO.VERSAO_SISTEMA%TYPE; 
- V_COD_SEGMENTO1             REQUISICAO.COD_SEGMENTO1%TYPE; 
- V_COD_SEGMENTO2             REQUISICAO.COD_SEGMENTO2%TYPE; 
- V_COD_SEGMENTO3             REQUISICAO.COD_SEGMENTO3%TYPE; 
- V_COD_SEGMENTO4             REQUISICAO.COD_SEGMENTO4%TYPE; 
- V_COD_SEGMENTO5             REQUISICAO.COD_SEGMENTO5%TYPE; 
- V_COD_SEGMENTO6             REQUISICAO.COD_SEGMENTO6%TYPE; 
- V_COD_SEGMENTO7             REQUISICAO.COD_SEGMENTO7%TYPE; 
+ V_COD_RECRUTAMENTO          REQUISICAO.COD_RECRUTAMENTO%TYPE;
+ V_DT_REQUISICAO             REQUISICAO.DT_REQUISICAO%TYPE;
+ V_COD_AREA                  REQUISICAO.COD_AREA%TYPE;
+ V_RAZAO_SUBSTITUICAO        REQUISICAO.RAZAO_SUBSTITUICAO%TYPE;
+ V_TIPO_INDICACAO            REQUISICAO.TIPO_INDICACAO%TYPE;
+ V_NOME_INDICADO             REQUISICAO.NOME_INDICADO%TYPE;
+ V_DS_MOTIVO_SOLICITACAO     REQUISICAO.DS_MOTIVO_SOLICITACAO%TYPE;
+ V_CLASSIFICACAO_FUNCIONAL   REQUISICAO.CLASSIFICACAO_FUNCIONAL%TYPE;
+ V_ID_INDICADO               REQUISICAO.ID_INDICADO%TYPE;
+ V_SUBSTITUIDO_ID_HIST       REQUISICAO.SUBSTITUIDO_ID_HIST%TYPE;
+ V_TRANSFERENCIA_DATA        REQUISICAO.TRANSFERENCIA_DATA%TYPE;
+ V_IND_CARTA_CONVTE          REQUISICAO.IND_CARTA_CONVTE%TYPE;
+ V_IND_EX_CARTA_CONVTE       REQUISICAO.IND_EX_CARTA_CONVTE%TYPE;
+ V_IND_EX_FUNCIONARIO        REQUISICAO.IND_EX_FUNCIONARIO%TYPE;
+ V_ID_CODE_COMBINATION       REQUISICAO.ID_CODE_COMBINATION%TYPE;
+ V_IND_TIPO_REQUISICAO       REQUISICAO.IND_TIPO_REQUISICAO%TYPE;
+ V_COD_STATUS                REQUISICAO.COD_STATUS%TYPE;
+ V_DSC_RECRUTAMENTO          REQUISICAO.DSC_RECRUTAMENTO%TYPE;
+ V_IND_CARATER_EXCECAO       REQUISICAO.IND_CARATER_EXCECAO%TYPE;
+ V_VERSAO_SISTEMA            REQUISICAO.VERSAO_SISTEMA%TYPE;
+ V_COD_SEGMENTO1             REQUISICAO.COD_SEGMENTO1%TYPE;
+ V_COD_SEGMENTO2             REQUISICAO.COD_SEGMENTO2%TYPE;
+ V_COD_SEGMENTO3             REQUISICAO.COD_SEGMENTO3%TYPE;
+ V_COD_SEGMENTO4             REQUISICAO.COD_SEGMENTO4%TYPE;
+ V_COD_SEGMENTO5             REQUISICAO.COD_SEGMENTO5%TYPE;
+ V_COD_SEGMENTO6             REQUISICAO.COD_SEGMENTO6%TYPE;
+ V_COD_SEGMENTO7             REQUISICAO.COD_SEGMENTO7%TYPE;
  V_SQ_USUARIO                USUARIO.USUARIO_SQ%TYPE;
  V_NIVEL_USUARIO             USUARIO.NIVEL%TYPE;
  V_USUARIO_COD_UNIDADE       USUARIO.COD_UNIDADE%TYPE;
@@ -124,12 +124,12 @@ PROCEDURE SP_DML_REQUISICAO(P_IN_DML IN NUMBER,P_IN_REQUISICAO IN OUT REQUISICAO
  V_COD_UNIDADE_HISTORICO     HISTORICO_REQUISICAO.COD_UNIDADE%TYPE;
  V_NIVEL_HISTORICO           HISTORICO_REQUISICAO.NIVEL%TYPE;
  P_DATA_HORA                 DATE;
- V_ANTES                     NVARCHAR2(30000); 
- V_DEPOIS                    NVARCHAR2(30000); 
+ V_ANTES                     NVARCHAR2(30000);
+ V_DEPOIS                    NVARCHAR2(30000);
 BEGIN
     BEGIN
       P_DATA_HORA:=CURRENT_TIMESTAMP;
-      
+
       -------------------------------------------------
       -- SETANDO VALORES
       -------------------------------------------------
@@ -156,7 +156,7 @@ BEGIN
       IF (P_IN_REQUISICAO.COD_RECRUTAMENTO = 0) THEN
         P_IN_REQUISICAO.COD_RECRUTAMENTO := NULL;
       END IF;
-      
+
 
       -- ############# VERIFICANDO O TIPO DE TRANSACÃO   ################# --
       -- ############# SE 0 FAZ INSERT   ################# --
@@ -273,7 +273,7 @@ BEGIN
           ,P_IN_REQUISICAO.COD_SEGMENTO5
           ,P_IN_REQUISICAO.COD_SEGMENTO6
           ,P_IN_REQUISICAO.COD_SEGMENTO7);
-        
+
         -----------------------------------------------------
         -- Notificando os homologadores da GEP
         -- Acão: Gravar / Alterar
@@ -288,7 +288,7 @@ BEGIN
         -----------------------------------------------------
         -- GRAVANDO NO HISTORICO
         -----------------------------------------------------
-      
+
         INSERT INTO HISTORICO_REQUISICAO
           (REQUISICAO_SQ
           ,COD_UNIDADE
@@ -471,16 +471,16 @@ BEGIN
         -- GRAVANDO NO HISTORICO
         -----------------------------------------------------
 
-            SELECT USUARIO_SQ,NIVEL,COD_UNIDADE,UNIDADE,IDENTIFICACAO 
-              INTO V_SQ_USUARIO,V_NIVEL_USUARIO,V_USUARIO_COD_UNIDADE,V_UNIDADE_USUARIO,V_IDENTIFICACAO_USUARIO 
-              FROM USUARIO 
-              WHERE USUARIO_SQ=P_IN_REQUISICAO.USUARIO_SQ;              
+            SELECT USUARIO_SQ,NIVEL,COD_UNIDADE,UNIDADE,IDENTIFICACAO
+              INTO V_SQ_USUARIO,V_NIVEL_USUARIO,V_USUARIO_COD_UNIDADE,V_UNIDADE_USUARIO,V_IDENTIFICACAO_USUARIO
+              FROM USUARIO
+              WHERE USUARIO_SQ=P_IN_REQUISICAO.USUARIO_SQ;
 
              SELECT COD_UNIDADE,NIVEL INTO V_COD_UNIDADE_HISTORICO,V_NIVEL_HISTORICO FROM (
-             SELECT COD_UNIDADE,NIVEL FROM HISTORICO_REQUISICAO 
-              WHERE REQUISICAO_SQ=P_IN_REQUISICAO.REQUISICAO_SQ AND STATUS<>'alterou' ORDER BY DT_ENVIO DESC) 
+             SELECT COD_UNIDADE,NIVEL FROM HISTORICO_REQUISICAO
+              WHERE REQUISICAO_SQ=P_IN_REQUISICAO.REQUISICAO_SQ AND STATUS<>'alterou' ORDER BY DT_ENVIO DESC)
               WHERE ROWNUM=1;
-       
+
               INSERT INTO HISTORICO_REQUISICAO(
                      REQUISICAO_SQ, COD_UNIDADE, DT_ENVIO, DT_HOMOLOGACAO, USUARIO_SQ, STATUS, UNIDADE_ATUAL_USUARIO, NIVEL)
               VALUES
@@ -491,142 +491,142 @@ BEGIN
                 ,V_SQ_USUARIO
                 ,'alterou'
                 ,V_UNIDADE_USUARIO
-                ,V_NIVEL_HISTORICO);                       
-    
+                ,V_NIVEL_HISTORICO);
+
            --  ROTINA QUE ATUALIZA O HISTORICO DO PERFIL
 
            IF P_IN_REQUISICAO.CARGO_SQ != V_CARGO_SQ THEN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT CD.DESCRICAO FROM CARGOS C, CARGO_DESCRICOES CD WHERE C.ID= ' || V_CARGO_SQ || ' AND C.ID = CD.ID AND C.IN_SITUACAO_CARGO = "A"');
-              V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT CD.DESCRICAO FROM CARGOS C, CARGO_DESCRICOES CD 	WHERE  C.ID= ' || P_IN_REQUISICAO.CARGO_SQ || ' AND C.ID = CD.ID AND C.IN_SITUACAO_CARGO = "A"');
+              V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT CD.DESCRICAO FROM CARGOS C, CARGO_DESCRICOES CD   WHERE  C.ID= ' || P_IN_REQUISICAO.CARGO_SQ || ' AND C.ID = CD.ID AND C.IN_SITUACAO_CARGO = "A"');
               INSERT INTO historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Título do cargo', V_ANTES,V_DEPOIS);
-           END IF;   
+           END IF;
 
-           IF P_IN_REQUISICAO.MOTIVO_SOLICITACAO != V_MOTIVO_SOLICITACAO THEN            
+           IF P_IN_REQUISICAO.MOTIVO_SOLICITACAO != V_MOTIVO_SOLICITACAO THEN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT DESCRICAO FROM SOLICITACAO_MOTIVO WHERE ID=' || V_MOTIVO_SOLICITACAO);
               V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT DESCRICAO FROM SOLICITACAO_MOTIVO WHERE ID=' || P_IN_REQUISICAO.MOTIVO_SOLICITACAO);
               INSERT INTO  historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'RP para', V_ANTES, V_DEPOIS);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.COD_RECRUTAMENTO != V_COD_RECRUTAMENTO THEN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT DESCRICAO  FROM RECRUTAMENTO WHERE ID_RECRUTAMENTO =' || V_COD_RECRUTAMENTO);
               V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT DESCRICAO  FROM RECRUTAMENTO WHERE ID_RECRUTAMENTO =' || P_IN_REQUISICAO.COD_RECRUTAMENTO);
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Tipo de recrutamento', V_ANTES,V_DEPOIS);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.CLASSIFICACAO_FUNCIONAL != V_CLASSIFICACAO_FUNCIONAL THEN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT CLFU_DES FROM CLASSIFICACAO_FUNCIONAL WHERE CLFU_COD=' || V_CLASSIFICACAO_FUNCIONAL);
               V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT CLFU_DES FROM CLASSIFICACAO_FUNCIONAL WHERE CLFU_COD=' || P_IN_REQUISICAO.CLASSIFICACAO_FUNCIONAL);
               INSERT INTO historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Classificação funcional', V_ANTES,V_DEPOIS);
-           END IF;   
+           END IF;
 
-           IF P_IN_REQUISICAO.DSC_RECRUTAMENTO != V_DSC_RECRUTAMENTO THEN 
+           IF P_IN_REQUISICAO.DSC_RECRUTAMENTO != V_DSC_RECRUTAMENTO THEN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT DESCRICAO FROM RECRUTAMENTO WHERE ID_RECRUTAMENTO=' || V_DSC_RECRUTAMENTO || ' AND ATIVO = "S"');
               V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT DESCRICAO FROM RECRUTAMENTO WHERE ID_RECRUTAMENTO=' || P_IN_REQUISICAO.DSC_RECRUTAMENTO || ' AND ATIVO = "S"');
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Tipo de recrutamento', V_DSC_RECRUTAMENTO,P_IN_REQUISICAO.DSC_RECRUTAMENTO);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.COD_SEGMENTO1 != V_COD_SEGMENTO1  THEN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT T.COD_SEGMENTO || " - " || T.DESCRICAO FROM reqpes.CODE_DESCRICOES_RH T WHERE T.COD_SEGMENTO=' || V_COD_SEGMENTO1 || ' AND  T.TIPO_SEGMENTO=1 AND T.COD_SEGMENTO <> "-"');
               V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT T.COD_SEGMENTO || " - " || T.DESCRICAO FROM reqpes.CODE_DESCRICOES_RH T WHERE T.COD_SEGMENTO=' || P_IN_REQUISICAO.COD_SEGMENTO1 || ' AND T.TIPO_SEGMENTO=1 AND T.COD_SEGMENTO <> "-"');
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Empresa', V_ANTES,V_DEPOIS);
-           END IF;   
+           END IF;
 
           IF P_IN_REQUISICAO.COD_SEGMENTO2 != V_COD_SEGMENTO2 THEN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT T.COD_SEGMENTO || " - " || T.DESCRICAO FROM reqpes.CODE_DESCRICOES_RH T WHERE T.COD_SEGMENTO=' || V_COD_SEGMENTO2 || ' AND T.TIPO_SEGMENTO=2 AND T.COD_SEGMENTO <> "-"');
               V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT T.COD_SEGMENTO || " - " || T.DESCRICAO FROM reqpes.CODE_DESCRICOES_RH T WHERE T.COD_SEGMENTO=' || P_IN_REQUISICAO.COD_SEGMENTO2 || ' AND T.TIPO_SEGMENTO=2 AND T.COD_SEGMENTO <> "-"');
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Uniorg Emitente', V_ANTES,V_DEPOIS);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.COD_SEGMENTO3 != V_COD_SEGMENTO3 THEN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT T.COD_SEGMENTO || " - " || T.DESCRICAO FROM reqpes.CODE_DESCRICOES_RH T WHERE T.COD_SEGMENTO=' || V_COD_SEGMENTO3 || ' AND T.TIPO_SEGMENTO=3 AND T.COD_SEGMENTO <> "-"');
               V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT T.COD_SEGMENTO || " - " || T.DESCRICAO FROM reqpes.CODE_DESCRICOES_RH T WHERE T.COD_SEGMENTO=' || P_IN_REQUISICAO.COD_SEGMENTO3 || ' AND T.TIPO_SEGMENTO=3 AND T.COD_SEGMENTO <> "-"');
                insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Uniorg Destino', V_ANTES,V_DEPOIS);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.COD_SEGMENTO4 != V_COD_SEGMENTO4 THEN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT T.COD_SEGMENTO || " - " || T.DESCRICAO FROM reqpes.CODE_DESCRICOES_RH T WHERE T.COD_SEGMENTO=' || V_COD_SEGMENTO4 || ' AND T.TIPO_SEGMENTO=4 AND T.COD_SEGMENTO <> "-"');
               V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT T.COD_SEGMENTO || " - " || T.DESCRICAO FROM reqpes.CODE_DESCRICOES_RH T WHERE T.COD_SEGMENTO=' || P_IN_REQUISICAO.COD_SEGMENTO4 || ' AND T.TIPO_SEGMENTO=4 AND T.COD_SEGMENTO <> "-"');
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Área / Sub-área', V_ANTES,V_DEPOIS);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.COD_SEGMENTO5 != V_COD_SEGMENTO5 THEN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT T.COD_SEGMENTO || " - " || T.DESCRICAO FROM reqpes.CODE_DESCRICOES_RH T WHERE T.COD_SEGMENTO=' || V_COD_SEGMENTO5 || ' AND T.TIPO_SEGMENTO=5 AND T.COD_SEGMENTO <> "-"');
               V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT T.COD_SEGMENTO || " - " || T.DESCRICAO FROM reqpes.CODE_DESCRICOES_RH T WHERE T.COD_SEGMENTO=' || P_IN_REQUISICAO.COD_SEGMENTO5 || ' AND T.TIPO_SEGMENTO=5 AND T.COD_SEGMENTO <> "-"');
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Serviço / Produto', V_ANTES,V_DEPOIS);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.COD_SEGMENTO6 != V_COD_SEGMENTO6 THEN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT T.COD_SEGMENTO || " - " || T.DESCRICAO FROM reqpes.CODE_DESCRICOES_RH T WHERE T.COD_SEGMENTO=' || V_COD_SEGMENTO6 || ' AND T.TIPO_SEGMENTO=6 AND T.COD_SEGMENTO <> "-"');
               V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT T.COD_SEGMENTO || " - " || T.DESCRICAO FROM reqpes.CODE_DESCRICOES_RH T WHERE T.COD_SEGMENTO=' || P_IN_REQUISICAO.COD_SEGMENTO6 || ' AND T.TIPO_SEGMENTO=6 AND T.COD_SEGMENTO <> "-"');
                insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                   (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Especificação', V_ANTES,V_DEPOIS);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.COD_SEGMENTO7 != V_COD_SEGMENTO7 THEN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT T.COD_SEGMENTO || " - " || T.DESCRICAO FROM reqpes.CODE_DESCRICOES_RH T WHERE T.COD_SEGMENTO=' || V_COD_SEGMENTO7 || ' AND T.TIPO_SEGMENTO=7 AND T.COD_SEGMENTO <> "-"');
               V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT T.COD_SEGMENTO || " - " || T.DESCRICAO FROM reqpes.CODE_DESCRICOES_RH T WHERE T.COD_SEGMENTO=' || P_IN_REQUISICAO.COD_SEGMENTO7 || ' AND T.TIPO_SEGMENTO=7 AND T.COD_SEGMENTO <> "-"');
                insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                    (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Modalidade', V_ANTES,V_DEPOIS);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.COD_MA != V_COD_MA THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Cód. MA', V_COD_MA,P_IN_REQUISICAO.COD_MA);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.COD_SMA != V_COD_SMA THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Cód. SMA', V_COD_SMA,P_IN_REQUISICAO.COD_SMA);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.COTA != V_COTA THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Cota', V_COTA,P_IN_REQUISICAO.COTA);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.NM_SUPERIOR != V_NM_SUPERIOR THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Responsável', V_NM_SUPERIOR,P_IN_REQUISICAO.NM_SUPERIOR);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.FONE_UNIDADE != V_FONE_UNIDADE THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Telefone', DECODE(V_FONE_UNIDADE,NULL,'Nenhum',V_FONE_UNIDADE) ,P_IN_REQUISICAO.FONE_UNIDADE);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.JORNADA_TRABALHO != V_JORNADA_TRABALHO  THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Carga horária semanal', DECODE(V_JORNADA_TRABALHO,NULL,'Nenhum',V_JORNADA_TRABALHO) ,P_IN_REQUISICAO.JORNADA_TRABALHO);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.LOCAL_TRABALHO != V_LOCAL_TRABALHO  THEN
-              IF P_IN_REQUISICAO.LOCAL_TRABALHO=1 THEN 
+              IF P_IN_REQUISICAO.LOCAL_TRABALHO=1 THEN
                  V_DEPOIS:='NA GERÊNCIA/UO SOLICITANTE';
-                 V_ANTES:='OUTROS';                
+                 V_ANTES:='OUTROS';
               ELSE
-                 V_DEPOIS :='OUTROS';                
+                 V_DEPOIS :='OUTROS';
                  V_ANTES:='NA GERÊNCIA/UO SOLICITANTE';
               END IF;
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Local de trabalho', V_ANTES,V_DEPOIS);
-           END IF;   
-           
+           END IF;
+
            IF P_IN_REQUISICAO.OUTRO_LOCAL != NVL(V_OUTRO_LOCAL,'1')  THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Outro local', NVL(V_OUTRO_LOCAL,'Nenhum'), P_IN_REQUISICAO.OUTRO_LOCAL);
            END IF;
 
-           /*IF P_IN_REQUISICAO.OBS != V_OBS  THEN          
+           /*IF P_IN_REQUISICAO.OBS != V_OBS  THEN
             insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Observações', V_OBS,P_IN_REQUISICAO.OBS);
            END IF;*/
@@ -634,187 +634,187 @@ BEGIN
            IF P_IN_REQUISICAO.SUPERVISAO != V_SUPERVISAO THEN
             insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Supervisão de funcionários', DECODE(V_SUPERVISAO,'S','Sim','Não'), DECODE(P_IN_REQUISICAO.SUPERVISAO,'S','Sim','Não'));
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.NR_FUNCIONARIO != V_NR_FUNCIONARIO THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Nº de funcionários', DECODE(V_NR_FUNCIONARIO,NULL,'Nenhum',V_NR_FUNCIONARIO),P_IN_REQUISICAO.NR_FUNCIONARIO);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.DS_TAREFA != V_DS_TAREFA THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Descrição da tarefa', DECODE(V_DS_TAREFA,NULL,'Nenhum',V_DS_TAREFA) ,P_IN_REQUISICAO.DS_TAREFA);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.VIAGEM != V_VIAGEM  THEN
-             
+
            --insert into debug values('sim');
-             
-              IF P_IN_REQUISICAO.VIAGEM = 1 THEN 
+
+              IF P_IN_REQUISICAO.VIAGEM = 1 THEN
                  V_DEPOIS := 'Frequentes';
-                 V_ANTES := 'Raras';                
+                 V_ANTES := 'Raras';
               ELSE
-                 V_DEPOIS := 'Raras';                
+                 V_DEPOIS := 'Raras';
                  V_ANTES := 'Frequentes';
               END IF;
-              
+
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Viagem', V_ANTES,V_DEPOIS);
-           END IF;   
+           END IF;
 
 
            IF P_IN_REQUISICAO.SALARIO != V_SALARIO THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Salário', V_SALARIO,P_IN_REQUISICAO.SALARIO);
-           END IF;     
+           END IF;
 
            IF P_IN_REQUISICAO.NM_INDICADO != V_NM_INDICADO THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Nome indicado', DECODE(V_NM_INDICADO,NULL,'Nenhum',V_NM_INDICADO) ,P_IN_REQUISICAO.NM_INDICADO);
-           END IF; 
-           
+           END IF;
+
            IF P_IN_REQUISICAO.TP_CONTRATACAO != V_TP_CONTRATACAO THEN
               select tp.descricao into v_depois from reqpes.tipo_contratacao tp where tp.cod_tipo_contratacao = p_in_requisicao.tp_contratacao;
               select tp.descricao into v_antes from reqpes.tipo_contratacao tp where tp.cod_tipo_contratacao = v_tp_contratacao;
-              
+
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Tipo de Contratação', v_antes,v_depois);
-           END IF;   
+           END IF;
 
            IF (P_IN_REQUISICAO.INICIO_CONTRATACAO != NVL(V_INICIO_CONTRATACAO,to_date('01/01/1900','dd/mm/yyyy'))
               OR P_IN_REQUISICAO.FIM_CONTRATACAO != NVL(V_FIM_CONTRATACAO,to_date('01/01/1900','dd/mm/yyyy'))) THEN
-              
+
               IF P_IN_REQUISICAO.TP_CONTRATACAO = 2 OR P_IN_REQUISICAO.TP_CONTRATACAO = 3 THEN
                 insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Início da contratação', DECODE(V_INICIO_CONTRATACAO,NULL,'Nenhum',V_INICIO_CONTRATACAO), P_IN_REQUISICAO.INICIO_CONTRATACAO);           
-                
+                (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Início da contratação', DECODE(V_INICIO_CONTRATACAO,NULL,'Nenhum',V_INICIO_CONTRATACAO), P_IN_REQUISICAO.INICIO_CONTRATACAO);
+
                 insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-                  (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Fim da contratação', DECODE(V_FIM_CONTRATACAO,NULL,'Nenhum',V_FIM_CONTRATACAO) ,P_IN_REQUISICAO.FIM_CONTRATACAO);  
-              ELSE    
+                  (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Fim da contratação', DECODE(V_FIM_CONTRATACAO,NULL,'Nenhum',V_FIM_CONTRATACAO) ,P_IN_REQUISICAO.FIM_CONTRATACAO);
+              ELSE
                 IF P_IN_REQUISICAO.INICIO_CONTRATACAO != NVL(V_INICIO_CONTRATACAO,to_date('01/01/1900','dd/mm/yyyy')) THEN
                    insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-                   (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Início da contratação', DECODE(V_INICIO_CONTRATACAO,NULL,'Nenhum',V_INICIO_CONTRATACAO), P_IN_REQUISICAO.INICIO_CONTRATACAO);           
+                   (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Início da contratação', DECODE(V_INICIO_CONTRATACAO,NULL,'Nenhum',V_INICIO_CONTRATACAO), P_IN_REQUISICAO.INICIO_CONTRATACAO);
                 ELSIF P_IN_REQUISICAO.FIM_CONTRATACAO != NVL(V_FIM_CONTRATACAO,to_date('01/01/1900','dd/mm/yyyy')) THEN
                    insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-                   (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Fim da contratação', DECODE(V_FIM_CONTRATACAO,NULL,'Nenhum',V_FIM_CONTRATACAO) ,P_IN_REQUISICAO.FIM_CONTRATACAO);  
+                   (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Fim da contratação', DECODE(V_FIM_CONTRATACAO,NULL,'Nenhum',V_FIM_CONTRATACAO) ,P_IN_REQUISICAO.FIM_CONTRATACAO);
                 END IF;
               END IF;
-           
-           END IF;   
+
+           END IF;
 
            /*IF P_IN_REQUISICAO.FIM_CONTRATACAO != NVL(V_FIM_CONTRATACAO,to_date('01/01/1900','dd/mm/yyyy')) THEN
-              
+
               IF P_IN_REQUISICAO.TP_CONTRATACAO = 2 OR P_IN_REQUISICAO.TP_CONTRATACAO = 3 THEN
                 insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                   (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Início da contratação', DECODE(V_INICIO_CONTRATACAO,NULL,'Nenhum',V_INICIO_CONTRATACAO), P_IN_REQUISICAO.INICIO_CONTRATACAO);
-              END IF; 
+              END IF;
 
            END IF;*/
 
            IF P_IN_REQUISICAO.DT_REQUISICAO != V_DT_REQUISICAO THEN
             insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Data Requisição', V_DT_REQUISICAO,P_IN_REQUISICAO.DT_REQUISICAO);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.COD_AREA != V_COD_AREA  THEN
             insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Cód. Area', V_COD_AREA,P_IN_REQUISICAO.COD_AREA);
-           END IF;   
+           END IF;
 
 
-           IF P_IN_REQUISICAO.RAZAO_SUBSTITUICAO != NVL(V_RAZAO_SUBSTITUICAO,0) THEN 
+           IF P_IN_REQUISICAO.RAZAO_SUBSTITUICAO != NVL(V_RAZAO_SUBSTITUICAO,0) THEN
               V_ANTES:=SP_DML_REQUISICAO_TRATAMENTO('SELECT DESCRICAO FROM VW_RHEV_TRANSFERENCIA_MOTIVO WHERE TRANSFERENCIA_MOTIVO_ID=' || NVL(V_RAZAO_SUBSTITUICAO,0) || ' AND IND_MOTIVO = "T"');
               V_DEPOIS:=SP_DML_REQUISICAO_TRATAMENTO('SELECT DESCRICAO FROM VW_RHEV_TRANSFERENCIA_MOTIVO WHERE TRANSFERENCIA_MOTIVO_ID=' || P_IN_REQUISICAO.RAZAO_SUBSTITUICAO || '  AND IND_MOTIVO = "T"');
             insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Motivo da solicitação', DECODE(V_ANTES,'Vazio','Nenhum',V_ANTES),V_DEPOIS);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.TIPO_INDICACAO != V_TIPO_INDICACAO THEN
             insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Tipo Indicação', DECODE(V_TIPO_INDICACAO ,NULL,'Nenhum',V_TIPO_INDICACAO) ,P_IN_REQUISICAO.TIPO_INDICACAO);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.NOME_INDICADO != V_NOME_INDICADO THEN
             insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                 (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Nome Indicado', DECODE(V_NOME_INDICADO ,NULL,'Nenhum',V_NOME_INDICADO),P_IN_REQUISICAO.NOME_INDICADO);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.DS_MOTIVO_SOLICITACAO != V_DS_MOTIVO_SOLICITACAO THEN
             INSERT INTO historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                     (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Justificativa', DECODE(V_DS_MOTIVO_SOLICITACAO ,NULL,'Nenhum',V_DS_MOTIVO_SOLICITACAO),P_IN_REQUISICAO.DS_MOTIVO_SOLICITACAO);
-           END IF; 
-             
+           END IF;
+
            IF P_IN_REQUISICAO.ID_INDICADO != V_ID_INDICADO THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
                   (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Indicado', DECODE(V_ID_INDICADO ,NULL,'Nenhum',V_DS_MOTIVO_SOLICITACAO),P_IN_REQUISICAO.ID_INDICADO);
-           END IF;   
-  
+           END IF;
+
            IF P_IN_REQUISICAO.SUBSTITUIDO_ID_HIST != NVL(V_SUBSTITUIDO_ID_HIST,0) THEN
-             
+
               IF NVL(V_SUBSTITUIDO_ID_HIST,0) > 0 THEN
-                 SELECT F.NOME INTO V_ANTES FROM FUNCIONARIOS F WHERE F.ID = V_SUBSTITUIDO_ID_HIST;  
+                 SELECT F.NOME INTO V_ANTES FROM FUNCIONARIOS F WHERE F.ID = V_SUBSTITUIDO_ID_HIST;
               ELSE
                  V_ANTES:= 'Nenhum';
               END IF;
-           
-              SELECT F.NOME INTO V_DEPOIS FROM FUNCIONARIOS F WHERE F.ID = P_IN_REQUISICAO.SUBSTITUIDO_ID_HIST;           
-           
+
+              SELECT F.NOME INTO V_DEPOIS FROM FUNCIONARIOS F WHERE F.ID = P_IN_REQUISICAO.SUBSTITUIDO_ID_HIST;
+
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Id Substituido', V_SUBSTITUIDO_ID_HIST || ' - ' || V_ANTES,P_IN_REQUISICAO.SUBSTITUIDO_ID_HIST || ' - ' || V_DEPOIS);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.TRANSFERENCIA_DATA != NVL(V_TRANSFERENCIA_DATA,TO_DATE('01/01/1900','DD/MM/YYYY')) THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Previsão de transferência', DECODE(V_TRANSFERENCIA_DATA,NULL,'Nenhum',V_TRANSFERENCIA_DATA) ,P_IN_REQUISICAO.TRANSFERENCIA_DATA);
-           END IF; 
-             
+           END IF;
+
            IF P_IN_REQUISICAO.IND_CARTA_CONVTE != NVL(V_IND_CARTA_CONVTE,'X') THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Ind. Carta Convite', DECODE(V_IND_CARTA_CONVTE,NULL,'Nenhum',V_IND_CARTA_CONVTE),P_IN_REQUISICAO.IND_CARTA_CONVTE);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.IND_EX_CARTA_CONVTE != NVL(V_IND_EX_CARTA_CONVTE,'X') THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Carta Convite', DECODE(V_IND_EX_CARTA_CONVTE,NULL,'Nenhum',V_IND_EX_CARTA_CONVTE),P_IN_REQUISICAO.IND_EX_CARTA_CONVTE);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.IND_EX_FUNCIONARIO != NVL(V_IND_EX_FUNCIONARIO,'X') THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Ex Funcionário', DECODE(V_IND_EX_FUNCIONARIO,NULL,'Nenhum',V_IND_EX_FUNCIONARIO),P_IN_REQUISICAO.IND_EX_FUNCIONARIO);
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.ID_CODE_COMBINATION != NVL(V_ID_CODE_COMBINATION,0) THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Code Combination', DECODE(V_ID_CODE_COMBINATION,NULL,'Nenhum',V_ID_CODE_COMBINATION),P_IN_REQUISICAO.ID_CODE_COMBINATION);
-           END IF;  
+           END IF;
 
-           IF P_IN_REQUISICAO.IND_TIPO_REQUISICAO != NVL(V_IND_TIPO_REQUISICAO,'X') THEN              
+           IF P_IN_REQUISICAO.IND_TIPO_REQUISICAO != NVL(V_IND_TIPO_REQUISICAO,'X') THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Tipo Requisição', decode(V_IND_TIPO_REQUISICAO,'A','Admissão','Transferência'), decode(P_IN_REQUISICAO.IND_TIPO_REQUISICAO,'A','Admissão','Transferência'));
-           END IF;   
+           END IF;
 
 --           IF P_IN_REQUISICAO.COD_STATUS != V_COD_STATUS THEN
 --              insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
 --              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Cód. Status', V_COD_STATUS,P_IN_REQUISICAO.COD_STATUS);
---           END IF;   
+--           END IF;
 
            IF P_IN_REQUISICAO.IND_CARATER_EXCECAO != NVL(V_IND_CARATER_EXCECAO,'X') THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
-              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Tipo de enquadramento', 
+              (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Tipo de enquadramento',
                DECODE(V_IND_CARATER_EXCECAO,'N','De acordo com a Instrução 04/2011','em caráter de exceção'),
                DECODE(P_IN_REQUISICAO.IND_CARATER_EXCECAO,'N','De acordo com a Instrução 04/2011','em caráter de exceção'));
-           END IF;   
+           END IF;
 
            IF P_IN_REQUISICAO.VERSAO_SISTEMA != NVL(V_VERSAO_SISTEMA,'X')  THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Versão do Sistema', DECODE(V_VERSAO_SISTEMA,NULL,'Nenhum',V_VERSAO_SISTEMA),P_IN_REQUISICAO.VERSAO_SISTEMA);
-           END IF; 
-           
+           END IF;
+
            IF P_IN_REQUISICAO.NM_INDICADO != NVL(V_NOME_INDICADO,'X')  THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Nome do indicado', DECODE(V_NOME_INDICADO,NULL,'Nenhum',V_NOME_INDICADO),P_IN_REQUISICAO.NM_INDICADO);
            END IF;
-           
+
            IF P_IN_REQUISICAO.ID_INDICADO != NVL(V_ID_INDICADO,0)  THEN
               insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
               (V_REQUISICAO_SQ, V_SQ_USUARIO, CURRENT_TIMESTAMP, 'Id do indicado', DECODE(V_ID_INDICADO,NULL,'Nenhum',V_ID_INDICADO),P_IN_REQUISICAO.ID_INDICADO);
@@ -869,15 +869,15 @@ BEGIN
       WHEN OTHERS THEN
         ROLLBACK;
         RAISE_APPLICATION_ERROR(-20024,'PROBLEMA AO FAZER ' || TIPO_TRANSACAO ||' NA TABELA REQUISICAO' || SQLERRM);
-    END;   
-    
+    END;
+
 END SP_DML_REQUISICAO;
 --################################ FIM DA PROCEDURE SP_DML_REQUISICAO #######################
 
 
 --################################ INICIO DA PROCEDURE SP_DML_REQUISICAO_PERFIL #######################
 PROCEDURE SP_DML_REQUISICAO_PERFIL(P_IN_DML IN NUMBER,P_IN_REQUISICAO_PERFIL IN OUT REQUISICAO_PERFIL%ROWTYPE, P_IN_LIST_FUNCAO IN VARCHAR2, P_IN_GRAVA_HISTORICO_CHAPA IN NUMBER, P_IN_SO_PERFIL NUMBER) IS
- 
+
  TIPO_TRANSACAO          VARCHAR2(50);
  V_COMENTARIOS           VARCHAR2(4000);
  V_OUTRAS_CARATERISTICA  VARCHAR2(4000);
@@ -887,23 +887,23 @@ PROCEDURE SP_DML_REQUISICAO_PERFIL(P_IN_DML IN NUMBER,P_IN_REQUISICAO_PERFIL IN 
  V_DSC_ATIVIDADES_CARGO  VARCHAR2(4000);
  V_REQUISICAO_SQ         NUMBER;
  P_DATA_HORA             DATE;
- V_USUARIO_SQ            USUARIO.USUARIO_SQ%TYPE;  
+ V_USUARIO_SQ            USUARIO.USUARIO_SQ%TYPE;
  V_NIVEL_USUARIO         USUARIO.NIVEL%TYPE;
  V_COD_UNIDADE           USUARIO.COD_UNIDADE%TYPE;
  V_UNIDADE_USUARIO       USUARIO.UNIDADE%TYPE;
  V_COD_UNIDADE_HIST      HISTORICO_REQUISICAO.COD_UNIDADE%TYPE;
- V_DT_ENVIO_HIST         HISTORICO_REQUISICAO.DT_ENVIO%TYPE; 
- V_DT_HOMOLOGACAO_HIST   HISTORICO_REQUISICAO.DT_HOMOLOGACAO%TYPE; 
- V_USUARIO_SQ_HIST       HISTORICO_REQUISICAO.USUARIO_SQ%TYPE; 
+ V_DT_ENVIO_HIST         HISTORICO_REQUISICAO.DT_ENVIO%TYPE;
+ V_DT_HOMOLOGACAO_HIST   HISTORICO_REQUISICAO.DT_HOMOLOGACAO%TYPE;
+ V_USUARIO_SQ_HIST       HISTORICO_REQUISICAO.USUARIO_SQ%TYPE;
  V_STATUS_HIST           HISTORICO_REQUISICAO.STATUS%TYPE;
- V_UNIDADE_ATUAL_USUARIO_HIST HISTORICO_REQUISICAO.UNIDADE_ATUAL_USUARIO%TYPE; 
+ V_UNIDADE_ATUAL_USUARIO_HIST HISTORICO_REQUISICAO.UNIDADE_ATUAL_USUARIO%TYPE;
  V_NIVEL_HIST            HISTORICO_REQUISICAO.NIVEL%TYPE;
  V_COD_AREA              REQUISICAO_PERFIL.COD_AREA%TYPE;
  V_COD_NIVEL_HIERARQUIA  REQUISICAO_PERFIL.COD_NIVEL_HIERARQUIA%TYPE;
  V_COD_FUNCAO            REQUISICAO_PERFIL.COD_FUNCAO%TYPE;
  V_ANTES                 VARCHAR2(3000);
  V_DEPOIS                VARCHAR2(3000);
- 
+
 
 BEGIN
     BEGIN
@@ -951,21 +951,21 @@ BEGIN
           ,P_IN_REQUISICAO_PERFIL.COD_NIVEL_HIERARQUIA
           ,P_IN_REQUISICAO_PERFIL.COD_FUNCAO
           ,P_IN_REQUISICAO_PERFIL.DSC_EXPERIENCIA
-          ,P_IN_REQUISICAO_PERFIL.DSC_CONHECIMENTOS);                
-          
+          ,P_IN_REQUISICAO_PERFIL.DSC_CONHECIMENTOS);
+
           -- Inclui as funções adicionais no perfil
           SP_REQUISICAO_PERFIL_FUNCAO(P_IN_REQUISICAO_PERFIL.REQUISICAO_SQ, P_IN_LIST_FUNCAO);
-          
+
         -- ############# SE 1 FAZ UPDATE   ################# --
       ELSIF (P_IN_DML > 0) THEN
         -----------------------------------------------------
         TIPO_TRANSACAO := 'UPDATE';
         -----------------------------------------------------
-        
+
         -- SE A CHAPA VIER PREENCHIDA SIGNIFICA QUE A ALTERAÇÃO FOI FEITA COM A REQUISIÇÃO
         -- EM HOMOLOGAÇÃO, PORTANTO SE TORNA NECESSÁRIO CADASTRAR O HISTÓRICO
         IF P_IN_GRAVA_HISTORICO_CHAPA > 0 THEN
-           
+
            SELECT COMENTARIOS,
                   OUTRAS_CARATERISTICA,
                   DSC_CONHECIMENTOS,
@@ -985,23 +985,23 @@ BEGIN
                   V_REQUISICAO_SQ,
                   V_COD_AREA,
                   V_COD_NIVEL_HIERARQUIA,
-                  V_COD_FUNCAO 
+                  V_COD_FUNCAO
              FROM REQUISICAO_PERFIL RP
             WHERE RP.REQUISICAO_SQ = P_IN_REQUISICAO_PERFIL.REQUISICAO_SQ;
- 
-            SELECT USUARIO_SQ,NIVEL,COD_UNIDADE,UNIDADE 
-              INTO V_USUARIO_SQ,V_NIVEL_USUARIO,V_COD_UNIDADE,V_UNIDADE_USUARIO 
-              FROM USUARIO 
+
+            SELECT USUARIO_SQ,NIVEL,COD_UNIDADE,UNIDADE
+              INTO V_USUARIO_SQ,V_NIVEL_USUARIO,V_COD_UNIDADE,V_UNIDADE_USUARIO
+              FROM USUARIO
               WHERE IDENTIFICACAO=P_IN_GRAVA_HISTORICO_CHAPA;
 
 
-             SELECT COD_UNIDADE, DT_ENVIO, DT_HOMOLOGACAO, USUARIO_SQ, STATUS, UNIDADE_ATUAL_USUARIO, NIVEL 
+             SELECT COD_UNIDADE, DT_ENVIO, DT_HOMOLOGACAO, USUARIO_SQ, STATUS, UNIDADE_ATUAL_USUARIO, NIVEL
              INTO V_COD_UNIDADE_HIST, V_DT_ENVIO_HIST, V_DT_HOMOLOGACAO_HIST, V_USUARIO_SQ_HIST, V_STATUS_HIST, V_UNIDADE_ATUAL_USUARIO_HIST, V_NIVEL_HIST
              FROM (
-             SELECT COD_UNIDADE, DT_ENVIO, DT_HOMOLOGACAO, USUARIO_SQ, STATUS, UNIDADE_ATUAL_USUARIO, NIVEL from HISTORICO_REQUISICAO 
-              WHERE REQUISICAO_SQ=P_IN_REQUISICAO_PERFIL.REQUISICAO_SQ ORDER BY DT_ENVIO DESC) 
+             SELECT COD_UNIDADE, DT_ENVIO, DT_HOMOLOGACAO, USUARIO_SQ, STATUS, UNIDADE_ATUAL_USUARIO, NIVEL from HISTORICO_REQUISICAO
+              WHERE REQUISICAO_SQ=P_IN_REQUISICAO_PERFIL.REQUISICAO_SQ ORDER BY DT_ENVIO DESC)
               WHERE ROWNUM=1;
-              
+
               IF P_IN_SO_PERFIL = 1 THEN
                 INSERT INTO HISTORICO_REQUISICAO(
                        REQUISICAO_SQ, COD_UNIDADE, DT_ENVIO, DT_HOMOLOGACAO, USUARIO_SQ, STATUS, UNIDADE_ATUAL_USUARIO, NIVEL)
@@ -1015,8 +1015,8 @@ BEGIN
                   ,V_UNIDADE_ATUAL_USUARIO_HIST
                   ,V_NIVEL_HIST);
               END IF;
-       
-           --  ROTINA QUE ATUALIZA O HISTORICO DO PERFIL          
+
+           --  ROTINA QUE ATUALIZA O HISTORICO DO PERFIL
            --
            IF F_REMOVE_CARACTERES(TRIM(P_IN_REQUISICAO_PERFIL.DSC_ATIVIDADES_CARGO)) != F_REMOVE_CARACTERES(TRIM(V_DSC_ATIVIDADES_CARGO)) THEN
               insert into historico_perfil_campos
@@ -1024,102 +1024,102 @@ BEGIN
               values
                 (V_REQUISICAO_SQ, V_USUARIO_SQ, current_timestamp, 'Principais atividades do cargo', V_DSC_ATIVIDADES_CARGO,P_IN_REQUISICAO_PERFIL.DSC_ATIVIDADES_CARGO);
            END IF;
-           
+
            IF F_REMOVE_CARACTERES(TRIM(P_IN_REQUISICAO_PERFIL.DS_FORMACAO)) != F_REMOVE_CARACTERES(TRIM(V_DS_FORMACAO)) THEN
               insert into historico_perfil_campos
                 (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo)
               values
                 (V_REQUISICAO_SQ, V_USUARIO_SQ, current_timestamp, 'Escolaridade mínima', V_DS_FORMACAO,P_IN_REQUISICAO_PERFIL.DS_FORMACAO);
            END IF;
-           
+
            IF F_REMOVE_CARACTERES(TRIM(P_IN_REQUISICAO_PERFIL.DSC_EXPERIENCIA)) != F_REMOVE_CARACTERES(TRIM(V_DSC_EXPERIENCIA)) THEN
               insert into historico_perfil_campos
                 (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo)
               values
                 (V_REQUISICAO_SQ, V_USUARIO_SQ, current_timestamp, 'Experiência profissional', V_DSC_EXPERIENCIA,P_IN_REQUISICAO_PERFIL.DSC_EXPERIENCIA);
-           END IF; 
-           
+           END IF;
+
            IF F_REMOVE_CARACTERES(TRIM(P_IN_REQUISICAO_PERFIL.DSC_CONHECIMENTOS)) != F_REMOVE_CARACTERES(TRIM(V_DSC_CONHECIMENTOS)) THEN
               insert into historico_perfil_campos
                 (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo)
               values
                 (V_REQUISICAO_SQ, V_USUARIO_SQ, current_timestamp, 'Conhecimentos específicos', V_DSC_CONHECIMENTOS,P_IN_REQUISICAO_PERFIL.DSC_CONHECIMENTOS);
            END IF;
-           
+
            IF F_REMOVE_CARACTERES(TRIM(P_IN_REQUISICAO_PERFIL.OUTRAS_CARATERISTICA)) != F_REMOVE_CARACTERES(TRIM(V_OUTRAS_CARATERISTICA)) THEN
               insert into historico_perfil_campos
                 (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo)
               values
                 (V_REQUISICAO_SQ, V_USUARIO_SQ, current_timestamp, 'Competências', V_OUTRAS_CARATERISTICA,P_IN_REQUISICAO_PERFIL.OUTRAS_CARATERISTICA);
-           END IF; 
+           END IF;
 
            if F_REMOVE_CARACTERES(trim(p_in_requisicao_perfil.comentarios)) != F_REMOVE_CARACTERES(TRIM(v_comentarios)) then
               insert into historico_perfil_campos
                 (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo)
               values
                 (v_requisicao_sq, v_usuario_sq, current_timestamp, 'Observações', v_comentarios,p_in_requisicao_perfil.comentarios);
-           end if; 
-           
+           end if;
+
            if p_in_requisicao_perfil.cod_area != v_cod_area then
-             
-              select rt.nome 
-                into v_antes 
-                from recru.recru_tipo rt 
+
+              select rt.nome
+                into v_antes
+                from recru.recru_tipo rt
                where rt.id_tipo = v_cod_area
                  and rt.grupo = 'AREA_VAGA';
-                 
-              select rt.nome 
-                into v_depois 
-                from recru.recru_tipo rt 
+
+              select rt.nome
+                into v_depois
+                from recru.recru_tipo rt
                where rt.id_tipo = p_in_requisicao_perfil.cod_area
                  and rt.grupo = 'AREA_VAGA';
-              
+
               insert into historico_perfil_campos
                 (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo)
               values
                 (v_requisicao_sq, v_usuario_sq, current_timestamp, 'Área', INITCAP(v_antes), INITCAP(v_depois));
-           end if; 
-           
+           end if;
+
            if p_in_requisicao_perfil.cod_nivel_hierarquia != v_cod_nivel_hierarquia then
-              
-              select rt.nome 
-                into v_antes 
-                from recru.recru_tipo rt 
+
+              select rt.nome
+                into v_antes
+                from recru.recru_tipo rt
                where rt.id_tipo = v_cod_nivel_hierarquia
                  and rt.grupo = 'NIVEL_HIERARQUIA';
-                 
-              select rt.nome 
-                into v_depois 
-                from recru.recru_tipo rt 
+
+              select rt.nome
+                into v_depois
+                from recru.recru_tipo rt
                where rt.id_tipo = p_in_requisicao_perfil.cod_nivel_hierarquia
                  and rt.grupo = 'NIVEL_HIERARQUIA';
-              
+
               insert into historico_perfil_campos
                 (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo)
               values
                 (v_requisicao_sq, v_usuario_sq, current_timestamp, 'Nível Hierárquico', INITCAP(v_antes), INITCAP(v_depois));
-           end if; 
-           
+           end if;
+
            if p_in_requisicao_perfil.cod_funcao != v_cod_funcao then
-              
-              select rt.nome 
-                into v_antes 
-                from recru.recru_funcao rt 
+
+              select rt.nome
+                into v_antes
+                from recru.recru_funcao rt
                where rt.id_funcao = v_cod_funcao;
-                 
-              select rt.nome 
-                into v_depois 
-                from recru.recru_funcao rt 
+
+              select rt.nome
+                into v_depois
+                from recru.recru_funcao rt
                where rt.id_funcao = p_in_requisicao_perfil.cod_funcao;
-              
+
               insert into historico_perfil_campos
                 (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo)
               values
                 (v_requisicao_sq, v_usuario_sq, current_timestamp, 'Função', INITCAP(v_antes),INITCAP(v_depois));
-           end if; 
-        
+           end if;
+
         END IF;
-        
+
         UPDATE REQUISICAO_PERFIL
         SET    COMENTARIOS          = P_IN_REQUISICAO_PERFIL.COMENTARIOS
               ,DS_FORMACAO          = P_IN_REQUISICAO_PERFIL.DS_FORMACAO
@@ -1138,7 +1138,7 @@ BEGIN
               ,DSC_EXPERIENCIA      = P_IN_REQUISICAO_PERFIL.DSC_EXPERIENCIA
               ,DSC_CONHECIMENTOS    = P_IN_REQUISICAO_PERFIL.DSC_CONHECIMENTOS
         WHERE  REQUISICAO_SQ = P_IN_REQUISICAO_PERFIL.REQUISICAO_SQ;
-        
+
         -- Atualiza as funções adicionais no perfil
         SP_REQUISICAO_PERFIL_FUNCAO(P_IN_REQUISICAO_PERFIL.REQUISICAO_SQ, P_IN_LIST_FUNCAO);
       END IF;
@@ -1312,36 +1312,36 @@ BEGIN
         -----------------------------------------------------
         TIPO_TRANSACAO := 'UPDATE';
         -----------------------------------------------------
-        
+
         SELECT DISTINCT (T.COD_ESCALA)
           INTO V_COD_ESCALA
           FROM REQUISICAO_JORNADA T
          WHERE T.REQUISICAO_SQ = P_IN_REQUISICAO_JORNADA.REQUISICAO_SQ;
-         
+
         SELECT DISTINCT (T.ID_CALENDARIO)
           INTO V_ID_CALENDARIO
           FROM REQUISICAO_JORNADA T
          WHERE T.REQUISICAO_SQ = P_IN_REQUISICAO_JORNADA.REQUISICAO_SQ;
-         
+
          SELECT DISTINCT (T.USUARIO_SQ)
            INTO V_COD_USUARIO_SQ
            FROM USUARIO T
           WHERE T.IDENTIFICACAO = P_IN_CHAPA;
-        
+
         IF NVL(V_COD_ESCALA, -1)  != P_IN_REQUISICAO_JORNADA.COD_ESCALA THEN
           insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
           (P_IN_REQUISICAO_JORNADA.REQUISICAO_SQ, V_COD_USUARIO_SQ, current_timestamp, 'Código de escala', V_COD_ESCALA,P_IN_REQUISICAO_JORNADA.COD_ESCALA);
-        END IF;  
-        
+        END IF;
+
         IF NVL(V_ID_CALENDARIO, -1) != P_IN_REQUISICAO_JORNADA.ID_CALENDARIO THEN
           insert into historico_perfil_campos (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo) values
           (P_IN_REQUISICAO_JORNADA.REQUISICAO_SQ, V_COD_USUARIO_SQ, current_timestamp, 'Id calendário', V_ID_CALENDARIO,P_IN_REQUISICAO_JORNADA.ID_CALENDARIO);
-        END IF;                         
-        
+        END IF;
+
         UPDATE REQUISICAO_JORNADA
         SET    COD_ESCALA       = P_IN_REQUISICAO_JORNADA.COD_ESCALA
               ,IND_TIPO_HORARIO = P_IN_REQUISICAO_JORNADA.IND_TIPO_HORARIO
-              ,ID_CALENDARIO    = P_IN_REQUISICAO_JORNADA.ID_CALENDARIO              
+              ,ID_CALENDARIO    = P_IN_REQUISICAO_JORNADA.ID_CALENDARIO
               --
               ,HR_SEGUNDA_ENTRADA1 = P_IN_REQUISICAO_JORNADA.HR_SEGUNDA_ENTRADA1
               ,HR_SEGUNDA_ENTRADA2 = P_IN_REQUISICAO_JORNADA.HR_SEGUNDA_ENTRADA2
@@ -1404,7 +1404,7 @@ BEGIN
               ,HR_DOMINGO_SAIDA1   = P_IN_REQUISICAO_JORNADA.HR_DOMINGO_SAIDA1
               ,HR_DOMINGO_SAIDA2   = P_IN_REQUISICAO_JORNADA.HR_DOMINGO_SAIDA2
               ,HR_DOMINGO_SAIDA3   = P_IN_REQUISICAO_JORNADA.HR_DOMINGO_SAIDA3
-              ,HR_DOMINGO_SAIDA4   = P_IN_REQUISICAO_JORNADA.HR_DOMINGO_SAIDA4  
+              ,HR_DOMINGO_SAIDA4   = P_IN_REQUISICAO_JORNADA.HR_DOMINGO_SAIDA4
         WHERE  REQUISICAO_SQ    = P_IN_REQUISICAO_JORNADA.REQUISICAO_SQ;
       END IF;
 
@@ -1476,13 +1476,13 @@ BEGIN
         TIPO_TRANSACAO := 'INSERT';
         -----------------------------------------------------
         -- CARREGANDO O TIPO DA RP
-        -----------------------------------------------------        
+        -----------------------------------------------------
         SELECT R.IND_TIPO_REQUISICAO
         INTO   V_TIPO_RP
         FROM   REQUISICAO R
         WHERE  R.REQUISICAO_SQ = P_IN_REQUISICAO_BAIXA.REQUISICAO_SQ;
 
-        -----------------------------------------------------        
+        -----------------------------------------------------
         -- VALIDANDO BAIXA DE ACORDO COM O TIPO DE RECRUTAMENTO
         -----------------------------------------------------
         /*IF (V_TIPO_RP = 'A') THEN
@@ -1494,12 +1494,12 @@ BEGIN
                 ,REQUISICAO       R
           WHERE  RB.FUNCIONARIO_ID = P_IN_REQUISICAO_BAIXA.FUNCIONARIO_ID
           AND    R.REQUISICAO_SQ   = RB.REQUISICAO_SQ
-          AND    R.TP_CONTRATACAO  = 1; -- TIPO DE CONTRATAÇÃO = PRAZO INDETERMINADO   
-          
-        ELSE 
+          AND    R.TP_CONTRATACAO  = 1; -- TIPO DE CONTRATAÇÃO = PRAZO INDETERMINADO
+
+        ELSE
           -- Requisição de Transferencia (Recrutamento Interno)
           -- Baixas sem restrições de quantidade
-          V_QTD_BAIXA := 0;        
+          V_QTD_BAIXA := 0;
         END IF;
 
         -----------------------------------------------------
@@ -1571,8 +1571,8 @@ BEGIN
         TIPO_TRANSACAO := 'UPDATE (ESTORNO)';
         -----------------------------------------------------
         -- VERIFICANDO O TIPO DE ESTORNO
-        -- (S)imples / (R)evisão        
-        -----------------------------------------------------        
+        -- (S)imples / (R)evisão
+        -----------------------------------------------------
         IF (P_IN_IND_TIPO_ESTORNO = 'S') THEN
           -----------------------------------------------------
           -- ESTORNO SIMPLES (RP encaminhada para última ação no WorkFlow)
@@ -1606,7 +1606,7 @@ BEGIN
                             (SELECT MAX(H2.DT_ENVIO) ATUAL
                               FROM   HISTORICO_REQUISICAO H2
                               WHERE  H2.REQUISICAO_SQ = H1.REQUISICAO_SQ))
-  
+
             AND    DECODE(H.STATUS,'criou','ABERTA'
                                   ,'homologou','EM HOMOLOGAÇÃO'
                                   ,'revisou','EM HOMOLOGAÇÃO'
@@ -1624,9 +1624,9 @@ BEGIN
               -- Indica que a requisição não pode ser estornada
               P_IN_REQUISICAO_ESTORNO.REQUISICAO_SQ := -1;
           END;
-          
+
         ELSE
-          BEGIN        
+          BEGIN
             -----------------------------------------------------
             -- ESTORNO PARA REVISÃO (RP encaminhada para GEP - AP&B)
             -- RESGATANDO A UNIDADE APROVADORA
@@ -1635,21 +1635,21 @@ BEGIN
             INTO   V_UO_APR
             FROM   SYN_SISTEMA_PARAMETRO S
             WHERE  S.COD_SISTEMA   = 7
-            AND    S.NOM_PARAMETRO = 'UNIDADE_APROVADORA';          
-  
+            AND    S.NOM_PARAMETRO = 'UNIDADE_APROVADORA';
+
             -----------------------------------------------------
             -- RESGATANDO A UNIDADE DA RP
             -----------------------------------------------------
-            SELECT R.COD_UNIDADE 
+            SELECT R.COD_UNIDADE
             INTO   P_IN_REQUISICAO_ESTORNO.COD_UNIDADE
             FROM   REQUISICAO R
             WHERE  R.REQUISICAO_SQ = P_IN_REQUISICAO_ESTORNO.REQUISICAO_SQ;
-            
+
             -----------------------------------------------------
             -- VERIFICA SE A RP PERTENCE A UNIDADE APROVADORA
-            -----------------------------------------------------          
+            -----------------------------------------------------
             IF (V_UO_APR = P_IN_REQUISICAO_ESTORNO.COD_UNIDADE) THEN
-              -- Seta RP para nível de homologação GEP - AP&B 
+              -- Seta RP para nível de homologação GEP - AP&B
               SELECT H.REQUISICAO_SQ
                     ,H.COD_UNIDADE
                     ,H.DT_ENVIO
@@ -1665,13 +1665,13 @@ BEGIN
                     ,P_IN_REQUISICAO_ESTORNO.STATUS
                     ,P_IN_REQUISICAO_ESTORNO.UNIDADE_ATUAL_USUARIO
                     ,P_IN_REQUISICAO_ESTORNO.NIVEL
-                    ,V_COD_STATUS                  
+                    ,V_COD_STATUS
               FROM   HISTORICO_REQUISICAO H
               WHERE  H.REQUISICAO_SQ = P_IN_REQUISICAO_ESTORNO.REQUISICAO_SQ
               AND    H.DT_ENVIO =
                      (SELECT MIN(H1.DT_ENVIO) ATUAL
                        FROM   HISTORICO_REQUISICAO H1
-                       WHERE  H1.REQUISICAO_SQ = H.REQUISICAO_SQ);           
+                       WHERE  H1.REQUISICAO_SQ = H.REQUISICAO_SQ);
             ELSE
               -- Seta RP para nível de revisão, configura para último status de homologador de unidade
               SELECT H.REQUISICAO_SQ
@@ -1699,7 +1699,7 @@ BEGIN
                        WHERE  H1.REQUISICAO_SQ = H.REQUISICAO_SQ
                        AND    H1.NIVEL = 3
                        AND    H1.STATUS NOT IN ('estornou', 'estorno revisão')) -- WORKFLOW NÍVEL 2: APROVAÇÃO DO GERENTE => HOMOLOGADOR GEP - AP&B
-    
+
               AND    DECODE(H.STATUS,'criou','ABERTA'
                                     ,'homologou','EM HOMOLOGAÇÃO'
                                     ,'revisou','EM HOMOLOGAÇÃO'
@@ -1710,17 +1710,17 @@ BEGIN
                                     ,'excluiu','CANCELADA'
                                     ,'solicitou revisão','EM REVISÃO'
                                     ,'expirada','EXPIRADA'
-                                    ,NULL) = RS.DSC_STATUS;     
+                                    ,NULL) = RS.DSC_STATUS;
             END IF;
-            
+
           EXCEPTION
             WHEN NO_DATA_FOUND THEN
               ROLLBACK;
               -- Indica que a requisição não pode ser estornada para revisão
               P_IN_REQUISICAO_ESTORNO.REQUISICAO_SQ := -2;
-          END;            
+          END;
         END IF;
-        
+
         -----------------------------------------------------
         -- COMPLEMENTAÇÔES NO ESTORNO
         -----------------------------------------------------
@@ -1743,7 +1743,7 @@ BEGIN
           -----------------------------------------------------
           DELETE FROM REQUISICAO_EXCLUIDA RE
           WHERE  RE.REQUISICAO_SQ = P_IN_REQUISICAO_ESTORNO.REQUISICAO_SQ;
-          
+
           -----------------------------------------------------
           -- GRAVANDO NO HISTÓRICO
           -----------------------------------------------------
@@ -1790,7 +1790,7 @@ PROCEDURE SP_DML_REQUISICAO_REVISAO(P_IN_DML IN NUMBER,P_IN_REQUISICAO_REVISAO I
  V_UO_RP          VARCHAR2(5);
  V_NIVEL_WORKFLOW NUMBER;
  V_QTD_HOM_GEP    NUMBER;
- V_QTD_HOM_NEC    NUMBER; 
+ V_QTD_HOM_NEC    NUMBER;
 
 BEGIN
     BEGIN
@@ -1847,11 +1847,11 @@ BEGIN
           ,'solicitou revisão'
           ,F_GET_UO_USUARIO_SQ(P_IN_USUARIO)
           ,0);
-          
+
          insert into historico_perfil_campos
            (requisicao_sq, usuario_sq, dt_envio, campo, conteudo_anterior, conteudo_novo)
          values
-           (P_IN_REQUISICAO_REVISAO.REQUISICAO_SQ, P_IN_USUARIO, current_timestamp, 'Solicitou a revisão: ' || P_IN_REQUISICAO_REVISAO.MOTIVO, null, null);         
+           (P_IN_REQUISICAO_REVISAO.REQUISICAO_SQ, P_IN_USUARIO, current_timestamp, 'Solicitou a revisão: ' || P_IN_REQUISICAO_REVISAO.MOTIVO, null, null);
 
         -----------------------------------------------------
 
@@ -1887,7 +1887,7 @@ BEGIN
           WHERE  S.COD_SISTEMA           = 7
           AND    S.NOM_PARAMETRO         = 'HOMOLOGADOR_GEP'
           AND    S.VLR_SISTEMA_PARAMETRO = P_IN_CHAPA;
-          
+
           -- Verifica se o usuario e Homologador GEP - NEC
           SELECT COUNT(*)
           INTO   V_QTD_HOM_NEC
@@ -1911,12 +1911,12 @@ BEGIN
              V_NIVEL_WORKFLOW := 3; -- HOMOLOGADOR GEP - NEC
              V_STATUS_RP := 2; -- EM HOMOLOGAÇÃO
           END IF;
-          
+
           -- Caso a revisão esteja sendo feita pelo HOMOLOGADOR GEP - NEC, desce de nivel
           IF (V_QTD_HOM_NEC > 0) THEN
              V_NIVEL_WORKFLOW := 2; -- HOMOLOGADOR GEP - AP&B
              V_STATUS_RP := 2; -- EM HOMOLOGAÇÃO
-          END IF;          
+          END IF;
 
           -----------------------------------------------------
           -- ATUALIZANDO DADOS NA TABELA DE REVISÕES
@@ -2004,9 +2004,9 @@ BEGIN
         NULL;
 
       END IF;
-      
-      
-      insert into debug values('revisao');
+
+
+      --insert into debug values('revisao');
 
     EXCEPTION
       WHEN NO_DATA_FOUND THEN
@@ -2028,7 +2028,7 @@ PROCEDURE SP_DML_REQUISICAO_HOMOLOGACAO(P_IN_TIPO IN VARCHAR2, P_IN_REQUISICAO I
  V_CHAPA        INTEGER;
  V_USUARIO_SQ   INTEGER;
  V_PERFIL       INTEGER;
- 
+
 BEGIN
     BEGIN
       -- ############# VERIFICANDO O TIPO DE TRANSAÇÃO    ################# --
@@ -2041,14 +2041,14 @@ BEGIN
         UPDATE REQUISICAO R
         SET    R.COD_STATUS = 2 -- STATUS: EM HOMOLOGAÇÃO
         WHERE  R.REQUISICAO_SQ = P_IN_REQUISICAO.REQUISICAO_SQ;
-        
-        
-        
-/*        
+
+
+
+/*
         -----------------------------------------------------
         -- REGRA DE PULAR NIVEL
         -- Quando uma RP e criada pelo NEC for homologada pela AP&B, deve ser encaminhada para o APR-GEP (Laercio)
-        -----------------------------------------------------        
+        -----------------------------------------------------
         SELECT COUNT(*) QTD
         INTO   V_QTD
         FROM   HISTORICO_REQUISICAO H
@@ -2060,23 +2060,23 @@ BEGIN
         AND    H.DT_ENVIO      = (SELECT MAX(H1.DT_ENVIO)
                                   FROM   HISTORICO_REQUISICAO H1
                                   WHERE  H1.REQUISICAO_SQ = H.REQUISICAO_SQ AND STATUS<>'alterou');
-                                  
+
         IF (V_QTD > 0) THEN
-           V_NIVEL := 4;        
-        END IF;                                  
-*/  
+           V_NIVEL := 4;
+        END IF;
+*/
         --VERIFICA O CRIADOR DA REQUISICAO
         SELECT R.USUARIO_SQ
           INTO V_USUARIO_SQ
           FROM REQPES.REQUISICAO R
-         WHERE R.REQUISICAO_SQ = P_IN_REQUISICAO.REQUISICAO_SQ; 
-         
-        --VERIFICA O SOLICITANTE 
+         WHERE R.REQUISICAO_SQ = P_IN_REQUISICAO.REQUISICAO_SQ;
+
+        --VERIFICA O SOLICITANTE
         SELECT U.IDENTIFICACAO
           INTO V_CHAPA
           FROM REQPES.USUARIO U
          WHERE U.USUARIO_SQ = V_USUARIO_SQ;
-               
+
         --VERIFICA O PERFIL DO SOLICITANTE
         SELECT PU.COD_SISTEMA_PERFIL
           INTO V_PERFIL
@@ -2085,7 +2085,7 @@ BEGIN
          WHERE PU.IDENTIFICACAO = V_CHAPA
            AND PU.COD_SISTEMA_PERFIL = SP.COD_SISTEMA_PERFIL
            AND SP.COD_SISTEMA = 7;
-           
+
         --SER O CRIADOR FOR AP&B, E O APROVADOR FOR NEC, PULA O AP&B
         IF(V_PERFIL = 91 AND V_NIVEL = 3) THEN
            V_NIVEL := V_NIVEL + 1;
@@ -2356,7 +2356,7 @@ BEGIN
         INTO   P_IN_TABELA_SALARIAL.COD_TAB_SALARIAL
         FROM   DUAL;
         -----------------------------------------------------
-        
+
         INSERT INTO TABELA_SALARIAL
           (COD_TAB_SALARIAL
           ,DSC_TAB_SALARIAL
@@ -2411,8 +2411,8 @@ END SP_DML_TABELA_SALARIAL;
 PROCEDURE SP_DML_TAB_SALARIAL_ATRIBUICAO(P_IN_DML IN NUMBER, P_IN_TAB_SALARIAL_ATRIBUICAO IN OUT TABELA_SALARIAL_ATRIBUICAO%ROWTYPE) IS
  TIPO_TRANSACAO VARCHAR2(50) := 'DELETE / INSERT';
 BEGIN
-    BEGIN     
-    
+    BEGIN
+
         IF (P_IN_DML = 0) THEN
           -----------------------------------------------------
           -- INSERINDO AS ATRIBUIÇÕES
@@ -2430,7 +2430,7 @@ BEGIN
           -----------------------------------------------------
           DELETE FROM TABELA_SALARIAL_ATRIBUICAO WHERE COD_TAB_SALARIAL  = P_IN_TAB_SALARIAL_ATRIBUICAO.COD_TAB_SALARIAL;
 
-       END IF;        
+       END IF;
 
     EXCEPTION
       WHEN NO_DATA_FOUND THEN
@@ -2455,12 +2455,12 @@ BEGIN
       IF (P_IN_DML = 0) THEN
         -----------------------------------------------------
         TIPO_TRANSACAO := 'INSERT';
-        -----------------------------------------------------        
+        -----------------------------------------------------
         SELECT SEQ_INSTRUCAO.NEXTVAL
         INTO   P_IN_INSTRUCAO.COD_INSTRUCAO
         FROM   DUAL;
         -----------------------------------------------------
-                
+
         INSERT INTO INSTRUCAO
           (COD_INSTRUCAO
           ,COD_TAB_SALARIAL
@@ -2525,8 +2525,8 @@ END SP_DML_INSTRUCAO;
 PROCEDURE SP_DML_INSTRUCAO_ATRIBUICAO(P_IN_DML IN NUMBER, P_IN_INSTRUCAO_ATRIBUICAO IN OUT INSTRUCAO_ATRIBUICAO%ROWTYPE) IS
  TIPO_TRANSACAO VARCHAR2(50) := 'DELETE / INSERT';
 BEGIN
-    BEGIN     
-    
+    BEGIN
+
         IF (P_IN_DML = 0) THEN
           -----------------------------------------------------
           -- INSERINDO AS ATRIBUIÇÕES
@@ -2544,7 +2544,7 @@ BEGIN
           -----------------------------------------------------
           DELETE FROM INSTRUCAO_ATRIBUICAO WHERE COD_INSTRUCAO = P_IN_INSTRUCAO_ATRIBUICAO.COD_INSTRUCAO;
 
-       END IF;        
+       END IF;
 
     EXCEPTION
       WHEN NO_DATA_FOUND THEN
@@ -2568,12 +2568,12 @@ BEGIN
       IF (P_IN_DML = 0) THEN
         -----------------------------------------------------
         TIPO_TRANSACAO := 'INSERT';
-        -----------------------------------------------------        
+        -----------------------------------------------------
         SELECT SEQ_GRUPO_NEC.NEXTVAL
         INTO   P_IN_GRUPO_NEC.COD_GRUPO
         FROM   DUAL;
         -----------------------------------------------------
-                
+
         INSERT INTO GRUPO_NEC
           (COD_GRUPO
           ,DSC_GRUPO
@@ -2621,8 +2621,8 @@ END SP_DML_GRUPO_NEC;
 PROCEDURE SP_DML_GRUPO_NEC_UNIDADES(P_IN_DML IN NUMBER, P_IN_GRUPO_NEC_UNIDADES IN OUT GRUPO_NEC_UNIDADES%ROWTYPE) IS
  TIPO_TRANSACAO VARCHAR2(50) := 'DELETE / INSERT';
 BEGIN
-    BEGIN     
-    
+    BEGIN
+
         IF (P_IN_DML = 0) THEN
           -----------------------------------------------------
           -- INSERINDO AS ATRIBUIÇÕES
@@ -2640,7 +2640,7 @@ BEGIN
           -----------------------------------------------------
           DELETE FROM GRUPO_NEC_UNIDADES WHERE COD_GRUPO = P_IN_GRUPO_NEC_UNIDADES.COD_GRUPO;
 
-       END IF;        
+       END IF;
 
     EXCEPTION
       WHEN NO_DATA_FOUND THEN
@@ -2658,8 +2658,8 @@ END SP_DML_GRUPO_NEC_UNIDADES;
 PROCEDURE SP_DML_GRUPO_NEC_USUARIOS(P_IN_DML IN NUMBER, P_IN_GRUPO_NEC_USUARIOS IN OUT GRUPO_NEC_USUARIOS%ROWTYPE, P_IN_USUARIO IN VARCHAR2) IS
  TIPO_TRANSACAO VARCHAR2(50) := 'DELETE / INSERT';
 BEGIN
-    BEGIN     
-    
+    BEGIN
+
         IF (P_IN_DML = 0) THEN
           -----------------------------------------------------
           -- INSERINDO AS ATRIBUIÇÕES
@@ -2672,14 +2672,14 @@ BEGIN
             (P_IN_GRUPO_NEC_USUARIOS.COD_GRUPO
             ,P_IN_GRUPO_NEC_USUARIOS.CHAPA
             ,P_IN_USUARIO);
-         
+
         ELSE
           -----------------------------------------------------
           -- REMOVENDO O ACESSO
-          -----------------------------------------------------          
+          -----------------------------------------------------
           DELETE FROM GRUPO_NEC_USUARIOS WHERE CHAPA = P_IN_GRUPO_NEC_USUARIOS.CHAPA;
 
-       END IF;        
+       END IF;
 
     EXCEPTION
       WHEN NO_DATA_FOUND THEN
@@ -2697,8 +2697,8 @@ END SP_DML_GRUPO_NEC_USUARIOS;
 PROCEDURE SP_DML_CARGO_ADM_COORD(P_IN_DML IN NUMBER, P_IN_UO_CARGO_ADM_COORD IN UO_CARGO_ADM_COORD%ROWTYPE, P_IN_USUARIO IN VARCHAR2) IS
  TIPO_TRANSACAO VARCHAR2(50);
 BEGIN
-    BEGIN     
-    
+    BEGIN
+
         IF (P_IN_DML = 0) THEN
           -----------------------------------------------------
           -- INSERINDO OS DADOS
@@ -2710,15 +2710,15 @@ BEGIN
           VALUES
             (P_IN_UO_CARGO_ADM_COORD.COD_UNIDADE
             ,P_IN_USUARIO);
-         
+
         ELSE
           -----------------------------------------------------
           -- REMOVENDO O REGISTRO
-          -----------------------------------------------------          
-          TIPO_TRANSACAO := 'DELETE';          
+          -----------------------------------------------------
+          TIPO_TRANSACAO := 'DELETE';
           DELETE FROM UO_CARGO_ADM_COORD WHERE COD_UNIDADE = P_IN_UO_CARGO_ADM_COORD.COD_UNIDADE;
 
-       END IF;        
+       END IF;
 
     EXCEPTION
       WHEN NO_DATA_FOUND THEN
@@ -2742,7 +2742,7 @@ BEGIN
       IF (P_IN_DML = 0) THEN
         -----------------------------------------------------
         TIPO_TRANSACAO := 'INSERT';
-        -----------------------------------------------------        
+        -----------------------------------------------------
         SELECT SEQ_TIPO_AVISO.NEXTVAL
         INTO   P_IN_TIPO_AVISO.COD_TIPO_AVISO
         FROM   DUAL;
@@ -2802,7 +2802,7 @@ PROCEDURE SP_REQUISICAO_PERFIL_FUNCAO(P_REQUISICAO_SQ IN REQUISICAO.REQUISICAO_S
     -- Limpando os registros
     DELETE FROM REQUISICAO_PERFIL_FUNCAO R
     WHERE  R.REQUISICAO_SQ = P_REQUISICAO_SQ;
-    
+
     -- Inserindo as funções adicionais no perfil
     IF (P_LIST_FUNCAO IS NOT NULL) THEN
       INSERT INTO REQUISICAO_PERFIL_FUNCAO
@@ -2816,7 +2816,7 @@ PROCEDURE SP_REQUISICAO_PERFIL_FUNCAO(P_REQUISICAO_SQ IN REQUISICAO.REQUISICAO_S
                            WHERE  P.REQUISICAO_SQ = P_REQUISICAO_SQ
                            AND    P.COD_FUNCAO = T.ID_FUNCAO);
     END IF;
-    
+
   EXCEPTION
     WHEN NO_DATA_FOUND THEN
       ROLLBACK;
