@@ -190,7 +190,7 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 		// -- Query que retorna os tipos de escolaridades
 		sql.append("SELECT CAMPO,CONTEUDO_ANTERIOR,CONTEUDO_NOVO FROM "
 				+ " historico_perfil_campos WHERE REQUISICAO_SQ=" + requisicao.getCodRequisicao() + " AND "
-				+ " CAST(DT_ENVIO AS DATE) =(SELECT MAX(DT_ENVIO) FROM HISTORICO_REQUISICAO " + " WHERE REQUISICAO_SQ="
+				+ " DT_ENVIO =(SELECT MAX(DT_ENVIO) FROM HISTORICO_REQUISICAO " + " WHERE REQUISICAO_SQ="
 				+ requisicao.getCodRequisicao() + " AND STATUS='alterou')");
 
 		try {
