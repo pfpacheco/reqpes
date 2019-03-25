@@ -191,8 +191,9 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 		sql.append("SELECT CAMPO,CONTEUDO_ANTERIOR,CONTEUDO_NOVO FROM "
 				+ " historico_perfil_campos WHERE REQUISICAO_SQ=" + requisicao.getCodRequisicao() + " AND "
 				+ " DT_ENVIO =(SELECT MAX(DT_ENVIO) FROM HISTORICO_REQUISICAO " + " WHERE REQUISICAO_SQ="
-				+ requisicao.getCodRequisicao() + " AND STATUS='alterou')");
-
+				+ requisicao.getCodRequisicao() + " AND STATUS='alterou')"
+				+ " AND DT_ENVIO BETWEEN (SYSDATE - INTERVAL '15' SECOND) AND (SYSDATE + INTERVAL '15' SECOND)");
+         
 		try {
 			retorno = manipulaDAO.getMatriz(sql.toString(), DATA_BASE_NAME);
 		} catch (Exception e) {
