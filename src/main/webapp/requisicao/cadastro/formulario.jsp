@@ -1449,7 +1449,7 @@
 	              <%} else {%>
 	              	<input type="button" name="btnSubmete" class="botaoIntranet" value="<%=altBotao%>" onclick="submete(<%=tipoEdicao%>);">&nbsp;
 	              <%}%>
-	              <input type="button" name="btnVoltar"  class="botaoIntranet" value="   Voltar   "  onclick="window.history.back();">
+	              <input type="button" name="btnVoltar"  class="botaoIntranet" value="   Voltar   "  onclick="window.close();">
 	              &nbsp;&nbsp;&nbsp;
 	            </td>
 	          </tr>  

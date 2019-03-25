@@ -178,7 +178,7 @@ public class RequisicaoMensagemControl {
 		RequisicaoPerfilDAO requisicaoPerfilDAO = new RequisicaoPerfilDAO();
 		String[][] dadosRequisicao = requisicaoPerfilDAO.getRequisicaoDetalhes(requisicao, gravaHistoricoChapa[0]);
 		String[][] dadosAlterados = requisicaoPerfilDAO.getRequisicaoAlteracao(requisicao);
-
+		
 		StringBuffer corpo = new StringBuffer();
 
 		corpo.append("<head>");
@@ -327,49 +327,50 @@ public class RequisicaoMensagemControl {
 		corpo.append("              <td colspan='2'  height='3' class='tdIntranet'></td> ");
 		corpo.append("           </tr>    ");
 		corpo.append("     </table><br>");
-
-		corpo.append("     <table border='0' width='610' cellpadding='0' cellspacing='0'> ");
-		corpo.append("           <tr> ");
-		corpo.append("             <td colspan='3'  height='18' class='tdCabecalho'> ");
-		corpo.append("              <STRONG>&nbsp;&nbsp;DETALHES DA ALTERAÇÃO</STRONG> ");
-		corpo.append("             </td> ");
-		corpo.append("           </tr> ");
-
-		corpo.append("               <tr> ");
-		corpo.append("                   <td colspan='2'  height='8' class='tdintranet2'></td> ");
-		corpo.append("               </tr>      ");
-
-		for (int i = 0; i < dadosAlterados.length; i++) {
-			corpo.append("               <tr> ");
-			corpo.append("                 <td height='25' width='30%' align='right' class='tdintranet2'> ");
-			corpo.append("                   <STRONG>" + dadosAlterados[i][0] + ":&nbsp;</STRONG> ");
-			corpo.append("                 </td> ");
-			corpo.append("                 <td class='tdintranet2' width='70%'> ");
-			corpo.append("                   " + "<STRONG>de:</STRONG> " + dadosAlterados[i][1]
-					+ "                   " + "<br><STRONG>para:</STRONG> " + dadosAlterados[i][2]);
-			corpo.append("                 </td> ");
-			corpo.append("               </tr>    ");
+		
+		if(dadosAlterados.length > 0) {
+			corpo.append("     <table border='0' width='610' cellpadding='0' cellspacing='0'> ");
+			corpo.append("           <tr> ");
+			corpo.append("             <td colspan='3'  height='18' class='tdCabecalho'> ");
+			corpo.append("              <STRONG>&nbsp;&nbsp;DETALHES DA ALTERAÇÃO</STRONG> ");
+			corpo.append("             </td> ");
+			corpo.append("           </tr> ");
+	
 			corpo.append("               <tr> ");
 			corpo.append("                   <td colspan='2'  height='8' class='tdintranet2'></td> ");
 			corpo.append("               </tr>      ");
-
+	
+			for (int i = 0; i < dadosAlterados.length; i++) {
+				corpo.append("               <tr> ");
+				corpo.append("                 <td height='25' width='30%' align='right' class='tdintranet2'> ");
+				corpo.append("                   <STRONG>" + dadosAlterados[i][0] + ":&nbsp;</STRONG> ");
+				corpo.append("                 </td> ");
+				corpo.append("                 <td class='tdintranet2' width='70%'> ");
+				corpo.append("                   " + "<STRONG>de:</STRONG> " + dadosAlterados[i][1]
+						+ "                   " + "<br><STRONG>para:</STRONG> " + dadosAlterados[i][2]);
+				corpo.append("                 </td> ");
+				corpo.append("               </tr>    ");
+				corpo.append("               <tr> ");
+				corpo.append("                   <td colspan='2'  height='8' class='tdintranet2'></td> ");
+				corpo.append("               </tr>      ");
+	
+			}
+			corpo.append("               <tr> ");
+			corpo.append("                   <td colspan='2'  height='8' class='tdintranet2'></td> ");
+			corpo.append("               </tr>      ");
+	
+			corpo.append("               <tr> ");
+			corpo.append("                 <td colspan='2'  height='3' class='tdIntranet'></td> ");
+			corpo.append("               </tr>    ");
+	
+			corpo.append("               <tr> ");
+			corpo.append("                 <td colspan='2' align='center' class='tdNormal'");
+			corpo.append(
+					"                    <br><br>Esta é uma mensagem automática, por favor não responda este e-mail.");
+			corpo.append("                 </td>");
+			corpo.append("               </tr>    ");
+			corpo.append("         </table>     ");
 		}
-		corpo.append("               <tr> ");
-		corpo.append("                   <td colspan='2'  height='8' class='tdintranet2'></td> ");
-		corpo.append("               </tr>      ");
-
-		corpo.append("               <tr> ");
-		corpo.append("                 <td colspan='2'  height='3' class='tdIntranet'></td> ");
-		corpo.append("               </tr>    ");
-
-		corpo.append("               <tr> ");
-		corpo.append("                 <td colspan='2' align='center' class='tdNormal'");
-		corpo.append(
-				"                    <br><br>Esta é uma mensagem automática, por favor não responda este e-mail.");
-		corpo.append("                 </td>");
-		corpo.append("               </tr>    ");
-		corpo.append("         </table>     ");
-
 		corpo.append(" </center><br><br> ");
 		corpo.append("</body>");
 
@@ -387,6 +388,7 @@ public class RequisicaoMensagemControl {
 	public static void enviaMensagemAlteracao(Usuario usuario, Requisicao requisicao)
 			throws RequisicaoPessoalException {
 
+		
 		try {
 			// -- Objetos de controle
 			RequisicaoAprovacaoControl requisicaoAprovacaoControl = new RequisicaoAprovacaoControl();
@@ -395,14 +397,14 @@ public class RequisicaoMensagemControl {
 			List listEmail = new ArrayList();
 			String[] listaEmails = null;
 			String email = null;
-
+			
 			listaEmails = requisicaoAprovacaoControl.getEmailsEnvolvidosWorkFlow(requisicao);
 
 			String assunto = "A Requisição Pessoal n° " + requisicao.getCodRequisicao()
 					+ " foi analisada e alterada.";
 
 			String mensagem = geraCorpoEmailAlteracao(requisicao.getCodRequisicao(), usuario.getChapa());
-
+			
 			// Adicionando lista de e-mail recebida como parâmetro
 			for (int i = 0; i < listaEmails.length; i++) {
 				listEmail.add(listaEmails[i]);
@@ -417,9 +419,12 @@ public class RequisicaoMensagemControl {
 			// Criando array com os valores armzenados no ArrayList
 			String[] destinatarios = new String[listEmail.size()];
 			listEmail.toArray(destinatarios);
-
-			enviaMensagem(usuario, requisicao, mensagem, destinatarios, assunto);
-
+			
+			
+			if(mensagem.contains("DETALHES DA ALTERAÇÃO")) {
+				enviaMensagem(usuario, requisicao, mensagem, destinatarios, assunto);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RequisicaoPessoalException("enviaMensagemHomologacaoNEC - Ocorreu o seguinte erro: \n",
