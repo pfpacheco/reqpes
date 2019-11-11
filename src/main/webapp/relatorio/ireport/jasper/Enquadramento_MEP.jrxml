@@ -1,30 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"  ?>
-<!-- Created with iReport - A designer for JasperReports -->
-<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
-<jasperReport
-		 name="Enquadramento_MEP"
-		 columnCount="1"
-		 printOrder="Vertical"
-		 orientation="Portrait"
-		 pageWidth="595"
-		 pageHeight="842"
-		 columnWidth="483"
-		 columnSpacing="0"
-		 leftMargin="56"
-		 rightMargin="56"
-		 topMargin="20"
-		 bottomMargin="20"
-		 whenNoDataType="NoPages"
-		 isTitleNewPage="false"
-		 isSummaryNewPage="false">
-	<property name="ireport.scriptlethandling" value="0" />
-	<property name="ireport.encoding" value="UTF-8" />
-	<import value="java.util.*" />
-	<import value="net.sf.jasperreports.engine.*" />
-	<import value="net.sf.jasperreports.engine.data.*" />
-
-	<parameter name="TIPO" isForPrompting="true" class="java.lang.Integer"/>
-	<queryString><![CDATA[SELECT *
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Enquadramento_MEP" pageWidth="595" pageHeight="842" columnWidth="483" leftMargin="56" rightMargin="56" topMargin="20" bottomMargin="20" uuid="05771242-f159-4f01-b752-cac36b92dcf0">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="28"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<parameter name="TIPO" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT *
 FROM   (SELECT F.ID
               ,F.NOME
               ,UO.DESCRICAO   UNIDADE
@@ -97,8 +83,8 @@ WHERE  (($P{TIPO} = 1 AND A.ID_CARGO_ATUAL <> A.ID_CARGO_ANT AND
        A.STEP_ATUAL = A.STEP_ANT AND A.SALARIO_ATUAL <> A.SALARIO_ANT) OR
        ($P{TIPO} = 4 AND A.ID_CARGO_ATUAL <> A.ID_CARGO_ANT AND
        A.STEP_ATUAL = A.STEP_ANT AND A.SALARIO_ATUAL = A.SALARIO_ANT)
-       )]]></queryString>
-
+       )]]>
+	</queryString>
 	<field name="ID" class="java.math.BigDecimal"/>
 	<field name="NOME" class="java.lang.String"/>
 	<field name="UNIDADE" class="java.lang.String"/>
@@ -110,137 +96,87 @@ WHERE  (($P{TIPO} = 1 AND A.ID_CARGO_ATUAL <> A.ID_CARGO_ANT AND
 	<field name="CARGO_ANT" class="java.lang.String"/>
 	<field name="STEP_ANT" class="java.lang.String"/>
 	<field name="SALARIO_ANT" class="java.math.BigDecimal"/>
-
-		<background>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-		</background>
-		<title>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-		</title>
-		<pageHeader>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-		</pageHeader>
-		<columnHeader>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-		</columnHeader>
-		<detail>
-			<band height="802"  isSplitAllowed="true" >
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="29"
-						y="168"
-						width="425"
-						height="16"
-						key="textField-1"/>
-					<box></box>
-					<textElement>
-						<font size="12"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{NOME}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="29"
-						y="185"
-						width="425"
-						height="19"
-						key="textField-2"/>
-					<box></box>
-					<textElement>
-						<font size="12"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{UNIDADE}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="29"
-						y="367"
-						width="454"
-						height="22"
-						key="textField-3"/>
-					<box></box>
-					<textElement>
-						<font size="12"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA["De: " + $F{CARGO_ANT} + "   " + $F{STEP_ANT} + "   " + new DecimalFormat("R$ #,##0.00").format($F{SALARIO_ANT})]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="29"
-						y="401"
-						width="454"
-						height="22"
-						key="textField-4"/>
-					<box></box>
-					<textElement>
-						<font size="12"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA["Para: " + $F{CARGO_ATUAL} + "   " + $F{STEP_ATUAL} + "   " + new DecimalFormat("R$ #,##0.00").format($F{SALARIO_ATUAL})]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="29"
-						y="117"
-						width="425"
-						height="18"
-						key="staticText-2"/>
-					<box></box>
-					<textElement>
-						<font size="12"/>
-					</textElement>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="802" splitType="Stretch">
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-1" x="29" y="168" width="425" height="16" uuid="6a45f8d7-3ff7-4381-acd1-b04cb39fb288"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NOME}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-2" x="29" y="185" width="425" height="19" uuid="3f22c5a7-0073-4c8d-bc60-979a6a2c22e8"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{UNIDADE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-3" x="29" y="367" width="454" height="22" uuid="b019414d-dde5-4d9e-bb85-c792556eb1e9"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["De: " + $F{CARGO_ANT} + "   " + $F{STEP_ANT} + "   " + new DecimalFormat("R$ #,##0.00").format($F{SALARIO_ANT})]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="false">
+				<reportElement key="textField-4" x="29" y="401" width="454" height="22" uuid="027075a1-9de4-44a2-be87-52c68c58c1fb"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Para: " + $F{CARGO_ATUAL} + "   " + $F{STEP_ATUAL} + "   " + new DecimalFormat("R$ #,##0.00").format($F{SALARIO_ATUAL})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement key="staticText-2" x="29" y="117" width="425" height="18" uuid="e8c321c0-26d4-4e87-8498-61e4b97b496e"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
 				<text><![CDATA[Ao (À)]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="29"
-						y="236"
-						width="425"
-						height="100"
-						key="staticText-3"/>
-					<box></box>
-					<textElement>
-						<font size="12"/>
-					</textElement>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-3" x="29" y="236" width="425" height="100" uuid="07d5dab4-d990-4ccd-b318-3ce561b272a2"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
 				<text><![CDATA[Prezado(a) Senhor(a):
 
 
 
-De acordo com o comunicado TABELA DE CARGO E SALÁRIOS informamos que, a partir de 1º/04/2011, a situação funcional de V.Sa. passa ser a seguinte:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="29"
-						y="503"
-						width="425"
-						height="97"
-						key="staticText-4"/>
-					<box></box>
-					<textElement>
-						<font size="12"/>
-					</textElement>
+De acordo com o comunicado TABELA DE CARGO E SALÁRIOS informamos que, a partir de 1º/10/2019, a situação funcional de V.Sa. passa ser a seguinte:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement key="staticText-4" x="29" y="503" width="425" height="97" uuid="bcc5c5d8-ab0e-491c-a781-56f34c67b617"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
 				<text><![CDATA[Ciente
 
 ............./............./............
 
 ........................................
 ]]></text>
-				</staticText>
-			</band>
-		</detail>
-		<columnFooter>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-		</columnFooter>
-		<pageFooter>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-		</pageFooter>
-		<summary>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-		</summary>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
 </jasperReport>

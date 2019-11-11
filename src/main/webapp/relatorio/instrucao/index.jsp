@@ -41,7 +41,7 @@
         <table border="0" width="610" cellpadding="0" cellspacing="0">
           <tr>
             <td colspan="3"  height="18" class="tdCabecalho" background='<%= request.getContextPath()%>/imagens/tit_item.gif' >
-             <STRONG>&nbsp;&nbsp;RELATÓRIO - INSTRUÇÃO 04/2011</STRONG>
+             <STRONG>&nbsp;&nbsp;RELATÓRIO - INSTRUÇÃO 10/2019</STRONG>
             </td>
           </tr>  
           <tr>

@@ -632,7 +632,7 @@
                                        if(Trim(retorno) == '-1'){                                          
                                           if(P_IND_EXCECAO == 'N'){ 
                                             cota.setAttribute('readOnly','readOnly');
-                                            alert('De acordo com a Instrução 04/2011 não é permitido contratar o cargo selecionado, verifique\na instrução e selecione o cargo correto.');
+                                            alert('De acordo com a Instrução 10/2019 não é permitido contratar o cargo selecionado, verifique\na instrução e selecione o cargo correto.');
                                             //-- limpando valores dos campos
                                             limpaCargoConfig();
                                             document.frmRequisicao.codCargo.focus();
