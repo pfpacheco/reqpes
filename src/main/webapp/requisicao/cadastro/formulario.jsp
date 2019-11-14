@@ -545,7 +545,7 @@
 	              <strong>Tipo de enquadramento:&nbsp;</strong>
 	            </td>
 	            <td height="25" align="left" class="tdintranet2" colspan="3">              
-	              <input type="radio" name="indCaraterExcecao" value="N" onclick="verificaCargoUnidade(document.getElementById('idcodUnidade').value, document.getElementById('codCargo').value, <%=tipoEdicao %>);" <%=(requisicao.getIndCaraterExcecao().equals("N"))?" CHECKED":""%>>De acordo com a Instrução 04/2011
+	              <input type="radio" name="indCaraterExcecao" value="N" onclick="verificaCargoUnidade(document.getElementById('idcodUnidade').value, document.getElementById('codCargo').value, <%=tipoEdicao %>);" <%=(requisicao.getIndCaraterExcecao().equals("N"))?" CHECKED":""%>>De acordo com a Instrução 10/2019
 	            </td>
 	          </tr>
 	          <tr>

@@ -200,7 +200,7 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
                 var retorno = Trim(objetoAjax.responseText);
                 //-- Validando a IN15
                 if(document.frmRequisicao.indCaraterExcecao[0].checked && retorno == 'false'){
-                  alert('De acordo com a Instrução 04/2011 não é permitido contratar o cargo e cota selecionados,\nverifique a instrução e selecione o cargo correto.');
+                  alert('De acordo com a Instrução 10/2019 não é permitido contratar o cargo e cota selecionados,\nverifique a instrução e selecione o cargo correto.');
                   document.frmRequisicao.codCargo.focus();
                   return false;
                 }else{                  
