@@ -174,7 +174,7 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
 				if (!limitarCaracteres(document.frmRequisicao.dscAtividadesCargo,document.frmRequisicao.qtdDscAtividadesCargo,4000,"Principais atividades do cargo"))
 	            	return;
 	            
-	            if (!limitarCaracteres(document.frmRequisicao.descricaoFormacao,document.frmRequisicao.qtdFormacao,4000,"Escolaridade mínima"))
+	            if (!limitarCaracteres(document.frmRequisicao.descricaoFormacao,document.frmRequisicao.qtdFormacao,4000,"Escolaridade exigida"))
 	            	return;
 	            
 	            if (!limitarCaracteres(document.frmRequisicao.dscExperiencia,document.frmRequisicao.qtdExperiencia,4000,"Experiência profissional"))
@@ -245,7 +245,7 @@ var dias = ["Segunda", "Terca", "Quarta", "Quinta", "Sexta", "Sabado", "Domingo"
 	                                            			if(decode(document.frmRequisicao.codArea,"Selecione a área!",0,"",null))
 	  	                                                      if(decode(document.frmRequisicao.codNivelHierarquia,"Selecione o nível hierárquico!",0,"",null))
 	  	                                                        if(decode(document.frmRequisicao.dscAtividadesCargo,"Informe as principais atividades do cargo!",0,"",null))
-	  	                                                          if(decode(document.frmRequisicao.descricaoFormacao,"Informe a escolaridade mínima!",0,"",null))
+	  	                                                          if(decode(document.frmRequisicao.descricaoFormacao,"Informe a escolaridade exigida!",0,"",null))
 	  	                                                            if(decode(document.frmRequisicao.dscExperiencia,"Informe a experiência profissional!",0,"",null))
 	  	                                                              if(decode(document.frmRequisicao.dscConhecimentos,"Informe os conhecimentos específicos!",0,"",null))
 	  	                                                                if(decode(document.frmRequisicao.outrasCarateristica,"Informe as competências!",0,"",null)){

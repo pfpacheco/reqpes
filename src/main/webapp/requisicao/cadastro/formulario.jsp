@@ -1242,15 +1242,15 @@
 	          </tr>
 	          <tr>
 	            <td height="25" width="30%" align="right" class="tdintranet2" valign="top">
-	              <STRONG>Escolaridade mínima:&nbsp;</STRONG>
+	              <STRONG>Escolaridade exigida:&nbsp;</STRONG>
 	              <br>
 	              <a href="javascript:void(0);" class="dcontexto">
 	                <img src="../../imagens/help.gif" border="0" align="middle">&nbsp;
-	                <span>Informe a escolaridade mínima obrigatória e o curso ou área de Formação e caso exista restrição, informe também a escolaridade máxima desejada.</span>
+	                <span>Informe a escolaridade exigida e o curso ou área de Formação e caso exista restrição, informe também a escolaridade máxima desejada.</span>
 	              </a>                            
 	            </td>
 	            <td class="tdintranet2" >
-	              <textarea cols="73" rows="5" name="descricaoFormacao" title="Informe a escolaridade mínima obrigatória e o curso ou área de Formação e caso exista restrição, informe também a escolaridade máxima desejada."
+	              <textarea cols="73" rows="5" name="descricaoFormacao" title="Informe a escolaridade exigida e o curso ou área de Formação e caso exista restrição, informe também a escolaridade máxima desejada."
 	                      onKeyDown="limitarCaracteres(this,document.frmRequisicao.qtdFormacao,4000);" 
 	                      onKeyUP  ="limitarCaracteres(this,document.frmRequisicao.qtdFormacao,4000);" <%  if (tipoEdicao==2){%> readonly="readonly" <%}%> ><%=requisicaoPerfil.getDescricaoFormacao()%></textarea>
 	              <input type="text" name="qtdFormacao" class="label" readonly="readonly" value="<%=(((codRequisicao == 0)?0:4000) - requisicaoPerfil.getDescricaoFormacao().length())%>" size="4" align="middle">
@@ -1390,7 +1390,7 @@
               <tr>
                 <td colspan="4" height="28" align="left" class="tdIntranet2">
                   <div align="justify" style="padding-left:5px; padding-right:5px;">
-                    <STRONG>Escolaridade mínima</STRONG><br>
+                    <STRONG>Escolaridade exigida</STRONG><br>
                     <%=(requisicaoPesquisa[0][59]==null)?((requisicaoPesquisa[0][58]==null)?"":requisicaoPesquisa[0][58]):requisicaoPesquisa[0][59]%>                        
                   </div>
                 </td>               
