@@ -501,7 +501,7 @@
                   <tr>
                     <td colspan="4" height="28" align="left" class="tdIntranet2">
                       <div align="justify" style="padding-left:5px; padding-right:5px;">
-                      	<STRONG>Escolaridade mínima</STRONG><br>
+                      	<STRONG>Escolaridade exigida</STRONG><br>
                       	<% if(nec && requisicao[0][54].equals("2") && consulta.equals("N")) {%>
 	                      	<textarea cols="73" rows="5" id="descricaoFormacao" 
 	                      		onKeyDown="limitarCaracteres(this,document.getElementById('qtdFormacao'),4000);" 
