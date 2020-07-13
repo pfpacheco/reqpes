@@ -291,7 +291,6 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/${lib.path}/rcd-menu-1.0.jar</systemPath>
 		</dependency>
-		
 		<dependency>
 			<groupId>senacComponentes</groupId>
 			<artifactId>senacComponentes</artifactId>
