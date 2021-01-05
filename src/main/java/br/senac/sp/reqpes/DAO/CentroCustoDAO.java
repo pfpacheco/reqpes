@@ -6,6 +6,7 @@ import br.senac.sp.componente.DAO.ManipulacaoDAO;
 import br.senac.sp.componente.Exception.AdmTIException;
 import br.senac.sp.componente.control.SistemaParametroControl;
 import br.senac.sp.componente.model.SistemaParametro;
+import br.senac.sp.componente.model.Unidade;
 import br.senac.sp.componente.model.Usuario;
 
 //-- Classes da aplicação
@@ -104,11 +105,20 @@ public class CentroCustoDAO implements InterfaceDataBase{
 			  if(usuario.getSistemaPerfil().getCodSistemaPerfil() == Integer.parseInt(idPerfilHOM.getVlrSistemaParametro()) || (usuario.getSistemaPerfil().getCodSistemaPerfil() == Integer.parseInt(idPerfilCRI.getVlrSistemaParametro()) && !codUnidadeAPR.getVlrSistemaParametro().equals(codUnidadeRHEV))){
 			    //-- verificando as unidades de acesso
 				String todasUnidades = "";
-			    for(int i=0; usuario.getUnidades() != null && i < usuario.getUnidades().length; i++){
-			      todasUnidades += ((i==0)?" ":",") + usuario.getUnidades()[i].getCodUnidade();        
-			    }
-			    todasUnidades = (todasUnidades.equals("") ? "0" : todasUnidades);			    
-			    sql.append(" AND (TO_NUMBER(T.COD_SEGMENTO) = "+ usuario.getUnidade().getCodUnidade() +" OR TO_NUMBER(T.COD_SEGMENTO) IN ("+ todasUnidades +"))");      
+				for (Unidade unidade : usuario.getUnidades()) {
+				    todasUnidades += unidade.getCodUnidade() + ", ";
+                }
+
+				/**
+                 * This is not performatic code
+                 *
+                    for(int i=0; usuario.getUnidades() != null && i < usuario.getUnidades().length; i++){
+                      todasUnidades += ((i==0)?" ":",") + usuario.getUnidades()[i].getCodUnidade();
+                    }
+                    todasUnidades = (todasUnidades.equals("") ? "0" : todasUnidades);
+                */
+
+				sql.append(" AND (TO_NUMBER(T.COD_SEGMENTO) = "+ usuario.getUnidade().getCodUnidade() +" OR TO_NUMBER(T.COD_SEGMENTO) IN ("+ todasUnidades +"))");
 			  }
 			    
 	  		}
