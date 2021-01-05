@@ -85,7 +85,7 @@ public class CargoAdmCoordDAO implements InterfaceDataBase {
 	 * @param cargoAdmCoord,
 	 *            usuario
 	 * @return int
-	 * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 * @procedure: SP_DML_CARGO_ADM_COORD
 	 */
 	public int gravaCargoAdmCoord(CargoAdmCoord cargoAdmCoord, Usuario usuario) throws RequisicaoPessoalException {
@@ -96,7 +96,7 @@ public class CargoAdmCoordDAO implements InterfaceDataBase {
 	 * @param cargoAdmCoord,
 	 *            usuario
 	 * @return int
-	 * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 * @procedure: SP_DML_CARGO_ADM_COORD
 	 */
 	public int deletaCargoAdmCoord(CargoAdmCoord cargoAdmCoord, Usuario usuario) throws RequisicaoPessoalException {
@@ -105,7 +105,7 @@ public class CargoAdmCoordDAO implements InterfaceDataBase {
 
 	/**
 	 * @return List de objetos CargoAdmCoord
-	 * @throws br.senac.sp.exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 */
 	public List getCargoAdmCoord() throws RequisicaoPessoalException {
 		StringBuffer sql = new StringBuffer();
@@ -153,7 +153,7 @@ public class CargoAdmCoordDAO implements InterfaceDataBase {
 
 	/**
 	 * @return List de objetos CargoAdmCoord (todas as unidades)
-	 * @throws br.senac.sp.exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 */
 	public List getComboUnidades() throws RequisicaoPessoalException {
 		StringBuffer sql = new StringBuffer();
