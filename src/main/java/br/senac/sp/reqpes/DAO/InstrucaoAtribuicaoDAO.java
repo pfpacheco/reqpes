@@ -84,7 +84,7 @@ public class InstrucaoAtribuicaoDAO implements InterfaceDataBase{
   /**
    * @param instrucaoAtribuicao
    * @return int
-   * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    * @procedure: SP_DML_INSTRUCAO_ATRIBUICAO
   */
   public int gravaInstrucaoAtribuicao(InstrucaoAtribuicao instrucaoAtribuicao) throws RequisicaoPessoalException{
@@ -95,7 +95,7 @@ public class InstrucaoAtribuicaoDAO implements InterfaceDataBase{
   /**
    * @param instrucaoAtribuicao
    * @return int
-   * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    * @procedure: SP_DML_INSTRUCAO_ATRIBUICAO
   */
   public int deletaInstrucaoAtribuicao(InstrucaoAtribuicao instrucaoAtribuicao) throws RequisicaoPessoalException{
@@ -105,9 +105,9 @@ public class InstrucaoAtribuicaoDAO implements InterfaceDataBase{
 
   /**
    * Retorna um array de objetos InstrucaoAtribuicao que satifaz a condição informada
-   * @param condicao
+   * @param codInstrucao
    * @return array de objetos InstrucaoAtribuicao
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
 
   public InstrucaoAtribuicao[] getInstrucaoAtribuicao(int codInstrucao) throws RequisicaoPessoalException {
