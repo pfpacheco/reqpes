@@ -1,1 +1,12 @@
+version: "3"
 services:
+
+  reqpes:
+    container_name: reqpes
+    build: .
+    ports: ['8080:8080', '9990:9990']
+
+networks:
+  default:
+    driver: bridge
+
