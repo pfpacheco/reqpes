@@ -81,7 +81,7 @@ public class GrupoNecUnidadeDAO implements InterfaceDataBase{
   /**
    * @param grupoNecUnidade
    * @return int
-   * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    * @procedure: SP_DML_GRUPO_NEC_UNIDADES
   */
   public int gravaGrupoNecUnidade(GrupoNecUnidade grupoNecUnidade) throws RequisicaoPessoalException{
@@ -92,7 +92,7 @@ public class GrupoNecUnidadeDAO implements InterfaceDataBase{
   /**
    * @param grupoNecUnidade
    * @return int
-   * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    * @procedure: SP_DML_GRUPO_NEC_UNIDADES
   */
   public int deletaGrupoNecUnidade(GrupoNecUnidade grupoNecUnidade) throws RequisicaoPessoalException{

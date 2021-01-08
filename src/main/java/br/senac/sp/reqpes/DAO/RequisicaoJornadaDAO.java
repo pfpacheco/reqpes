@@ -187,9 +187,9 @@ public class RequisicaoJornadaDAO implements InterfaceDataBase{
    }
 
   /**
-   * @param requisicao
+   * @param requisicaoJornada
    * @return int
-   * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    * @procedure: SP_DML_REQUISICAO_JORNADA
   */   
   public int gravaRequisicaoJornada(RequisicaoJornada requisicaoJornada)throws RequisicaoPessoalException{
@@ -198,9 +198,9 @@ public class RequisicaoJornadaDAO implements InterfaceDataBase{
 
 
   /**
-   * @param requisicao
+   * @param requisicaoJornada, chapa
    * @return int
-   * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    * @procedure: SP_DML_REQUISICAO_JORNADA
   */
   public int alteraRequisicaoJornada(RequisicaoJornada requisicaoJornada, Integer chapa)throws RequisicaoPessoalException{
@@ -211,7 +211,7 @@ public class RequisicaoJornadaDAO implements InterfaceDataBase{
   /**
    * Retorna uma instancia da classe RequisicaoJornada, de acordo com o codigo informado
    * @return RequisicaoJornada
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
   public RequisicaoJornada getRequisicaoJornada(int codRequisicao) throws RequisicaoPessoalException{   
       StringBuffer sql = new StringBuffer();
@@ -281,9 +281,9 @@ public class RequisicaoJornadaDAO implements InterfaceDataBase{
 
 
    /**
-   * @param sql
+   * @param jornadaTrabalho, horariosList
    * @return String[][]
-   * @throws RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
    public String[][] getEscala(String jornadaTrabalho, ArrayList horariosList) throws RequisicaoPessoalException{
                                
@@ -378,9 +378,9 @@ public class RequisicaoJornadaDAO implements InterfaceDataBase{
 
 
    /**
-   * @param sql
+   * @param codEscala
    * @return String[][]
-   * @throws RequisicaoPessoalException
+    * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
    public String[][] getEscalaHorario(String codEscala) throws RequisicaoPessoalException{    
       StringBuffer sql = new StringBuffer();

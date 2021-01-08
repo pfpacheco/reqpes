@@ -32,9 +32,8 @@ public class TipoAvisoDAO implements InterfaceDataBase{
 
   /**
    * Retorna todas as tipoAvisos cadastradas no sistema
-   * @param  tipoAviso
    * @return TipoAviso[]
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
   public TipoAviso[] getTipoAvisos() throws RequisicaoPessoalException {
     return getTipoAvisos("");
@@ -133,7 +132,7 @@ public class TipoAvisoDAO implements InterfaceDataBase{
   /**
    * Retorna uma instancia da classe TipoAviso, de acordo com o codigo informado
    * @return TipoAviso
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
   public TipoAviso getTipoAviso(int codTipoAviso) throws RequisicaoPessoalException{
     TipoAviso[] tipoAviso = getTipoAvisos(" WHERE T.COD_TIPO_AVISO = " + codTipoAviso);
@@ -144,7 +143,7 @@ public class TipoAvisoDAO implements InterfaceDataBase{
    * Retorna um array de objetos TipoAviso que satifaz a condição informada
    * @param condicao
    * @return array de objetos TipoAviso
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
 
   public TipoAviso[] getTipoAvisos(String condicao) throws RequisicaoPessoalException {

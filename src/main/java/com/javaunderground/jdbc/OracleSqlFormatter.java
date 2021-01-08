@@ -71,7 +71,7 @@ public class OracleSqlFormatter extends SqlFormatter{
    * Formats object to an Oracle specific formatted function.
    * @param o Object to be formatted.
    * @return formatted Oracle function or "NULL" if o is null.
-   * @exception SqlException
+   * @exception java.sql.SQLException
    */
   public String format(Object o) throws SQLException{
     if (o == null)               return "NULL";

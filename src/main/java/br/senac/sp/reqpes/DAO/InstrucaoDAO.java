@@ -32,10 +32,8 @@ public class InstrucaoDAO implements InterfaceDataBase {
 
 	/**
 	 * Retorna todas as instrucaos cadastradas no sistema
-	 * 
-	 * @param instrucao
 	 * @return Instrucao[]
-	 * @throws br.senac.sp.exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 */
 	public Instrucao[] getInstrucaos() throws RequisicaoPessoalException {
 		return getInstrucaos("");
@@ -110,10 +108,9 @@ public class InstrucaoDAO implements InterfaceDataBase {
 	}
 
 	/**
-	 * @param instrucao,
-	 *            usuario
+	 * @param instrucao, usuario
 	 * @return int
-	 * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 * @procedure: SP_DML_INSTRUCAO
 	 */
 	public int gravaInstrucao(Instrucao instrucao, Usuario usuario) throws RequisicaoPessoalException {
@@ -121,10 +118,9 @@ public class InstrucaoDAO implements InterfaceDataBase {
 	}
 
 	/**
-	 * @param instrucao,
-	 *            usuario
+	 * @param instrucao, usuario
 	 * @return int
-	 * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 * @procedure: SP_DML_INSTRUCAO
 	 */
 	public int alteraInstrucao(Instrucao instrucao, Usuario usuario) throws RequisicaoPessoalException {
@@ -132,10 +128,9 @@ public class InstrucaoDAO implements InterfaceDataBase {
 	}
 
 	/**
-	 * @param instrucao,
-	 *            usuario
+	 * @param instrucao, usuario
 	 * @return int
-	 * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 * @OBS: Realiza apenas a exclusão lógica da requisição
 	 * @Procedure SP_DML_INSTRUCAO
 	 */
@@ -146,9 +141,9 @@ public class InstrucaoDAO implements InterfaceDataBase {
 	/**
 	 * Retorna uma instancia da classe Instrucao, de acordo com o codigo
 	 * informado
-	 * 
+	 * @param codInstrucao
 	 * @return Instrucao
-	 * @throws br.senac.sp.exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 */
 	public Instrucao getInstrucao(int codInstrucao) throws RequisicaoPessoalException {
 		Instrucao[] instrucao = getInstrucaos(" AND T.COD_INSTRUCAO = " + codInstrucao);
@@ -160,7 +155,7 @@ public class InstrucaoDAO implements InterfaceDataBase {
 	 * 
 	 * @param condicao
 	 * @return array de objetos Instrucao
-	 * @throws br.senac.sp.exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 */
 
 	public Instrucao[] getInstrucaos(String condicao) throws RequisicaoPessoalException {
@@ -374,10 +369,9 @@ public class InstrucaoDAO implements InterfaceDataBase {
 	}
 
 	/**
+	 * @param instrucao, unidades
 	 * @return String[] retorno[0]: status {0 (OK), 1 (INSTRUCAO PENDENTE), 2
 	 *         (ATRIBUICAO PENDENTE)} retorno[1]: unidades
-	 * 
-	 * @param Instrucao
 	 *            instrucao, int dml, String[] unidades
 	 * @throws RequisicaoPessoalException
 	 */

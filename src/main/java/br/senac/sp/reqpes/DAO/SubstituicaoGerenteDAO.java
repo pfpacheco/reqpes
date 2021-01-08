@@ -32,9 +32,8 @@ public class SubstituicaoGerenteDAO implements InterfaceDataBase{
   }
 
   /**
-   * @param  requisicao
    * @return SubstituicaoGerente[]
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
   public SubstituicaoGerente[] getSubstituicaoGerentes() throws RequisicaoPessoalException, AdmTIException {
     return getSubstituicaoGerentes("");
@@ -103,7 +102,7 @@ public class SubstituicaoGerenteDAO implements InterfaceDataBase{
   /**
    * Retorna uma instancia da classe SubstituicaoGerente, com o gerente atual
    * @return SubstituicaoGerente
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
   public SubstituicaoGerente getSubstituicaoGerenteAtual(String codUnidade) throws RequisicaoPessoalException, AdmTIException{
  
@@ -123,7 +122,7 @@ public class SubstituicaoGerenteDAO implements InterfaceDataBase{
    * Retorna um array de objetos SubstituicaoGerente que satifaz a condição informada
    * @param condicao
    * @return array de objetos SubstituicaoGerente
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
 
   public SubstituicaoGerente[] getSubstituicaoGerentes(String condicao) throws RequisicaoPessoalException, AdmTIException {

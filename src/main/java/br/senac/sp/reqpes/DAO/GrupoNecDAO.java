@@ -32,9 +32,8 @@ public class GrupoNecDAO implements InterfaceDataBase{
 
   /**
    * Retorna todas as grupoNecs cadastradas no sistema
-   * @param  grupoNec
    * @return GrupoNec[]
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws    * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
   public GrupoNec[] getGrupoNecs() throws RequisicaoPessoalException {
     return getGrupoNecs("");
@@ -97,7 +96,7 @@ public class GrupoNecDAO implements InterfaceDataBase{
   /**
    * @param grupoNec, usuario
    * @return int
-   * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    * @procedure: SP_DML_GRUPO_NEC
   */
   public int gravaGrupoNec(GrupoNec grupoNec, Usuario usuario) throws RequisicaoPessoalException{
@@ -108,7 +107,7 @@ public class GrupoNecDAO implements InterfaceDataBase{
   /**
    * @param grupoNec, usuario
    * @return int
-   * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    * @procedure: SP_DML_GRUPO_NEC
   */
   public int alteraGrupoNec(GrupoNec grupoNec, Usuario usuario) throws RequisicaoPessoalException{
@@ -118,7 +117,7 @@ public class GrupoNecDAO implements InterfaceDataBase{
   /**
    * @param grupoNec, usuario
    * @return int
-   * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    * @OBS: Realiza apenas a exclusão lógica da requisição
    * @Procedure SP_DML_GRUPO_NEC
   */
@@ -129,7 +128,7 @@ public class GrupoNecDAO implements InterfaceDataBase{
   /**
    * Retorna uma instancia da classe GrupoNec, de acordo com o codigo informado
    * @return GrupoNec
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
   public GrupoNec getGrupoNec(int codGrupoNec) throws RequisicaoPessoalException{
     GrupoNec[] grupoNec = getGrupoNecs(" WHERE T.COD_GRUPO = " + codGrupoNec);
@@ -140,7 +139,7 @@ public class GrupoNecDAO implements InterfaceDataBase{
    * Retorna um array de objetos GrupoNec que satifaz a condição informada
    * @param condicao
    * @return array de objetos GrupoNec
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
 
   public GrupoNec[] getGrupoNecs(String condicao) throws RequisicaoPessoalException {

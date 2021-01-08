@@ -91,10 +91,9 @@ public class GrupoNecUsuarioDAO implements InterfaceDataBase {
 	}
 
 	/**
-	 * @param grupoNecUsuario,
-	 *            usuario
+	 * @param grupoNecUsuario, usuario
 	 * @return int
-	 * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 * @procedure: SP_DML_GRUPO_NEC_USUARIOS
 	 */
 	public int gravaGrupoNecUsuario(GrupoNecUsuario grupoNecUsuario, Usuario usuario)
@@ -103,10 +102,9 @@ public class GrupoNecUsuarioDAO implements InterfaceDataBase {
 	}
 
 	/**
-	 * @param grupoNecUsuario,
-	 *            usuario
+	 * @param grupoNecUsuario, usuario
 	 * @return int
-	 * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 * @procedure: SP_DML_GRUPO_NEC_USUARIOS
 	 */
 	public int deletaGrupoNecUsuario(GrupoNecUsuario grupoNecUsuario, Usuario usuario)
@@ -117,9 +115,9 @@ public class GrupoNecUsuarioDAO implements InterfaceDataBase {
 	/**
 	 * Retorna uma instancia da classe GrupoNecUsuario, de acordo com o codigo
 	 * informado
-	 *
+	 * @param chapa
 	 * @return GrupoNecUsuario
-	 * @throws br.senac.sp.exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 */
 	public GrupoNecUsuario getGrupoNecUsuario(int chapa) throws RequisicaoPessoalException {
 		GrupoNecUsuario[] grupoNecUsuario = getGrupoNecUsuarios(" AND GU.CHAPA = " + chapa);
@@ -132,7 +130,7 @@ public class GrupoNecUsuarioDAO implements InterfaceDataBase {
 	 *
 	 * @param condicao
 	 * @return array de objetos GrupoNecUsuario
-	 * @throws br.senac.sp.exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 */
 
 	public GrupoNecUsuario[] getGrupoNecUsuarios(String condicao) throws RequisicaoPessoalException {

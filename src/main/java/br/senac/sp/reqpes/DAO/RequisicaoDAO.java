@@ -34,9 +34,8 @@ public class RequisicaoDAO implements InterfaceDataBase {
 	/**
 	 * Retorna todas as requisicaos cadastradas no sistema
 	 *
-	 * @param requisicao
 	 * @return Requisicao[]
-	 * @throws br.senac.sp.exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 */
 	public Requisicao[] getRequisicaos() throws RequisicaoPessoalException {
 		return getRequisicaos("");
@@ -255,10 +254,9 @@ public class RequisicaoDAO implements InterfaceDataBase {
 	}
 
 	/**
-	 * @param requisicao,
-	 *            usuario
+	 * @param requisicao, usuario
 	 * @return int
-	 * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 * @procedure: SP_DML_REQUISICAO
 	 */
 	public int gravaRequisicao(Requisicao requisicao, Usuario usuario) throws RequisicaoPessoalException {
@@ -266,10 +264,9 @@ public class RequisicaoDAO implements InterfaceDataBase {
 	}
 
 	/**
-	 * @param requisicao,
-	 *            usuario
+	 * @param requisicao, usuario
 	 * @return int
-	 * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 * @procedure: SP_DML_REQUISICAO
 	 */
 	public int alteraRequisicao(Requisicao requisicao, Usuario usuario) throws RequisicaoPessoalException {
@@ -281,10 +278,9 @@ public class RequisicaoDAO implements InterfaceDataBase {
 	}
 
 	/**
-	 * @param requisicao,
-	 *            usuario
+	 * @param requisicao, usuario
 	 * @return int
-	 * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 * @OBS: Realiza apenas a exclusão lógica da requisição
 	 * @Procedure SP_DML_REQUISICAO
 	 */
@@ -295,9 +291,9 @@ public class RequisicaoDAO implements InterfaceDataBase {
 	/**
 	 * Retorna uma instancia da classe Requisicao, de acordo com o codigo
 	 * informado
-	 *
+	 * @param codRequisicao
 	 * @return Requisicao
-	 * @throws br.senac.sp.exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 */
 	public Requisicao getRequisicao(int codRequisicao) throws RequisicaoPessoalException {
 		Requisicao[] requisicao = getRequisicaos(" AND  R.REQUISICAO_SQ = " + codRequisicao);
@@ -309,7 +305,7 @@ public class RequisicaoDAO implements InterfaceDataBase {
 	 *
 	 * @param condicao
 	 * @return array de objetos Requisicao
-	 * @throws br.senac.sp.exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 */
 
 	public Requisicao[] getRequisicaos(String condicao) throws RequisicaoPessoalException {

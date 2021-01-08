@@ -84,7 +84,7 @@ public class TabelaSalarialAtribuicaoDAO implements InterfaceDataBase{
   /**
    * @param tabelaSalarialAtribuicao
    * @return int
-   * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    * @procedure: SP_DML_TAB_SALARIAL_ATRIBUICAO
   */
   public int gravaTabelaSalarialAtribuicao(TabelaSalarialAtribuicao tabelaSalarialAtribuicao) throws RequisicaoPessoalException{
@@ -95,7 +95,7 @@ public class TabelaSalarialAtribuicaoDAO implements InterfaceDataBase{
   /**
    * @param tabelaSalarialAtribuicao
    * @return int
-   * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    * @procedure: SP_DML_TAB_SALARIAL_ATRIBUICAO
   */
   public int deletaTabelaSalarialAtribuicao(TabelaSalarialAtribuicao tabelaSalarialAtribuicao) throws RequisicaoPessoalException{
@@ -105,9 +105,9 @@ public class TabelaSalarialAtribuicaoDAO implements InterfaceDataBase{
 
   /**
    * Retorna um array de objetos TabelaSalarialAtribuicao que satifaz a condição informada
-   * @param condicao
+   * @param codTabelaSalarial
    * @return array de objetos TabelaSalarialAtribuicao
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
 
   public TabelaSalarialAtribuicao[] getTabelaSalarialAtribuicao(int codTabelaSalarial) throws RequisicaoPessoalException {

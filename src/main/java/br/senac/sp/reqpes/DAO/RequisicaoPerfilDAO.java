@@ -34,10 +34,8 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 
 	/**
 	 * Retorna todas as requisicaos cadastradas no sistema
-	 *
-	 * @param requisicao
 	 * @return RequisicaoPerfil[]
-	 * @throws br.senac.sp.exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 */
 	public RequisicaoPerfil[] getRequisicaoPerfils() throws RequisicaoPessoalException {
 		return getRequisicaoPerfils("");
@@ -277,9 +275,9 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 	}
 
 	/**
-	 * @param requisicao
+	 * @param requisicaoPerfil
 	 * @return int
-	 * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 * @procedure: SP_DML_REQUISICAO_JORNADA
 	 */
 	public int gravaRequisicaoPerfil(RequisicaoPerfil requisicaoPerfil) throws RequisicaoPessoalException {
@@ -287,9 +285,9 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 	}
 
 	/**
-	 * @param requisicao
+	 * @param requisicaoPerfil
 	 * @return int
-	 * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 * @procedure: SP_DML_REQUISICAO_JORNADA
 	 */
 	public int alteraRequisicaoPerfil(RequisicaoPerfil requisicaoPerfil) throws RequisicaoPessoalException {
@@ -297,10 +295,9 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 	}
 
 	/**
-	 * @param requisicao,
-	 *            historico
+	 * @param requisicaoPerfil, soPerfil, gravaHistoricoChapa
 	 * @return int
-	 * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 * @procedure: SP_DML_REQUISICAO_JORNADA
 	 */
 	public int alteraRequisicaoPerfil(RequisicaoPerfil requisicaoPerfil, int soPerfil, int gravaHistoricoChapa)
@@ -311,9 +308,9 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 	/**
 	 * Retorna uma instancia da classe RequisicaoPerfil, de acordo com o codigo
 	 * informado
-	 *
+	 * @param codRequisicao
 	 * @return RequisicaoPerfil
-	 * @throws br.senac.sp.exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 */
 	public RequisicaoPerfil getRequisicaoPerfil(int codRequisicao) throws RequisicaoPessoalException {
 		RequisicaoPerfil[] requisicao = getRequisicaoPerfils(" WHERE RP.REQUISICAO_SQ = " + codRequisicao);
@@ -323,10 +320,9 @@ public class RequisicaoPerfilDAO implements InterfaceDataBase {
 	/**
 	 * Retorna um array de objetos RequisicaoPerfil que satifaz a condição
 	 * informada
-	 *
 	 * @param condicao
 	 * @return array de objetos RequisicaoPerfil
-	 * @throws br.senac.sp.exception.RequisicaoPessoalException
+	 * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
 	 */
 
 	public RequisicaoPerfil[] getRequisicaoPerfils(String condicao) throws RequisicaoPessoalException {

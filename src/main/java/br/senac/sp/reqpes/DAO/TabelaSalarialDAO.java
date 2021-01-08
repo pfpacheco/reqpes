@@ -32,9 +32,8 @@ public class TabelaSalarialDAO implements InterfaceDataBase{
 
   /**
    * Retorna todas as tabelaSalarials cadastradas no sistema
-   * @param  tabelaSalarial
    * @return TabelaSalarial[]
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
   public TabelaSalarial[] getTabelaSalarials() throws RequisicaoPessoalException {
     return getTabelaSalarials("");
@@ -101,7 +100,7 @@ public class TabelaSalarialDAO implements InterfaceDataBase{
   /**
    * @param tabelaSalarial, usuario
    * @return int
-   * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    * @procedure: SP_DML_INSTRUCAO
   */
   public int gravaTabelaSalarial(TabelaSalarial tabelaSalarial, Usuario usuario) throws RequisicaoPessoalException{
@@ -112,7 +111,7 @@ public class TabelaSalarialDAO implements InterfaceDataBase{
   /**
    * @param tabelaSalarial, usuario
    * @return int
-   * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    * @procedure: SP_DML_INSTRUCAO
   */
   public int alteraTabelaSalarial(TabelaSalarial tabelaSalarial, Usuario usuario) throws RequisicaoPessoalException{
@@ -122,7 +121,7 @@ public class TabelaSalarialDAO implements InterfaceDataBase{
   /**
    * @param tabelaSalarial, usuario
    * @return int
-   * @throws br.senac.sp.descontosCorporativos.Exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    * @OBS: Realiza apenas a exclusão lógica da requisição
    * @Procedure SP_DML_INSTRUCAO
   */
@@ -133,7 +132,7 @@ public class TabelaSalarialDAO implements InterfaceDataBase{
   /**
    * Retorna uma instancia da classe TabelaSalarial, de acordo com o codigo informado
    * @return TabelaSalarial
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
   public TabelaSalarial getTabelaSalarial(int codTabelaSalarial) throws RequisicaoPessoalException{
     TabelaSalarial[] tabelaSalarial = getTabelaSalarials(" WHERE T.COD_TAB_SALARIAL = " + codTabelaSalarial);
@@ -144,7 +143,7 @@ public class TabelaSalarialDAO implements InterfaceDataBase{
    * Retorna um array de objetos TabelaSalarial que satifaz a condição informada
    * @param condicao
    * @return array de objetos TabelaSalarial
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
 
   public TabelaSalarial[] getTabelaSalarials(String condicao) throws RequisicaoPessoalException {

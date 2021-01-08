@@ -331,9 +331,8 @@ public class ResponsavelEstruturaDAO implements InterfaceDataBase {
 
 	/**
 	 * Retorna o workflow que está sendo utilizado na folha
-	 *
 	 * @return String teorCodWorkflow
-	 * @throws br.senac.sp.exception.AdmTIException
+	 * @throws br.senac.sp.componente.Exception.AdmTIException
 	 */
 	public String getTeorCodWorkflow() throws AdmTIException {
 		// -- Resgatando o WorkFlow da Folha que está sendo utilizado

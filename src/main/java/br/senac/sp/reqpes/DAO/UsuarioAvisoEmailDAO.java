@@ -30,9 +30,8 @@ public class UsuarioAvisoEmailDAO implements InterfaceDataBase{
   }
 
   /**
-   * @param  requisicao
    * @return UsuarioAvisoEmail[]
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
   public UsuarioAvisoEmail[] getUsuarioAvisoEmails() throws RequisicaoPessoalException {
     return getUsuarioAvisoEmails("");
@@ -112,7 +111,7 @@ public class UsuarioAvisoEmailDAO implements InterfaceDataBase{
   /**
    * Retorna uma instancia da classe UsuarioAvisoEmail, de acordo com o codigo informado
    * @return UsuarioAvisoEmail
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
   public UsuarioAvisoEmail getUsuarioAvisoEmail(int chapa) throws RequisicaoPessoalException{
     UsuarioAvisoEmail[] usuarioAvisoEmail = getUsuarioAvisoEmails(" AND UA.CHAPA = " + chapa);
@@ -122,7 +121,7 @@ public class UsuarioAvisoEmailDAO implements InterfaceDataBase{
   /**
    * Retorna um array de instancias da classe UsuarioAvisoEmail
    * @return UsuarioAvisoEmail
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
   public UsuarioAvisoEmail[] getUsuarioAvisoEmail() throws RequisicaoPessoalException{    
     return getUsuarioAvisoEmails("");
@@ -132,7 +131,7 @@ public class UsuarioAvisoEmailDAO implements InterfaceDataBase{
    * Retorna um array de objetos UsuarioAvisoEmail que satifaz a condição informada
    * @param condicao
    * @return array de objetos UsuarioAvisoEmail
-   * @throws br.senac.sp.exception.RequisicaoPessoalException
+   * @throws br.senac.sp.reqpes.Exception.RequisicaoPessoalException
    */
 
   public UsuarioAvisoEmail[] getUsuarioAvisoEmails(String condicao) throws RequisicaoPessoalException {
