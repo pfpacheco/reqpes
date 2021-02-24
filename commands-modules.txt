@@ -1,0 +1,3 @@
+module add --name=oracle --resources=/tmp/ojdbc7.jar --dependencies=javax.api,javax.transaction.api
+
+/subsystem=datasources/jdbc-driver=oracle:add(driver-name=oracle,driver-module-name=oracle,driver-xa-datasource-class-name=oracle.jdbc.xa.OracleXADataSource, driver-class-name=oracle.jdbc.OracleDriver

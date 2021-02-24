@@ -17,9 +17,7 @@ RUN wget -O /tmp/wildfly-8.0.0.Final.tar.gz http://download.jboss.org/wildfly/8.
     tar -xf /tmp/wildfly-8.0.0.Final.tar.gz --strip-components=1; \
     rm -rf /tmp/wildfly-8.0.0.Final.tar.gz;
 
-EXPOSE 8080 9990
-
-CMD ["/opt/jboss/bin/standalone.sh", "-b", "0.0.0.0", "-bmanagement", "0.0.0.0"]
+EXPOSE 8080 8787 9990
 
 COPY /ojdbc7.jar /tmp/
 

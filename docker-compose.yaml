@@ -4,8 +4,8 @@ services:
   reqpes:
     container_name: reqpes
     build: .
-    ports: ['8080:8080', '9990:9990']
-
+    ports: ['8080:8080', '8787:8787', '9990:9990']
+    command: /opt/jboss/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0
 networks:
   default:
     driver: bridge
